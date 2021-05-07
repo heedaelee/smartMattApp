@@ -2009,6 +2009,13 @@
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.0"
 
+"babel-plugin-root-import@6.6.0":
+  "integrity" "sha512-SPzVOHd7nDh5loZwZBxtX/oOu1MXeKjTkz+1VnnzLWC0dk8sJIGC2IDQ2uWIBjE5mUtXlQ35MTHSqN0Xn7qHrg=="
+  "resolved" "https://registry.npmjs.org/babel-plugin-root-import/-/babel-plugin-root-import-6.6.0.tgz"
+  "version" "6.6.0"
+  dependencies:
+    "slash" "^3.0.0"
+
 "babel-plugin-styled-components@>= 1", "babel-plugin-styled-components@1.12.0":
   "integrity" "sha512-FEiD7l5ZABdJPpLssKXjBUJMYqzbcNzBowfXDCdJhOpbhWiewapUaY+LZGT8R4Jg2TwOjGjG4RKeyrO5p9sBkA=="
   "resolved" "https://registry.npmjs.org/babel-plugin-styled-components/-/babel-plugin-styled-components-1.12.0.tgz"

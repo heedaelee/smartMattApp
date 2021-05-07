@@ -19,8 +19,8 @@ const LoginRouter = () => {
         headerTintColor: 'white',
         headerTitleStyle: {
           fontWeight: 'bold',
-          // color: 'white',
         },
+        headerTitleAlign: 'center',
       }}>
       <Stack.Screen
         name="SignIn"
@@ -29,7 +29,11 @@ const LoginRouter = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen
+        name="SignUp"
+        options={{title: '회원가입'}}
+        component={SignUp}
+      />
       {/* <Stack.Screen name="SignUp2" component={SignUp2} />
       <Stack.Screen name="SignUpBioDataAgree" component={SignUpBioDataAgree} />
       <Stack.Screen name="SignUpPrivateAgree" component={SignUpPrivateAgree} /> */}

@@ -1,4 +1,7 @@
 /* eslint-disable prettier/prettier */
+
+import {Dimensions} from 'react-native';
+
 // 타입 선언
 export type ITheme = {
   color: {
@@ -11,6 +14,9 @@ export type ITheme = {
   };
 };
 
+const _WIDTH = Dimensions.get('window').width;
+const _HEIGHT = Dimensions.get('window').height;
+
 export default {
   //Todo 컬러 기본 셋팅 하기. 어도비xd 보고
   color: {
@@ -22,4 +28,6 @@ export default {
   fonts: {
     normal: '16px',
   },
+  _WIDTH: _WIDTH,
+  _HEIGHT: _HEIGHT,
 };

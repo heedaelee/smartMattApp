@@ -11,6 +11,10 @@
     "strict": true,
     "target": "esnext",
     "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
+    }
   },
   "exclude": [
     "node_modules",
