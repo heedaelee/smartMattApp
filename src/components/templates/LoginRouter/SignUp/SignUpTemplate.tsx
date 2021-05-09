@@ -25,6 +25,8 @@ type SignUpTemplateProps = {
     'SignUp'
   >;
   email: string;
+  password: string;
+  password2: string;
   setEmail: (active: string) => void;
   setPassword: (active: string) => void;
   setPassword2: (active: string) => void;
@@ -35,9 +37,11 @@ type SignUpTemplateProps = {
 /*TODO: 폼그리기 after 버튼 수정후 */
 const SignUpTemplate = ({
   navigation,
+  email,
+  password,
+  password2,
   setEmail,
   emailCheckSubmit,
-  email,
   setPassword,
   setPassword2,
   validation,
@@ -51,7 +55,6 @@ const SignUpTemplate = ({
           setState={setEmail}
           state={email}
           validationType={'email'}
-          //TODO: validation
           setValidationToggle={validation.email.setIsEmail}
           validationState={validation.email.isEmail}
         />
@@ -77,6 +80,10 @@ const SignUpTemplate = ({
             '비밀번호는 8~20자 이내 숫자,영어,특수기호를 포함해주세요'
           }
           setState={setPassword}
+          state={password}
+          validationType={'password'}
+          setValidationToggle={validation.password.setIsPassword}
+          validationState={validation.email.setIsEmail}
         />
         <RowView />
         <InputBox

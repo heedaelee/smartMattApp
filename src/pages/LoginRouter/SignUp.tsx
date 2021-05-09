@@ -26,12 +26,12 @@ const SignUp = ({navigation}: SignUpProps) => {
   const [email, setEmail] = useInput('');
   const [password, setPassword] = useInput('');
   const [password2, setPassword2] = useInput('');
-  //유효성 체크 토글
+
+  //유효성 체크 OK 토글: 유효성 정상이면 true
   const [isEmail, setIsEmail] = useBoolean(false);
   const [isPassword, setIsPassword] = useBoolean(false);
 
   //이메일 post check 토글 할필요 있네.. 버튼 이 맞는 값이 되야 작동시키지
-
   console.log(`SignUp component : ${isEmail} `);
   //이메일 체크 함수
   const emailCheckSubmit = () => {
@@ -43,6 +43,8 @@ const SignUp = ({navigation}: SignUpProps) => {
     <SignUpTemplate
       navigation={navigation}
       email={email}
+      password={password}
+      password2={password2}
       setEmail={setEmail}
       setPassword={setPassword}
       setPassword2={setPassword2}

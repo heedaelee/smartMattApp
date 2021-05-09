@@ -42,7 +42,7 @@ export const Validation = ({
 
   switch (type) {
     case 'email': {
-      //만족
+      //불만족
       if (
         state !== '' &&
         (state.indexOf('@') === -1 || state.length < 7)
@@ -56,20 +56,58 @@ export const Validation = ({
           </ErrorText>
         );
       }
-      //불만족
-      if (state.indexOf('@') !== -1 || state.length >= 7) {
-        // setValidationToggle && setValidationToggle();
-        if (!chanegState) {
-          setChangeState(true);
-        }
-        // console.log(
-        //   `호출됨?  state: ${state} validationState : ${validationState} `,
-        // );
-        return <></>;
+      //만족
+      if (!chanegState) {
+        setChangeState(true);
       }
+      // console.log(
+      //   `호출됨?  state: ${state} validationState : ${validationState} `,
+      // );
+      return <></>;
     }
-  }
+    case 'password': {
+      const password = state;
 
-  // NOTE: switch 변수 outside에 return 뭐라도 해줘야 undefined가 return이 안됨
-  return <></>;
+      const num = password.search(/[0-9]/g);
+      const eng = password.search(/[a-z]/gi);
+      const spe = password.search(
+        /[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi,
+      );
+
+      //불만족
+      if (password.length < 8 || password.length > 20) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText>
+            8자리 ~ 20자리 이내로 입력해주세요:)
+          </ErrorText>
+        );
+      }
+      if (password.search(/₩s/) !== -1) {
+        return (
+          <ErrorText>공백없이 입력해주세요:)</ErrorText>
+        );
+      }
+      if (num < 0 || eng < 0 || spe < 0) {
+        return (
+          <ErrorText>
+            영문, 숫자, 특수문자를 혼합해 주세요:)
+          </ErrorText>
+        );
+      }
+      //만족
+      if (!chanegState) {
+        setChangeState(true);
+      }
+      // console.log(
+      //   `호출됨?  state: ${state} validationState : ${validationState} `,
+      // );
+      return <></>;
+    }
+    default:
+      // NOTE: switch 변수 outside에 return 뭐라도 해줘야 undefined가 return이 안됨
+      return <></>;
+  }
 };
