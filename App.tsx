@@ -25,7 +25,7 @@ const App = () => {
     <SafeAreaProvider>
       <NavigationContainer>
         <ThemeProvider theme={Theme}>
-          {/* TODO UserProvider 달기 : 로그인 storage 모듈 */}
+          {/* TODO: UserProvider 달기 : 로그인 storage 모듈 */}
           {/* <Provider store={store}> */}
           {userInfo ? <HomeRouter /> : <LoginRouter />}
           {/* </Provider> */}

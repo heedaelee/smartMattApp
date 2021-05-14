@@ -1,0 +1,85 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {RouteProp} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
+import React from 'react';
+import SignUp2Template from '~/components/templates/LoginRouter/SignUp2/SignUp2Template';
+import useBoolean from '~/hooks/useBoolean';
+import useInput from '~/hooks/useInput';
+
+export type SignUp2Props = {
+  navigation: StackNavigationProp<
+    LoginStackNaviParamList,
+    'SignUp2'
+  >;
+  route: RouteProp<LoginStackNaviParamList, 'SignUp2'>;
+};
+
+const SignUp2 = ({navigation, route}: SignUp2Props) => {
+  /*TODO: 21/5/9 ~ 
+  3. 등록하기 submit 가능 data 까지
+  */
+
+  //NOTE: INPUT state
+  const [phoneNmbr, setPhoneNmbr] = useInput('');
+  const [phoneAuthNmbr, setPhoneAuthNmbr] = useInput('');
+
+  //NOTE: 유효성 체크 토글: 유효성 정상이면 true
+  const [isPhone, setIsPhone] = useBoolean(false);
+  const [isphoneAuthNmbr, setIsphoneAuthNmbr] = useBoolean(
+    false,
+  );
+  const [bioDataAgree, setBioDataAgree] = useBoolean(false);
+  const [
+    privateDataAgree,
+    setPrivateDataAgree,
+  ] = useBoolean(false);
+
+  //인증번호 받기를 위한 함수
+  const phoneNmbrSender = () => {
+    //TODO: 인증번호 모듈로 폰번호 전송
+    console.log(`PhoneNum to sender : ${phoneNmbr}`);
+  };
+
+  //최종 폰인증을 위한 함수
+  const phoneAuthNmbrSender = () => {
+    //TODO: 폰인증을 위한 함수
+    console.log(
+      `PhoneAuthNum to sender : ${phoneAuthNmbr}`,
+    );
+  };
+
+  //회원가입 등록 함수
+  const registrySubmit = (value: any) => {
+    //TODO: 폰인증을 위한 함수
+    console.log(value);
+  };
+
+  return (
+    <SignUp2Template
+      navigation={navigation}
+      route={route}
+      state={{
+        phoneNmbr,
+        phoneAuthNmbr,
+        isPhone,
+        isphoneAuthNmbr,
+        bioDataAgree,
+        privateDataAgree,
+      }}
+      setState={{
+        setPhoneNmbr,
+        setPhoneAuthNmbr,
+        setIsPhone,
+        setIsphoneAuthNmbr,
+        setBioDataAgree,
+        setPrivateDataAgree,
+      }}
+      phoneNmbrSender={phoneNmbrSender}
+      phoneAuthNmbrSender={phoneAuthNmbrSender}
+      registrySubmit={registrySubmit}
+    />
+  );
+};
+
+export default SignUp2;

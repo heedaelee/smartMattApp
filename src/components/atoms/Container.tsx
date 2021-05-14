@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import {StyleProp, ViewStyle} from 'react-native';
 import styled from 'styled-components/native';
 
 type ContainerProps = {
@@ -11,7 +11,11 @@ type ContainerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-export const Container = ({children, color, style}: ContainerProps) => {
+export const Container = ({
+  children,
+  color,
+  style,
+}: ContainerProps) => {
   return (
     <ContainerWrapper style={style} color={color}>
       {children}
@@ -24,8 +28,9 @@ const ContainerWrapper = styled.View`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: ${(props: ContainerProps) => props.color || 'white'};
+  background-color: ${(props: ContainerProps) =>
+    props.color || 'white'};
   padding: 5% 7% 3% 7%;
 `;

@@ -31,7 +31,16 @@ type SignUpTemplateProps = {
   setPassword: (active: string) => void;
   setPassword2: (active: string) => void;
   emailCheckSubmit: (active: string) => void;
-  validation: {email: any; password: any};
+  validation: {
+    email: any;
+    password: {
+      isPassword: boolean;
+      setIsPassword: (active: boolean) => void;
+      isPassword2: boolean;
+      setIsPassword2: (active: boolean) => void;
+    };
+  };
+  moveToSignUp2: () => void;
 };
 
 /*TODO: 폼그리기 after 버튼 수정후 */
@@ -45,13 +54,14 @@ const SignUpTemplate = ({
   setPassword,
   setPassword2,
   validation,
+  moveToSignUp2,
 }: SignUpTemplateProps) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <Container style={{justifyContent: 'flex-start'}}>
+      <Container>
         <InputBox
-          menuText={'이메일 주소 입력'}
-          placeholder={'이메일을 입력해주세요'}
+          menuText={'이메일을 입력해주세요'}
+          placeholder={'이메일 주소 입력'}
           setState={setEmail}
           state={email}
           validationType={'email'}
@@ -75,26 +85,41 @@ const SignUpTemplate = ({
         <RowView />
         <InputBox
           secureTextEntry={true}
-          menuText={'비밀번호 입력'}
+          menuText={'비밀번호를 입력해주세요'}
           placeholder={
             '비밀번호는 8~20자 이내 숫자,영어,특수기호를 포함해주세요'
           }
           setState={setPassword}
           state={password}
           validationType={'password'}
-          setValidationToggle={validation.password.setIsPassword}
-          validationState={validation.email.setIsEmail}
+          setValidationToggle={
+            validation.password.setIsPassword
+          }
+          validationState={validation.password.isPassword}
         />
         <RowView />
         <InputBox
           secureTextEntry={true}
-          menuText={'비밀번호 확인'}
-          placeholder={'다시한번 입력해주세요'}
+          menuText={'비밀번호를 다시 한번 입력해주세요'}
+          placeholder={'비밀번호 재입력'}
           setState={setPassword2}
+          state={password2}
+          state2={password}
+          validationType={'password2'}
+          setValidationToggle={
+            validation.password.setIsPassword2
+          }
+          validationState={validation.password.isPassword2}
         />
         <RowView />
         {/* TODO: input invalid 상태일떈 disabled:true 주기! */}
-        <Button>계속하기</Button>
+        {validation.email.isEmail &&
+        validation.password.isPassword &&
+        validation.password.isPassword2 ? (
+          <Button onPress={moveToSignUp2}>계속하기</Button>
+        ) : (
+          <Button disabled={true}>계속하기</Button>
+        )}
       </Container>
     </TouchableWithoutFeedback>
   );

@@ -9,6 +9,7 @@ import {ErrorText} from '~/components/atoms/Text';
 interface ValidationProps {
   type: string;
   state: string;
+  state2?: string;
   validationState?: boolean;
   setValidationToggle?: (active: boolean) => void;
 }
@@ -16,6 +17,7 @@ interface ValidationProps {
 export const Validation = ({
   type,
   state,
+  state2,
   validationState,
   setValidationToggle,
 }: ValidationProps): any | undefined => {
@@ -31,7 +33,7 @@ export const Validation = ({
         setValidationToggle(true);
       }
 
-      // 유효성 체크 조건이 true에서 false될때 (= validationStat을 false로)
+      // 유효성 체크 조건이 true에서 false될때 (= validationState을 false로)
       if (!chanegState && validationState) {
         console.log(`validationState가 ${validationState} 일때
       -> false로 `);
@@ -101,10 +103,76 @@ export const Validation = ({
       if (!chanegState) {
         setChangeState(true);
       }
-      // console.log(
-      //   `호출됨?  state: ${state} validationState : ${validationState} `,
-      // );
       return <></>;
+    }
+    case 'password2': {
+      //second pw user typed
+      const password2 = state;
+      //first pw user typed
+      const paswword = state2;
+      //불만족
+      if (paswword !== password2) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText>
+            비밀번호가 동일한지 다시한번 확인해 주세요:)
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+    case 'phone': {
+      let num = state.split('-').join('');
+      //1. 모두 숫자인지 체크
+      const checkNum = Number.isInteger(Number(num));
+      //2. 앞 세자리가 010으로 시작하는지 체크
+      const checkStartNum =
+        num.slice(0, 3) === '010' ? true : false;
+      //3. 010을 제외한 나머지 숫자가 7 혹은 8자리인지 체크
+      const checkLength =
+        num.slice(3).length === 7 ||
+        num.slice(3).length === 8
+          ? true
+          : false;
+      if (!checkNum || !checkStartNum || !checkLength) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText>
+            휴대폰 번호를 확인해 주세요:)
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+    case 'phoneAuth': {
+      const phoneAuth = state;
+
+      const num = phoneAuth.search(/\d{4}/g);
+      if (num < 0) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText>인증번호를 확인해 주세요:)</ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
     }
     default:
       // NOTE: switch 변수 outside에 return 뭐라도 해줘야 undefined가 return이 안됨

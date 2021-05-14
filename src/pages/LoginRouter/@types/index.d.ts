@@ -3,7 +3,9 @@
 type LoginStackNaviParamList = {
   SignIn: undefined;
   SignUp: undefined;
-  ResetPassword: undefined;
+  SignUp2: {email: string; password: string};
+  SignUpBioDataAgree: undefined;
+  SignUpPrivateAgree: undefined;
 };
 
 type TabFirstStackNaviParamList = {

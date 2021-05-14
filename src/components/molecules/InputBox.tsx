@@ -14,6 +14,7 @@ type InputBoxProps = {
   placeholder?: string;
   setState?: (text: string) => void;
   state?: string;
+  state2?: string;
   validationType?: string;
   validationState?: boolean;
   setValidationToggle?: (active: boolean) => void;
@@ -26,6 +27,7 @@ const InputBox = ({
   children,
   setState,
   state,
+  state2,
   validationType,
   setValidationToggle, //validation boolean value set 하는 함수
   validationState, //validation boolean value
@@ -39,11 +41,17 @@ const InputBox = ({
         secureTextEntry={secureTextEntry}
         setState={setState}
       />
-      {console.log(`validationType: ${validationType} state: ${state} `)}
+      {/* {console.log(
+        `InputBox 안! 
+        validationType: ${validationType} state: ${state}
+        validationState : ${validationState}
+        `,
+      )} */}
       {validationType && state ? (
         <Validation
           type={validationType}
           state={state}
+          state2={state2}
           validationState={validationState}
           setValidationToggle={setValidationToggle}
         />
