@@ -78,7 +78,7 @@ const SignUp2Template = ({
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
-        {/* NOTE:인증번호 전송 TODO: vali*/}
+        {/* NOTE:인증번호 전송 DONE: vali*/}
         <InputBox
           menuText={'휴대폰 번호를 입력해주세요'}
           placeholder={'"-" 빼고 입력해주세요'}
@@ -102,7 +102,7 @@ const SignUp2Template = ({
           )}
         </SmallButtonView>
         <RowView />
-        {/* NOTE:인증번호 입력 TODO: vali*/}
+        {/* NOTE:인증번호 입력 Done: vali*/}
         <InputBox
           secureTextEntry={true}
           menuText={'인증번호를 입력해주세요'}

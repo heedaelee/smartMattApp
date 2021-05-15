@@ -6,6 +6,7 @@ import React from 'react';
 import SignUp2Template from '~/components/templates/LoginRouter/SignUp2/SignUp2Template';
 import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
+import Toast from 'react-native-simple-toast';
 
 export type SignUp2Props = {
   navigation: StackNavigationProp<
@@ -39,6 +40,11 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   const phoneNmbrSender = () => {
     //TODO: 인증번호 모듈로 폰번호 전송
     console.log(`PhoneNum to sender : ${phoneNmbr}`);
+    Toast.showWithGravity(
+      '인증번호를 전송했습니다',
+      Toast.SHORT,
+      Toast.CENTER,
+    );
   };
 
   //최종 폰인증을 위한 함수
@@ -47,11 +53,16 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
     console.log(
       `PhoneAuthNum to sender : ${phoneAuthNmbr}`,
     );
+    Toast.showWithGravity(
+      '인증 완료 :)',
+      Toast.SHORT,
+      Toast.CENTER,
+    );
   };
 
   //회원가입 등록 함수
   const registrySubmit = (value: any) => {
-    //TODO: 폰인증을 위한 함수
+    //TODO: 회원가입 최종 데이터 API 서버 통신하기
     console.log(value);
   };
 
