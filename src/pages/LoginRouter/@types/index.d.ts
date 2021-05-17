@@ -13,3 +13,10 @@ type TabFirstStackNaviParamList = {
   Modal: undefined;
   FullModal: undefined;
 };
+
+type registrySubmitParamList = {
+  email: string;
+  password: string;
+  phoneNmbr: string;
+  loginType: string;
+};

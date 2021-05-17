@@ -18,6 +18,7 @@ import {RouteProp} from '@react-navigation/core';
 import {MenuText} from '~/components/atoms/Text';
 import AgreeCheckForm from '~/components/organisms/AgreeCheckForm';
 
+
 type SignUp2TemplateProps = {
   navigation: StackNavigationProp<LoginStackNaviParamList>;
   route: RouteProp<LoginStackNaviParamList, 'SignUp2'>;
@@ -39,7 +40,7 @@ type SignUp2TemplateProps = {
   };
   phoneNmbrSender: () => void;
   phoneAuthNmbrSender: () => void;
-  registrySubmit: (value: any) => void;
+  registrySubmit: (value: registrySubmitParamList) => void;
 };
 
 const SignUp2Template = ({
@@ -157,7 +158,12 @@ const SignUp2Template = ({
           <Button
             disabled={false}
             onPress={() =>
-              registrySubmit({email, password, phoneNmbr})
+              registrySubmit({
+                email,
+                password,
+                phoneNmbr,
+                loginType: 'email',
+              })
             }>
             등록하기
           </Button>

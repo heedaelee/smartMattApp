@@ -7,6 +7,8 @@ import SignUp2Template from '~/components/templates/LoginRouter/SignUp2/SignUp2T
 import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSetUser} from '~/hooks/useReduce';
 
 export type SignUp2Props = {
   navigation: StackNavigationProp<
@@ -24,6 +26,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   //NOTE: INPUT state
   const [phoneNmbr, setPhoneNmbr] = useInput('');
   const [phoneAuthNmbr, setPhoneAuthNmbr] = useInput('');
+  const [userSate, setUserReducer] = useSetUser();
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
   const [isPhone, setIsPhone] = useBoolean(false);
@@ -61,9 +64,34 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   };
 
   //회원가입 등록 함수
-  const registrySubmit = (value: any) => {
+  const registrySubmit = async (
+    value: registrySubmitParamList,
+  ) => {
     //TODO: 회원가입 최종 데이터 API 서버 통신하기
     console.log(value);
+    try {
+      await AsyncStorage.setItem(
+        '@loginInfo',
+        JSON.stringify({
+          email: value.email,
+          password: value.password,
+          phoneNmbr: value.phoneNmbr,
+          loginType: value.loginType,
+          //나중에 api 통신후..
+          // token: res.data.token,
+        }),
+      );
+      const storageValue = await AsyncStorage.getItem(
+        '@loginInfo',
+      );
+      console.log(`storageValue : ${storageValue}`);
+
+      setUserReducer(value);
+      console.log('reduce 셋 완료');
+      
+    } catch (e) {
+      console.log(`error ${e}`);
+    }
   };
 
   return (

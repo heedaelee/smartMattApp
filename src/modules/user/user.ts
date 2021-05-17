@@ -12,15 +12,18 @@ import produce from 'immer';
 const SET_USER = 'user/SET_USER';
 
 //NOTE: 액션 생성 함수 선언
-export const setUser = createAction(SET_USER)();
+//파라미터는 제네릭타입 형식으로 <> 넣어준다, if using createAction()
+export const setUser = createAction(
+  SET_USER,
+)<registrySubmitParamList>();
 
 const actions = {setUser};
 type UserAction = ActionType<typeof actions>;
 
-type UserState = {
+export type UserState = {
   email: string;
   password: string;
-  phone: string;
+  phoneNmbr: string;
   loginType: string;
   tokenId: string;
   social?: {
@@ -32,7 +35,7 @@ type UserState = {
 const initialState: UserState = {
   email: '',
   password: '',
-  phone: '',
+  phoneNmbr: '',
   loginType: '',
   tokenId: '',
   social: {
@@ -45,7 +48,21 @@ const initialState: UserState = {
 const user = createReducer<UserState, UserAction>(
   initialState,
   {
-    [SET_USER]: (state, action) => ({...state, action}),
+    [SET_USER]: (state, action) => {
+      const {
+        email,
+        loginType,
+        password,
+        phoneNmbr,
+      } = action.payload;
+      return {
+        ...state,
+        email,
+        loginType,
+        password,
+        phoneNmbr,
+      };
+    },
   },
 );
 
