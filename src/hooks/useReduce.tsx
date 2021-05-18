@@ -1,6 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '~/modules';

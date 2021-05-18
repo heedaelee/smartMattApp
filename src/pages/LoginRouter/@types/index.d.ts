@@ -15,8 +15,20 @@ type TabFirstStackNaviParamList = {
 };
 
 type registrySubmitParamList = {
+  isLogin: boolean;
   email: string;
   password: string;
   phoneNmbr: string;
   loginType: string;
+  tokenId?: string;
+  social?: {
+    socialType?: string;
+    socialId?: string;
+  };
 };
+
+interface UserContext {
+  login: (email: string, password: string) => void;
+  getUserInfo: () => void;
+  logout: () => void;
+}

@@ -1,23 +1,19 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import {RouteProp} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {
   Keyboard,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
 } from 'react-native';
 import styled from 'styled-components/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {Button} from '~/components/atoms/Button';
-import Theme from '~/lib/Theme';
-import InputBox from '~/components/molecules/InputBox';
 import {Container} from '~/components/atoms/Container';
-import {RouteProp} from '@react-navigation/core';
 import {MenuText} from '~/components/atoms/Text';
+import InputBox from '~/components/molecules/InputBox';
 import AgreeCheckForm from '~/components/organisms/AgreeCheckForm';
-
+import Theme from '~/lib/Theme';
 
 type SignUp2TemplateProps = {
   navigation: StackNavigationProp<LoginStackNaviParamList>;
@@ -163,6 +159,7 @@ const SignUp2Template = ({
                 password,
                 phoneNmbr,
                 loginType: 'email',
+                isLogin: true,
               })
             }>
             등록하기

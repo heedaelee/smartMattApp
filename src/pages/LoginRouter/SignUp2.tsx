@@ -19,14 +19,14 @@ export type SignUp2Props = {
 };
 
 const SignUp2 = ({navigation, route}: SignUp2Props) => {
-  /*TODO: 21/5/9 ~ 
+  /* DONE: 21/5/9 ~ 
   3. 등록하기 submit 가능 data 까지
   */
 
   //NOTE: INPUT state
   const [phoneNmbr, setPhoneNmbr] = useInput('');
   const [phoneAuthNmbr, setPhoneAuthNmbr] = useInput('');
-  const [userSate, setUserReducer] = useSetUser();
+  const [userState, setUserReducer] = useSetUser();
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
   const [isPhone, setIsPhone] = useBoolean(false);
@@ -75,7 +75,6 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
         JSON.stringify({
           email: value.email,
           password: value.password,
-          phoneNmbr: value.phoneNmbr,
           loginType: value.loginType,
           //나중에 api 통신후..
           // token: res.data.token,
@@ -85,10 +84,8 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
         '@loginInfo',
       );
       console.log(`storageValue : ${storageValue}`);
-
       setUserReducer(value);
       console.log('reduce 셋 완료');
-      
     } catch (e) {
       console.log(`error ${e}`);
     }
