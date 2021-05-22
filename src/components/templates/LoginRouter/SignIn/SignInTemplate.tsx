@@ -1,35 +1,37 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {
   Dimensions,
   Keyboard,
   StyleSheet,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
+import {Button} from '~/components/atoms/Button';
+import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
 import Form from '~/components/organisms/Form';
 import Theme from '~/lib/Theme';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Button} from '~/components/atoms/Button';
-import {Container} from '~/components/atoms/Container';
 
 type SignInTemplateProps = {
   autoLoginCheck: boolean;
   setAutoLoginCheck: (active: boolean) => void;
-  navigation: StackNavigationProp<LoginStackNaviParamList, 'SignIn'>;
+  navigation: StackNavigationProp<
+    LoginStackNaviParamList,
+    'SignIn'
+  >;
   setEmail: (active: string) => void;
   setPassword: (active: string) => void;
   submit: () => void;
 };
-const _WIDTH = Dimensions.get('window').width;
-const _HEIGHT = Dimensions.get('window').height;
+const _WIDTH = Theme._WIDTH;
+const _HEIGHT = Theme._HEIGHT;
 
 const SignInTemplate = ({
   autoLoginCheck,
@@ -39,7 +41,10 @@ const SignInTemplate = ({
   setEmail,
   submit,
 }: SignInTemplateProps) => {
-  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
+  const [
+    secureTextEntry,
+    setSecureTextEntry,
+  ] = useState<boolean>(true);
   const [iconName, setIconName] = useState<string>('eye');
 
   const onIconPress = () => {
@@ -93,7 +98,9 @@ const SignInTemplate = ({
               />
             )}
             <View style={{marginLeft: 5}}>
-              <MenuText color={Theme.color.blue} size={'15px'}>
+              <MenuText
+                color={Theme.color.blue}
+                size={'15px'}>
                 자동로그인
               </MenuText>
             </View>
@@ -101,7 +108,11 @@ const SignInTemplate = ({
           <RowView style={{marginTop: 20}}>
             <Button onPress={submit}>로그인</Button>
           </RowView>
-          <RowView style={{marginTop: 0, justifyContent: 'space-around'}}>
+          <RowView
+            style={{
+              marginTop: 0,
+              justifyContent: 'space-around',
+            }}>
             <MenuText color={'gray'}>아이디찾기</MenuText>
             <MenuText color={'gray'}>비밀번호찾기</MenuText>
           </RowView>
@@ -110,7 +121,9 @@ const SignInTemplate = ({
               source={require('~/asset/img/KakaoLoginBanner.png')}
               style={{marginBottom: 5}}
             />
-            <Banner source={require('~/asset/img/NaverLoginBanner.png')} />
+            <Banner
+              source={require('~/asset/img/NaverLoginBanner.png')}
+            />
             <MenuText
               color={'gray'}
               style={{marginTop: 10}}

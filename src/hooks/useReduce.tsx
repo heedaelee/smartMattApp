@@ -11,8 +11,15 @@ export const useSetUser = () => {
     (state: RootState) => state.user,
   );
 
+  /*   const setUserReducer = (
+    params: registrySubmitParamList,
+  ) => {
+    dispatch(setUser(params));
+  }; */
+
   const setUserReducer = useCallback(
     (params: registrySubmitParamList) => {
+      console.log('작동');
       dispatch(setUser(params));
     },
     [dispatch],

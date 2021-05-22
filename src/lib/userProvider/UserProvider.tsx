@@ -59,6 +59,11 @@ const UserProvider = ({children}: Props) => {
 
   const logout = (): void => {
     AsyncStorage.removeItem('@loginInfo');
+    console.log(
+      '토큰삭제 : ',
+      AsyncStorage.getItem('@loginInfo'),
+    );
+
     setUserReducer(initialState);
   };
 

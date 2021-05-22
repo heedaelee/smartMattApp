@@ -53,7 +53,16 @@ export const userSlice = createSlice({
       state,
       action: PayloadAction<registrySubmitParamList>,
     ) {
-      state = action.payload;
+      state.email = action.payload.email;
+      state.isLogin = action.payload.isLogin;
+      state.loginType = action.payload.loginType;
+      state.password = action.payload.password;
+      state.phoneNmbr = action.payload.phoneNmbr;
+      state.social = action.payload.social || {
+        socialType: '',
+        socialId: '',
+      };
+      state.tokenId = action.payload.tokenId || '';
     },
   },
 });

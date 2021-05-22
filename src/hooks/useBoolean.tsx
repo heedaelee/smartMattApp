@@ -10,11 +10,7 @@ const useBoolean = (initialValue: boolean) => {
     [],
   );
 
-  return [value, toggle, setValue] as [
-    typeof value,
-    typeof toggle,
-    typeof setValue,
-  ];
+  return [value, toggle] as [typeof value, typeof toggle];
 };
 
 export default useBoolean;

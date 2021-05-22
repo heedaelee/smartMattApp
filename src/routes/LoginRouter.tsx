@@ -1,21 +1,21 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import styled from 'styled-components/native';
-import theme, {ITheme} from '../lib/Theme';
-import SignIn from '../pages/LoginRouter/SignIn';
-import SignUp from '../pages/LoginRouter/SignUp';
 import SignUp2 from '~/pages/LoginRouter/SignUp2';
 import SignUpBioDataAgree from '~/pages/LoginRouter/SignUpBioDataAgree';
 import SignUpPrivateAgree from '~/pages/LoginRouter/SignUpPrivateAgree';
+import theme from '../lib/Theme';
+import SignIn from '../pages/LoginRouter/SignIn';
+import SignUp from '../pages/LoginRouter/SignUp';
 
 const Stack = createStackNavigator();
 
 const LoginRouter = () => {
-  console.log('랜더링');
+  console.log('로그인 라우터 랜더링');
 
   return (
+    // NOTE: 개발시 initial 임시 조정
     <Stack.Navigator
       screenOptions={{
         headerStyle: {backgroundColor: theme.color.blue},
@@ -25,7 +25,6 @@ const LoginRouter = () => {
         },
         headerTitleAlign: 'center',
       }}
-      // NOTE: 개발시 initial 임시 조정
       initialRouteName="SignUp2">
       <Stack.Screen
         name="SignIn"
