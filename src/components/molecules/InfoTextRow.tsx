@@ -4,6 +4,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {MenuText} from '../atoms/Text';
+import {InputData} from '~/components/atoms/TextInput';
 
 type InfoTextRowProps = {
   TypeText: {
@@ -18,11 +19,15 @@ type InfoTextRowProps = {
     size?: string;
     textAlign?: string;
   };
+  isEdit: boolean;
+  setState: (active: string) => void;
 };
 
 const InfoTextRow = ({
   TypeText,
   ValueText,
+  isEdit,
+  setState,
 }: InfoTextRowProps) => {
   return (
     <TextContainer>
@@ -35,12 +40,16 @@ const InfoTextRow = ({
         </MenuText>
       </DivisionView>
       <DivisionView>
-        <MenuText
-          color={ValueText.color || 'white'}
-          size={ValueText.size || '14px'}
-          textAlign={ValueText.textAlign || 'center'}>
-          {ValueText.value}
-        </MenuText>
+        {isEdit ? (
+          <InputData setState={setState}></InputData>
+        ) : (
+          <MenuText
+            color={ValueText.color || 'white'}
+            size={ValueText.size || '14px'}
+            textAlign={ValueText.textAlign || 'center'}>
+            {ValueText.value}
+          </MenuText>
+        )}
       </DivisionView>
     </TextContainer>
   );

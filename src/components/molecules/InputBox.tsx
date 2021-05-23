@@ -40,13 +40,8 @@ const InputBox = ({
         placeholderTextColor="gray"
         secureTextEntry={secureTextEntry}
         setState={setState}
+        state={state}
       />
-      {/* {console.log(
-        `InputBox 안! 
-        validationType: ${validationType} state: ${state}
-        validationState : ${validationState}
-        `,
-      )} */}
       {validationType && state ? (
         <Validation
           type={validationType}

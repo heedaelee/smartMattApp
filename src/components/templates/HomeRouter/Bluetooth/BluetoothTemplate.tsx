@@ -19,7 +19,7 @@ import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
-import ButtonRow from '~/components/molecules/ButtonRow';
+import {BlePageRoundButtonRow} from '~/components/molecules/ButtonRow';
 import InfoTextRow from '~/components/molecules/InfoTextRow';
 import Theme from '~/lib/Theme';
 
@@ -34,22 +34,43 @@ type BluetoothTemplateProps = {
   state: {
     isBleConn: boolean;
     ssid: string;
-    password: string;
+    NewPassword: string;
+    isEdit: boolean;
   };
   setState: {
     setIsBleConn: (active: boolean) => void;
     setSsid: (active: string) => void;
     setPassword: (active: string) => void;
+    setIsEdit: (active: string) => void;
   };
+  goToEditPage: () => void;
+  submitToMatt: () => void;
 };
 
 const BluetoothTemplate = ({
   navigation,
   state,
   setState,
+  goToEditPage,
+  submitToMatt,
 }: BluetoothTemplateProps) => {
-  const {isBleConn, password, ssid} = state;
-  const {setIsBleConn, setPassword, setSsid} = setState;
+  const {isBleConn, NewPassword, ssid, isEdit} = state;
+  const {
+    setIsBleConn,
+    setPassword,
+    setSsid,
+    setIsEdit,
+  } = setState;
+
+  let menuTextColor = '';
+  let menuTextValue = '';
+  if (isBleConn) {
+    menuTextColor = '#5BEE78';
+    menuTextValue = '블루투스 연결';
+  } else {
+    menuTextColor = '#ff8080';
+    menuTextValue = '블루투스 미연결';
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -60,7 +81,6 @@ const BluetoothTemplate = ({
           </MenuText>
         </HeaderView>
         <BleButtonView>
-          {console.log(isBleConn)}
           <Switch
             style={{
               transform: [{scaleX: 1.5}, {scaleY: 1.5}],
@@ -71,28 +91,38 @@ const BluetoothTemplate = ({
             value={isBleConn}
             onValueChange={() => setIsBleConn(!isBleConn)}
           />
+          {/* atoms */}
           <MenuText
             style={{
               marginTop: 14,
               letterSpacing: -0.5,
             }}
             size={'19px'}
-            color={'#ff8080'}>
-            {'블루투스 미연결'}
+            color={menuTextColor}>
+            {menuTextValue}
           </MenuText>
         </BleButtonView>
         <OtherContentsView>
-          {/* THis */}
+          {/* molecules */}
           <InfoTextRow
             TypeText={{value: 'SSID'}}
-            ValueText={{value: 'seohongTech'}}
+            ValueText={{value: ssid}}
+            isEdit={isEdit}
+            setState={setSsid}
           />
           <InfoTextRow
             TypeText={{value: '비밀번호', size: '20px'}}
-            ValueText={{value: '********'}}
+            ValueText={{value: NewPassword}}
+            isEdit={isEdit}
+            setState={setPassword}
           />
           <EmptyRow />
-          <ButtonRow />
+          {/* molecules */}
+          <BlePageRoundButtonRow
+            isBleConn={isBleConn}
+            goToEditPage={goToEditPage}
+            submitToMatt={submitToMatt}
+          />
         </OtherContentsView>
       </Container>
     </TouchableWithoutFeedback>
@@ -128,7 +158,6 @@ const OtherContentsView = styled.View`
   flex-direction: column;
   flex: 6;
   width: 100%;
-  margin: 0px 0px;
 `;
 const EmptyRow = styled.View`
   flex: 2.8;

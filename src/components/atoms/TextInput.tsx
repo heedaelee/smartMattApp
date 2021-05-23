@@ -4,7 +4,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import Theme from '~/lib/Theme';
-import {Validation} from '~/lib/Validation';
 
 type InputDataProps = {
   children?: any;
@@ -12,6 +11,7 @@ type InputDataProps = {
   secureTextEntry?: boolean;
   placeholder?: string;
   setState?: (text: string) => void;
+  state?: any;
 };
 
 //왼쪽 메뉴 텍스트
@@ -21,6 +21,7 @@ export const InputData = ({
   secureTextEntry,
   placeholder,
   setState,
+  state,
 }: InputDataProps) => {
   return (
     <InputDataStyled
@@ -29,7 +30,8 @@ export const InputData = ({
       secureTextEntry={secureTextEntry}
       onChangeText={
         setState ? text => setState(text) : undefined
-      }>
+      }
+      value={state}>
       {children}
     </InputDataStyled>
   );

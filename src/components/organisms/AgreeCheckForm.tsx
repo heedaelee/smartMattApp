@@ -1,15 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {Children} from 'react';
-import {View} from 'react-native';
-import InputBox from '~/components/molecules/InputBox';
-import Theme from '~/lib/Theme';
 import CheckBox from '@react-native-community/checkbox';
-import {MenuText} from '~/components/atoms/Text';
-import {Container} from '~/components/atoms/Container';
+import { StackNavigationProp } from '@react-navigation/stack';
+import React from 'react';
 import styled from 'styled-components/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import { MenuText } from '~/components/atoms/Text';
+import Theme from '~/lib/Theme';
 
 type AgreeCheckFormProps = {
   toggleState: boolean;

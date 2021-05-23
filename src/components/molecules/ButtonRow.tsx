@@ -5,19 +5,39 @@ import React from 'react';
 import styled from 'styled-components/native';
 import {Button} from '../atoms/Button';
 
-type ButtonRowProps = {
-  // LeftButton: {};
-  // RightButton: {};
+type BlePageRoundButtonRowProps = {
+  goToEditPage: () => void;
+  submitToMatt: () => void;
+  isBleConn: boolean;
 };
 
-const ButtonRow = ({}: ButtonRowProps) => {
+export const BlePageRoundButtonRow = ({
+  goToEditPage,
+  isBleConn,
+  submitToMatt,
+}: BlePageRoundButtonRowProps) => {
   return (
     <ButtonContainer>
       <DivisionView style={{marginRight: 2.5}}>
-        <Button round={true}>수정하기</Button>
+        {console.log(`isBleConn : ${isBleConn}`)}
+        {isBleConn ? (
+          /* 연결됨 */
+          <Button onPress={goToEditPage} round={true}>
+            수정하기
+          </Button>
+        ) : (
+          /* 연결안됨 */
+          <Button disabledRound={true}>수정하기</Button>
+        )}
       </DivisionView>
       <DivisionView style={{marginLeft: 2.5}}>
-        <Button round={true}>확인</Button>
+        {isBleConn ? (
+          <Button round={true} onPress={submitToMatt}>
+            확인
+          </Button>
+        ) : (
+          <Button disabledRound={true}>확인</Button>
+        )}
       </DivisionView>
     </ButtonContainer>
   );
@@ -35,5 +55,3 @@ const DivisionView = styled.View`
   /* border: 1px;
   border-color: white; */
 `;
-
-export default ButtonRow;

@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
+import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
 import SignInTemplate from '../../components/templates/LoginRouter/SignIn/SignInTemplate';
 
@@ -23,6 +24,10 @@ const SignIn = ({navigation}: SignInProps) => {
   const [email, setEmail] = useInput('');
   const [password, setPassword] = useInput('');
 
+  //NOTE: 유효성 체크 토글: 유효성 정상이면 true
+  const [isEmail, setIsEmail] = useBoolean(false);
+  const [isPassword, setIsPassword] = useBoolean(false);
+
   //TODO: 유효성 체크 후 api server로 submit 로직 만들기
   const submit = () => {
     console.log(`email : ${email}, password : ${password}`);
@@ -33,9 +38,18 @@ const SignIn = ({navigation}: SignInProps) => {
       autoLoginCheck={autoLoginCheck}
       setAutoLoginCheck={setAutoLoginCheck}
       navigation={navigation}
-      setEmail={setEmail}
-      setPassword={setPassword}
+      state={{email, password}}
+      setState={{setEmail, setPassword}}
+      // setEmail={setEmail}
+      // setPassword={setPassword}
       submit={submit}
+      validation={{
+        email: {isEmail, setIsEmail},
+        password: {
+          isPassword,
+          setIsPassword,
+        },
+      }}
     />
   );
 };

@@ -16,7 +16,7 @@ import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
-import Form from '~/components/organisms/Form';
+import SignInForm from '~/components/organisms/Form';
 import Theme from '~/lib/Theme';
 
 type SignInTemplateProps = {
@@ -26,9 +26,22 @@ type SignInTemplateProps = {
     LoginStackNaviParamList,
     'SignIn'
   >;
-  setEmail: (active: string) => void;
-  setPassword: (active: string) => void;
+  state: {
+    email: string;
+    password: string;
+  };
+  setState: {
+    setEmail: (active: string) => void;
+    setPassword: (active: string) => void;
+  };
   submit: () => void;
+  validation: {
+    email: any;
+    password: {
+      isPassword: boolean;
+      setIsPassword: (active: boolean) => void;
+    };
+  };
 };
 const _WIDTH = Theme._WIDTH;
 const _HEIGHT = Theme._HEIGHT;
@@ -37,10 +50,14 @@ const SignInTemplate = ({
   autoLoginCheck,
   setAutoLoginCheck,
   navigation,
-  setPassword,
-  setEmail,
+  state,
+  setState,
   submit,
+  validation,
 }: SignInTemplateProps) => {
+  const {email, password} = state;
+  const {setEmail, setPassword} = setState;
+
   const [
     secureTextEntry,
     setSecureTextEntry,
@@ -75,11 +92,13 @@ const SignInTemplate = ({
           <Logo source={require('~/asset/img/logo.png')} />
         </LogoWrapper>
         <LoginWrapper>
-          <Form
+          <SignInForm
             showPassword={showPassword}
             secureTextEntry={secureTextEntry}
             setStateFirst={setEmail}
             setStateSecond={setPassword}
+            validation={validation}
+            state={state}
           />
           <RowView style={{marginTop: 20}}>
             {autoLoginCheck ? (

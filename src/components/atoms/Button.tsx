@@ -13,8 +13,10 @@ type ButtonProps = {
   style?: StyleProp<ViewStyle>;
   size?: 'small';
   round?: boolean;
+  disabledRound?: boolean;
 };
 
+const disabledColor = '#dfdcdc';
 export const Button = ({
   children,
   onPress,
@@ -22,22 +24,35 @@ export const Button = ({
   style,
   size,
   round,
+  disabledRound,
 }: ButtonProps) => {
+  //Default value
+  let textColor = 'white';
+  let fontSize = Theme._WIDTH / 18;
+  console.log(`props.disabledRound : ${disabledRound}`);
+
+  if (disabledRound) {
+    textColor = disabledColor;
+  }
+  if (size) {
+    if (size === 'small') {
+      fontSize = Theme._WIDTH / 24;
+    }
+  }
+
   return (
     <ButtonStyled
       onPress={onPress ? () => onPress() : undefined}
       disabled={disabled}
       size={size}
       style={style}
-      round={round}>
+      round={round}
+      disabledRound={disabledRound}>
       <Text
         style={{
           textAlign: 'center',
-          fontSize:
-            size === 'small'
-              ? Theme._WIDTH / 24
-              : Theme._WIDTH / 18,
-          color: 'white',
+          fontSize: fontSize,
+          color: textColor,
           fontFamily: 'SpoqaHanSansNeo-Medium',
         }}>
         {children}
@@ -54,14 +69,19 @@ const ButtonStyled = styled.TouchableOpacity`
   height: ${(props: ButtonProps) =>
     props.size === 'small'
       ? `${Theme._HEIGHT / 18}px`
-      : props.round === true
+      : props.round && props.size === 'small'
       ? '60%'
       : `${Theme._HEIGHT / 15}px`};
   background-color: ${(props: ButtonProps) =>
-    props.disabled ? '#E2E1E1' : Theme.color.blue};
+    props.disabled ? disabledColor : Theme.color.blue};
   border-radius: ${(props: ButtonProps) =>
-    props.round ? '20px' : '0px'};
+    props.round || props.disabledRound ? '20px' : '0px'};
   /* border-radius: 20px; */
-  border: 2px solid white;
+  border: ${(props: ButtonProps) =>
+    props.disabledRound
+      ? '2px solid #dfdcdc'
+      : props.round
+      ? '2px solid white'
+      : 'none'};
   justify-content: center;
 `;
