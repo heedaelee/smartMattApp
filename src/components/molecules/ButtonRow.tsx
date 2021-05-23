@@ -9,36 +9,53 @@ type BlePageRoundButtonRowProps = {
   goToEditPage: () => void;
   submitToMatt: () => void;
   isBleConn: boolean;
+  isEdit: boolean;
+  isSsid: boolean;
+  isSsidPassword: boolean;
 };
 
 export const BlePageRoundButtonRow = ({
   goToEditPage,
   isBleConn,
   submitToMatt,
+  isEdit,
+  isSsid,
+  isSsidPassword,
 }: BlePageRoundButtonRowProps) => {
   return (
     <ButtonContainer>
-      <DivisionView style={{marginRight: 2.5}}>
-        {console.log(`isBleConn : ${isBleConn}`)}
-        {isBleConn ? (
-          /* 연결됨 */
-          <Button onPress={goToEditPage} round={true}>
-            수정하기
-          </Button>
-        ) : (
-          /* 연결안됨 */
-          <Button disabledRound={true}>수정하기</Button>
-        )}
-      </DivisionView>
-      <DivisionView style={{marginLeft: 2.5}}>
-        {isBleConn ? (
-          <Button round={true} onPress={submitToMatt}>
-            확인
-          </Button>
-        ) : (
-          <Button disabledRound={true}>확인</Button>
-        )}
-      </DivisionView>
+      {!isEdit ? (
+        <>
+          <DivisionView style={{marginRight: 2.5}}>
+            {isBleConn ? (
+              /* 연결됨 */
+              <Button onPress={goToEditPage} round={true}>
+                수정하기
+              </Button>
+            ) : (
+              /* 연결안됨 */
+              <Button disabledRound={true}>수정하기</Button>
+            )}
+          </DivisionView>
+          <DivisionView style={{marginLeft: 2.5}}>
+            {isBleConn ? (
+              <Button round={true} onPress={submitToMatt}>
+                연결하기
+              </Button>
+            ) : (
+              <Button disabledRound={true}>연결하기</Button>
+            )}
+          </DivisionView>
+        </>
+      ) : isSsid && isSsidPassword ? (
+        <Button round={true} onPress={submitToMatt}>
+          연결하기
+        </Button>
+      ) : (
+        <Button round={true} disabledRound={true}>
+          연결하기
+        </Button>
+      )}
     </ButtonContainer>
   );
 };

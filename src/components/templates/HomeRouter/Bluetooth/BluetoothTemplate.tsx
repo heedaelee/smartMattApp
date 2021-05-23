@@ -34,14 +34,25 @@ type BluetoothTemplateProps = {
   state: {
     isBleConn: boolean;
     ssid: string;
-    NewPassword: string;
+    ssidPassword: string;
+    NewEncryptedPassword: string;
     isEdit: boolean;
   };
   setState: {
     setIsBleConn: (active: boolean) => void;
     setSsid: (active: string) => void;
-    setPassword: (active: string) => void;
-    setIsEdit: (active: string) => void;
+    setSsidPassword: (active: string) => void;
+    setIsEdit: (active: boolean) => void;
+  };
+  validation: {
+    ssid: {
+      isSsid: boolean;
+      setIsSsid: (active: boolean) => void;
+    };
+    ssidPassword: {
+      isSsidPassword: boolean;
+      setIsSsidPassword: (active: boolean) => void;
+    };
   };
   goToEditPage: () => void;
   submitToMatt: () => void;
@@ -53,11 +64,18 @@ const BluetoothTemplate = ({
   setState,
   goToEditPage,
   submitToMatt,
+  validation,
 }: BluetoothTemplateProps) => {
-  const {isBleConn, NewPassword, ssid, isEdit} = state;
+  const {
+    isBleConn,
+    ssidPassword,
+    NewEncryptedPassword,
+    ssid,
+    isEdit,
+  } = state;
   const {
     setIsBleConn,
-    setPassword,
+    setSsidPassword,
     setSsid,
     setIsEdit,
   } = setState;
@@ -72,6 +90,19 @@ const BluetoothTemplate = ({
     menuTextValue = '블루투스 미연결';
   }
 
+  //수정페이지면 패스워드 :원래값, 일반 페이지면 : ***
+  let passwordState;
+  if (!isEdit) {
+    passwordState = NewEncryptedPassword;
+  } else {
+    passwordState = ssidPassword;
+  }
+
+  const inputStyle = {
+    color: 'white',
+    fontSize: 18,
+    padding: 0,
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container style={{backgroundColor: '#0E76FF'}}>
@@ -89,7 +120,9 @@ const BluetoothTemplate = ({
             thumbColor={isBleConn ? '#0E76FF' : '#f4f3f4'}
             ios_backgroundColor="#3e3e3e"
             value={isBleConn}
-            onValueChange={() => setIsBleConn(!isBleConn)}
+            onValueChange={() => {
+              setIsBleConn(!isBleConn);
+            }}
           />
           {/* atoms */}
           <MenuText
@@ -109,16 +142,33 @@ const BluetoothTemplate = ({
             ValueText={{value: ssid}}
             isEdit={isEdit}
             setState={setSsid}
+            validationType={'ssid'}
+            validationState={validation.ssid.isSsid}
+            setValidationToggle={validation.ssid.setIsSsid}
+            inputStyle={inputStyle}
           />
           <InfoTextRow
             TypeText={{value: '비밀번호', size: '20px'}}
-            ValueText={{value: NewPassword}}
+            ValueText={{value: passwordState}}
+            validationType={'ssidPassword'}
             isEdit={isEdit}
-            setState={setPassword}
+            setState={setSsidPassword}
+            validationState={
+              validation.ssidPassword.isSsidPassword
+            }
+            setValidationToggle={
+              validation.ssidPassword.setIsSsidPassword
+            }
+            inputStyle={inputStyle}
           />
           <EmptyRow />
           {/* molecules */}
           <BlePageRoundButtonRow
+            isSsid={validation.ssid.isSsid}
+            isSsidPassword={
+              validation.ssidPassword.isSsidPassword
+            }
+            isEdit={isEdit}
             isBleConn={isBleConn}
             goToEditPage={goToEditPage}
             submitToMatt={submitToMatt}
@@ -149,7 +199,6 @@ const BleButtonView = styled.View`
   /* border: 1px;
   border-color: gray; */
   width: 100%;
-  margin: 0px 0px;
   flex-direction: column;
   align-items: center;
   justify-content: center;

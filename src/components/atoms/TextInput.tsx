@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
+import {StyleProp, TextStyle} from 'react-native';
 import styled from 'styled-components/native';
 import Theme from '~/lib/Theme';
 
@@ -10,8 +11,9 @@ type InputDataProps = {
   placeholderTextColor?: string;
   secureTextEntry?: boolean;
   placeholder?: string;
-  setState?: (text: string) => void;
-  state?: any;
+  setState: (text: string) => void;
+  state: string;
+  style?: StyleProp<TextStyle>;
 };
 
 //왼쪽 메뉴 텍스트
@@ -22,6 +24,7 @@ export const InputData = ({
   placeholder,
   setState,
   state,
+  style,
 }: InputDataProps) => {
   return (
     <InputDataStyled
@@ -31,7 +34,8 @@ export const InputData = ({
       onChangeText={
         setState ? text => setState(text) : undefined
       }
-      value={state}>
+      value={state}
+      style={style}>
       {children}
     </InputDataStyled>
   );

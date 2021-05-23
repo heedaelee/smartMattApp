@@ -12,7 +12,7 @@ type InputBoxProps = {
   secureTextEntry?: boolean;
   children?: any;
   placeholder?: string;
-  setState?: (text: string) => void;
+  setState: (text: string) => void;
   state?: string;
   state2?: string;
   validationType?: string;
@@ -51,7 +51,6 @@ const InputBox = ({
           setValidationToggle={setValidationToggle}
         />
       ) : null}
-
       {children}
     </InputBoxWrapper>
   );

@@ -3,7 +3,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import {StyleProp, Text, TextStyle} from 'react-native';
 import {ErrorText} from '~/components/atoms/Text';
 
 interface ValidationProps {
@@ -12,6 +12,7 @@ interface ValidationProps {
   state2?: string;
   validationState?: boolean;
   setValidationToggle?: (active: boolean) => void;
+  errorTextStyle?: StyleProp<TextStyle>;
 }
 
 export const Validation = ({
@@ -20,6 +21,7 @@ export const Validation = ({
   state2,
   validationState,
   setValidationToggle,
+  errorTextStyle,
 }: ValidationProps): any | undefined => {
   const [chanegState, setChangeState] = useState(false);
   // console.log('vali 호출')
@@ -174,6 +176,50 @@ export const Validation = ({
         return <></>;
       }
     }
+    case 'ssid': {
+      console.log(`state : ${state} type ${type}`);
+      const ssid = state;
+      if (ssid.length >= 20) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText style={errorTextStyle}>
+            20자 이내로 입력해주세요:)
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+    case 'ssidPassword': {
+      const ssidPassword = state;
+      if (
+        ssidPassword.length < 8 ||
+        ssidPassword.length >= 20
+      ) {
+        console.log(ssidPassword.length);
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText style={errorTextStyle}>
+            8~20자 내로 입력해주세요:)
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+    // case '무명': {
+
+    // }
     default:
       // NOTE: switch 변수 outside에 return 뭐라도 해줘야 undefined가 return이 안됨
       return <></>;

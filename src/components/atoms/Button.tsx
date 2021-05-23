@@ -29,10 +29,11 @@ export const Button = ({
   //Default value
   let textColor = 'white';
   let fontSize = Theme._WIDTH / 18;
-  console.log(`props.disabledRound : ${disabledRound}`);
+  let opacity = 1;
 
   if (disabledRound) {
     textColor = disabledColor;
+    opacity = 0.8;
   }
   if (size) {
     if (size === 'small') {
@@ -54,6 +55,7 @@ export const Button = ({
           fontSize: fontSize,
           color: textColor,
           fontFamily: 'SpoqaHanSansNeo-Medium',
+          opacity: opacity,
         }}>
         {children}
       </Text>
@@ -79,7 +81,7 @@ const ButtonStyled = styled.TouchableOpacity`
   /* border-radius: 20px; */
   border: ${(props: ButtonProps) =>
     props.disabledRound
-      ? '2px solid #dfdcdc'
+      ? '2px solid #a4a4a4'
       : props.round
       ? '2px solid white'
       : 'none'};

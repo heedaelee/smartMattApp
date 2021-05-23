@@ -1,23 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import {
-  Dimensions,
   Keyboard,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
+  TouchableWithoutFeedback
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Button} from '~/components/atoms/Button';
-import Theme from '~/lib/Theme';
+import { Button } from '~/components/atoms/Button';
+import { Container } from '~/components/atoms/Container';
 import InputBox from '~/components/molecules/InputBox';
-import {Container} from '~/components/atoms/Container';
+import Theme from '~/lib/Theme';
 
 type SignUpTemplateProps = {
   navigation: StackNavigationProp<
