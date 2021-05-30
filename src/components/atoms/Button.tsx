@@ -87,3 +87,43 @@ const ButtonStyled = styled.TouchableOpacity`
       : 'none'};
   justify-content: center;
 `;
+
+export const CircleButton = ({
+  children,
+  onPress,
+  style,
+}: ButtonProps) => {
+  //Default value
+  let textColor = 'white';
+  let fontSize = 30;
+  let opacity = 1;
+
+  return (
+    <CircleButtonStyled
+      onPress={onPress ? () => onPress() : undefined}
+      style={style}>
+      <Text
+        style={{
+          fontSize: fontSize,
+          color: textColor,
+          fontFamily: 'SpoqaHanSansNeo-Medium',
+          opacity: opacity,
+        }}>
+        {children}
+      </Text>
+    </CircleButtonStyled>
+  );
+};
+
+const CircleButtonStyled = styled.TouchableOpacity`
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: ${Theme.color.blue};
+  border-radius: 40px;
+  justify-content: flex-end;
+  top: 450px;
+  left: 280px;
+`;

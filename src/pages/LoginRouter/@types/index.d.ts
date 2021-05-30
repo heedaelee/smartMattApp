@@ -20,6 +20,7 @@ type registrySubmitParamList = {
   password: string;
   phoneNmbr: string;
   loginType: string;
+  isAutoLogin: boolean;
   tokenId?: string;
   social?: {
     socialType?: string;
@@ -28,7 +29,12 @@ type registrySubmitParamList = {
 };
 
 interface UserContext {
-  login: (email: string, password: string) => void;
+  login: (
+    email: string,
+    password: string,
+    loginType: string,
+    isAutoLogin: boolean,
+  ) => void;
   getUserInfo: () => void;
   logout: () => void;
 }

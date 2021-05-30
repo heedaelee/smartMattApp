@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import SignUp2 from '~/pages/LoginRouter/SignUp2';
 import SignUpBioDataAgree from '~/pages/LoginRouter/SignUpBioDataAgree';
@@ -9,13 +9,13 @@ import theme from '../lib/Theme';
 import SignIn from '../pages/LoginRouter/SignIn';
 import SignUp from '../pages/LoginRouter/SignUp';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<LoginStackNaviParamList>();
 
 const LoginRouter = () => {
   console.log('로그인 라우터 랜더링');
 
   return (
-    // NOTE: 개발시 initial 임시 조정
+    // FORTEST: 개발시 initial 임시 조정 : SignUp2로
     <Stack.Navigator
       screenOptions={{
         headerStyle: {backgroundColor: theme.color.blue},

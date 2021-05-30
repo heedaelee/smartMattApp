@@ -76,6 +76,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
           email: value.email,
           password: value.password,
           loginType: value.loginType,
+          isAutoLogin: true,
           //나중에 api 통신후..
           // token: res.data.token,
         }),

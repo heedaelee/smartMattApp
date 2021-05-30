@@ -3,22 +3,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Dimensions,
   Keyboard,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
   Switch,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styled from 'styled-components/native';
-import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
-import {MenuText} from '~/components/atoms/Text';
+import {ErrorText, MenuText} from '~/components/atoms/Text';
 import {BlePageRoundButtonRow} from '~/components/molecules/ButtonRow';
 import InfoTextRow from '~/components/molecules/InfoTextRow';
 import Theme from '~/lib/Theme';
@@ -134,6 +127,13 @@ const BluetoothTemplate = ({
             color={menuTextColor}>
             {menuTextValue}
           </MenuText>
+          {!isBleConn && (
+            <ErrorText
+              size={'16px'}
+              style={{marginTop: 50, color: '#ff8080'}}>
+              휴대폰의 블루투스 기능을 켜주세요
+            </ErrorText>
+          )}
         </BleButtonView>
         <OtherContentsView>
           {/* molecules */}
@@ -179,11 +179,6 @@ const BluetoothTemplate = ({
   );
 };
 
-/* border로 test 
-border: 1px;
-border-color: gray;
-*/
-
 const HeaderView = styled.View`
   flex: 1;
   justify-content: center;
@@ -216,13 +211,13 @@ const EmptyRow = styled.View`
   align-items: center;
 `;
 
-const css = StyleSheet.create({
+/* const css = StyleSheet.create({
   snsLoginView: {
     flexDirection: 'column',
     marginTop: 20,
     marginBottom: 10,
     alignItems: 'center',
   },
-});
+}); */
 
 export default BluetoothTemplate;

@@ -2,25 +2,30 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {NavigationContainer} from '@react-navigation/native';
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {StyleSheet, Platform, LogBox} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {Provider, useSelector} from 'react-redux';
 import {ThemeProvider} from 'styled-components';
-import {UserProvider} from '~/lib/userProvider/UserProvider';
-import Theme, {ITheme} from './src/lib/Theme';
-import {store} from './src/modules';
+import {
+  UserContext,
+  UserProvider,
+} from '~/lib/userProvider/UserProvider';
+import Theme from './src/lib/Theme';
 import HomeRouter from './src/routes/HomeRouter';
 import LoginRouter from './src/routes/LoginRouter';
-import SplashScreen from 'react-native-splash-screen';
+import {
+  request,
+  PERMISSIONS,
+  RESULTS,
+} from 'react-native-permissions';
+import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RootState} from '~/modules';
+import * as eva from '@eva-design/eva';
+import {ApplicationProvider} from '@ui-kitten/components';
 
 const App = () => {
+  LogBox.ignoreLogs(['Reanimated 2']);
+
   //FORTEST: 작동하는 기능. For TEST 주석처리
   /* origin */
   // const isLogin = useSelector(
@@ -28,6 +33,38 @@ const App = () => {
   // );
   /* Temp */
   const isLogin = true;
+
+  const {getUserInfo} = useContext(UserContext);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') askPermission();
+    autoLogin();
+  }, []);
+
+  const askPermission = async () => {
+    try {
+      const result = await request(
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+      );
+      if (result !== RESULTS.GRANTED) {
+        Toast.show(
+          '권한설정을 해주세요. 기기설정이 제한됩니다.',
+        );
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const autoLogin = async () => {
+    await AsyncStorage.getItem('@loginInfo').then(
+      (res: any) => {
+        const data = JSON.parse(res);
+        if (data != null) {
+          //TODO: 나중에 서버랑 Token 비교
+        }
+      },
+    );
+  };
 
   console.log(
     `App랜더링 하고 값 ${JSON.stringify(isLogin)}`,
@@ -68,14 +105,16 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <ThemeProvider theme={Theme}>
-          {/* <Provider store={store}> */}
-          <UserProvider>
-            {/* TODO: UserProvider 달기 : 로그인 storage 모듈 */}
-            {isLogin ? <HomeRouter /> : <LoginRouter />}
-          </UserProvider>
-          {/* </Provider> */}
-        </ThemeProvider>
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <ThemeProvider theme={Theme}>
+            {/* <Provider store={store}> */}
+            <UserProvider>
+              {/* TODO: UserProvider 달기 : 로그인 storage 모듈 */}
+              {isLogin ? <HomeRouter /> : <LoginRouter />}
+            </UserProvider>
+            {/* </Provider> */}
+          </ThemeProvider>
+        </ApplicationProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );

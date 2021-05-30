@@ -51,6 +51,9 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
     let SSID = `SSID:${ssid}`;
     let PASS = `PASS:${ssidPassword}`;
     console.log(`ssid: ${ssid} pass: ${ssidPassword}`);
+    navigation.navigate('BottomNaviRouter', {
+      screen: '홈',
+    });
   };
 
   //Wifi password encrypted

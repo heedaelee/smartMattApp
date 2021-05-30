@@ -14,6 +14,7 @@ export type UserState = {
   phoneNmbr: string;
   loginType: string;
   tokenId?: string;
+  isAutoLogin: boolean;
   social?: {
     socialType?: string;
     socialId?: string;
@@ -39,6 +40,7 @@ export const initialState: UserState = {
   phoneNmbr: '',
   loginType: '',
   tokenId: '',
+  isAutoLogin: true,
   social: {
     socialType: '',
     socialId: '',
@@ -79,6 +81,7 @@ export default userSlice.reducer;
   phoneNmbr: '',
   loginType: '',
   tokenId: '',
+  isAutoLogin:'true',
   social: {
     socialType: '',
     socialId: '',

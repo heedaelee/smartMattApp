@@ -159,6 +159,7 @@ const SignUp2Template = ({
                 password,
                 phoneNmbr,
                 loginType: 'email',
+                isAutoLogin: true,
                 isLogin: true,
               })
             }>

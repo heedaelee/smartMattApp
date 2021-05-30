@@ -2,5 +2,8 @@
 // eslint-disable-next-line prettier/prettier
 type HomeStackNaviParamList = {
   Bluetooth: undefined;
-  Home: undefined;
+  BottomNaviRouter: {screen: string} | undefined;
+  HomeStack: undefined;
+  AlarmStack: undefined;
+  MyPageStack: undefined;
 };

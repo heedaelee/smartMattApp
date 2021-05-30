@@ -5,7 +5,12 @@ import {useSetUser} from '~/hooks/useReduce';
 import {initialState} from '~/modules/user/user';
 
 const defaultContext: UserContext = {
-  login: (email: string, password: string) => {},
+  login: (
+    email: string,
+    password: string,
+    loginType: string,
+    isAutoLogin: boolean,
+  ) => {},
   getUserInfo: () => {},
   logout: () => {},
 };
@@ -28,14 +33,20 @@ const UserProvider = ({children}: Props) => {
 
   const [userState, setUserReducer] = useSetUser();
 
-  const login = (email: string, password: string): void => {
+  const login = (
+    email: string,
+    password: string,
+    loginType: string,
+    isAutoLogin: boolean,
+  ): void => {
     try {
       AsyncStorage.setItem(
         '@loginInfo',
         JSON.stringify({
           email: email,
           password: password,
-          loginType: 'email',
+          loginType: loginType,
+          isAutoLogin: isAutoLogin,
           //나중에 api 통신후..
           // token: res.data.token,
         }),

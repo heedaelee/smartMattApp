@@ -2,11 +2,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
-  createAction,
-  ActionType,
-  createReducer,
+  ActionType, createAction,
+  createReducer
 } from 'typesafe-actions';
-import produce from 'immer';
 
 //NOTE: 액션 type 정의
 const SET_USER = 'user/SET_USER';
