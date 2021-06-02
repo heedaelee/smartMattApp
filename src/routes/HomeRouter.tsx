@@ -8,6 +8,7 @@ import theme from '../lib/Theme';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import Theme from '../lib/Theme';
 import {StyleSheet} from 'react-native';
+import AddPatient from '~/pages/HomeRouter/HomeStack/AddPatient';
 
 const Stack = createStackNavigator<HomeStackNaviParamList>();
 
@@ -57,6 +58,11 @@ const HomeRouter = () => {
           ),
         })}
         component={BottomNaviRouter}
+      />
+      <Stack.Screen
+        name="AddPatient"
+        options={{title:'환자 추가'}}
+        component={AddPatient}
       />
       {/*<Stack.Screen name="Home" component={Home} />
        <Stack.Screen name="FinderID" component={FinderID} />

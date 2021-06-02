@@ -91,12 +91,22 @@ const ButtonStyled = styled.TouchableOpacity`
 export const CircleButton = ({
   children,
   onPress,
-  style,
 }: ButtonProps) => {
   //Default value
   let textColor = 'white';
   let fontSize = 30;
   let opacity = 1;
+
+  const style = {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  };
 
   return (
     <CircleButtonStyled

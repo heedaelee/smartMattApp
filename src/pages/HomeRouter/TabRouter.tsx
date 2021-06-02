@@ -4,17 +4,24 @@
 import React, {useContext, useState} from 'react';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import PatientListTemplate from '~/components/templates/HomeRouter/HomeStack/PatientListTemplate';
-import HeatMapTemplate from '~/components/templates/HomeRouter/HomeStack/HeatMapTemplate';
+
+import HeatMapTemplate from '~/pages/HomeRouter/HomeStack/HeatMap';
 import Theme from '~/lib/Theme';
+import {RouteProp} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
+import PatientList from './HomeStack/PatientList';
+
 const Tab = createMaterialTopTabNavigator();
 
-type TabsProps = {
+type TabRouterProps = {
   firstTabName: string;
   secondTabName: string;
 };
 
-const Tabs = ({firstTabName, secondTabName}: TabsProps) => {
+const TabRouter = ({
+  firstTabName,
+  secondTabName,
+}: TabRouterProps) => {
   return (
     <Tab.Navigator
       initialRouteName={firstTabName}
@@ -27,7 +34,7 @@ const Tabs = ({firstTabName, secondTabName}: TabsProps) => {
       }}>
       <Tab.Screen
         name={firstTabName}
-        component={PatientListTemplate}
+        component={PatientList}
       />
       <Tab.Screen
         name={secondTabName}
@@ -37,4 +44,4 @@ const Tabs = ({firstTabName, secondTabName}: TabsProps) => {
   );
 };
 
-export default Tabs;
+export default TabRouter;

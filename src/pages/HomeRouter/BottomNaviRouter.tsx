@@ -13,11 +13,12 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import IconU from 'react-native-vector-icons/Feather';
 import IconA from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RouteProp} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
 
-type BottomNaviRouterProps = {
-  navigation: HomeStackNaviParamList;
+export type BottomNaviRouterProps = {
+  navigation: StackNavigationProp<HomeStackNaviParamList>;
   router: RouteProp<HomeStackNaviParamList, 'HomeStack'>;
 };
 
