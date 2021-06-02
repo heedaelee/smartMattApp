@@ -1,14 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import Bluetooth from '~/pages/HomeRouter/Bluetooth';
 import BottomNaviRouter from '~/pages/HomeRouter/BottomNaviRouter';
-import theme from '../lib/Theme';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import Theme from '../lib/Theme';
-import {StyleSheet} from 'react-native';
-import AddPatient from '~/pages/HomeRouter/HomeStack/AddPatient';
 
 const Stack = createStackNavigator<HomeStackNaviParamList>();
 
@@ -21,14 +18,7 @@ const HomeRouter = () => {
     <Stack.Navigator
       // FORTEST: 개발시 initial 임시 조정 : BottomNaviRouter로
       initialRouteName="BottomNaviRouter"
-      screenOptions={{
-        headerStyle: {backgroundColor: theme.color.blue},
-        headerTintColor: 'white',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-      }}>
+      screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="Bluetooth"
         component={Bluetooth}
@@ -41,29 +31,15 @@ const HomeRouter = () => {
         // Origin:
         // options={({route}: any) => ({
         //   title: route.params.screen,
-        // })}
         // FORTEST:
-        options={({navigation, route}) => ({
-          title: '홈',
-          headerRight: () => (
-            <IconAnt
-              name="wifi"
-              size={iconSize}
-              color={iconColor}
-              style={styles.HedaerIcon}
-              onPress={() => {
-                navigation.navigate('Bluetooth');
-              }}
-            />
-          ),
-        })}
+
         component={BottomNaviRouter}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AddPatient"
         options={{title:'환자 추가'}}
         component={AddPatient}
-      />
+      /> */}
       {/*<Stack.Screen name="Home" component={Home} />
        <Stack.Screen name="FinderID" component={FinderID} />
       <Stack.Screen name="FinderPW" component={FinderPW} />

@@ -22,7 +22,6 @@ type PatientListProps = {
 
 const PatientList = ({navigation}: PatientListProps) => {
   const goToAddPatientPage = () => {
-    console.log('test');
     navigation.navigate('AddPatient');
   };
   return (

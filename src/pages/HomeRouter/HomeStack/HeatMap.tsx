@@ -17,8 +17,8 @@ import Theme from '~/lib/Theme';
 const _WIDTH = Theme._WIDTH;
 const _HEIGHT = Theme._HEIGHT;
 
-const HeatMapTemplate = ({}) => {
+const HeatMap = ({}) => {
   return <Text>HeatMapTemplate page</Text>;
 };
 
-export default HeatMapTemplate;
+export default HeatMap;

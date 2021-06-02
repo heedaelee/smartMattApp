@@ -5,26 +5,32 @@ import React, {useContext, useState} from 'react';
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import HeatMapTemplate from '~/pages/HomeRouter/HomeStack/HeatMap';
+import HeatMap from '~/pages/HomeRouter/HomeStack/HeatMap';
 import Theme from '~/lib/Theme';
+import PatientList from './HomeStack/PatientList';
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import PatientList from './HomeStack/PatientList';
 
 const Tab = createMaterialTopTabNavigator();
 
 type TabRouterProps = {
-  firstTabName: string;
-  secondTabName: string;
+  firstTab: {
+    name: string;
+    component: React.ComponentType<any>;
+  };
+  secondTab: {
+    name: string;
+    component: React.ComponentType<any>;
+  };
 };
 
 const TabRouter = ({
-  firstTabName,
-  secondTabName,
+  firstTab,
+  secondTab,
 }: TabRouterProps) => {
   return (
     <Tab.Navigator
-      initialRouteName={firstTabName}
+      initialRouteName={firstTab.name}
       tabBarOptions={{
         activeTintColor: '#0E76FF',
         labelStyle: {
@@ -33,12 +39,12 @@ const TabRouter = ({
         },
       }}>
       <Tab.Screen
-        name={firstTabName}
-        component={PatientList}
+        name={firstTab.name}
+        component={firstTab.component}
       />
       <Tab.Screen
-        name={secondTabName}
-        component={HeatMapTemplate}
+        name={secondTab.name}
+        component={secondTab.component}
       />
     </Tab.Navigator>
   );
