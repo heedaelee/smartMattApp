@@ -27,8 +27,9 @@ export const Container = ({
 const ContainerWrapper = styled.View`
   flex: 1;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  /* 100% -> Theme.. px로 변경 */
+  width: ${Theme._WIDTH}px;
+  height: ${Theme._HEIGHT}px;
   justify-content: flex-start;
   align-items: center;
   background-color: ${(props: ContainerProps) =>

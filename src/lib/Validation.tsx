@@ -217,6 +217,43 @@ export const Validation = ({
         return <></>;
       }
     }
+    case 'patientName': {
+      const patientName = state;
+      if (patientName.length > 10) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText style={errorTextStyle}>
+            10자 내로 입력해주세요:)
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+    case 'deviceCode': {
+      const deviceCode = state;
+      if (deviceCode.length !== 6) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText style={errorTextStyle}>
+            기기코드는 6자리입니다
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+
     // case '무명': {
 
     // }

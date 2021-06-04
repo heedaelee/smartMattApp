@@ -7,6 +7,7 @@ type HomeStackNaviParamList = {
   AlarmStack: undefined;
   MyPageStack: undefined;
   AddPatient: undefined;
+  HomeTabRouter: undefined;
 };
 
 type TabRouterParamList = {

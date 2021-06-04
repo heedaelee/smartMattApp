@@ -13,7 +13,7 @@ type InputBoxProps = {
   children?: any;
   placeholder?: string;
   setState: (text: string) => void;
-  state?: string;
+  state: string;
   state2?: string;
   validationType?: string;
   validationState?: boolean;
