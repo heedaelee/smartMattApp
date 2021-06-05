@@ -13,6 +13,7 @@ import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
 import InputBox from '~/components/molecules/InputBox';
 import AgreeCheckForm from '~/components/organisms/AgreeCheckForm';
+import DownKeyboard from '~/lib/DownKeyboard';
 import Theme from '~/lib/Theme';
 
 type SignUp2TemplateProps = {
@@ -73,7 +74,7 @@ const SignUp2Template = ({
   } = setState;
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <DownKeyboard>
       <Container>
         {/* NOTE:인증번호 전송 DONE: vali*/}
         <InputBox
@@ -169,7 +170,7 @@ const SignUp2Template = ({
           <Button disabled={true}>등록하기</Button>
         )}
       </Container>
-    </TouchableWithoutFeedback>
+    </DownKeyboard>
   );
 };
 

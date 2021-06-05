@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import Bluetooth from '~/pages/HomeRouter/Bluetooth';
 import BottomNaviRouter from '~/pages/HomeRouter/BottomNaviRouter';
 import Theme from '../lib/Theme';
@@ -32,14 +32,8 @@ const HomeRouter = () => {
         // options={({route}: any) => ({
         //   title: route.params.screen,
         // FORTEST:
-
         component={BottomNaviRouter}
       />
-      {/* <Stack.Screen
-        name="AddPatient"
-        options={{title:'환자 추가'}}
-        component={AddPatient}
-      /> */}
       {/*<Stack.Screen name="Home" component={Home} />
        <Stack.Screen name="FinderID" component={FinderID} />
       <Stack.Screen name="FinderPW" component={FinderPW} />

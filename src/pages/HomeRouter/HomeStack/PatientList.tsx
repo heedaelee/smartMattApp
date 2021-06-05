@@ -2,10 +2,15 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {List} from '@ui-kitten/components';
-import React from 'react';
+import {
+  Button,
+  Card,
+  List,
+  Modal,
+  Text,
+} from '@ui-kitten/components';
+import React, {useState} from 'react';
 import {
   Keyboard,
   StyleSheet,
@@ -13,7 +18,9 @@ import {
 } from 'react-native';
 import {CircleButton} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
-import PatientListItem from '~/components/molecules/PatientListItem';
+import PatientListItem, {
+  PatientListItemProps,
+} from '~/components/molecules/PatientListItem';
 import {PatientListDummy} from '~/lib/dummyData/DummyData';
 
 type PatientListProps = {
@@ -21,8 +28,12 @@ type PatientListProps = {
 };
 
 const PatientList = ({navigation}: PatientListProps) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const goToAddPatientPage = () => {
-    navigation.navigate('AddPatient');
+    navigation.navigate('PatientEditor', {
+      screen: '환자 추가',
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -30,12 +41,25 @@ const PatientList = ({navigation}: PatientListProps) => {
         <List
           style={styles.list}
           data={PatientListDummy}
-          renderItem={PatientListItem}
+          renderItem={(item: any) =>
+            PatientListItem(item, setModalVisible)
+          }
           scrollEnabled={true}
         />
         <CircleButton onPress={goToAddPatientPage}>
           +
         </CircleButton>
+        <Modal
+          visible={modalVisible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={() => setModalVisible(false)}>
+          <Card disabled={true}>
+            <Text>Welcome to UI Kitten 😻</Text>
+            <Button onPress={() => setModalVisible(false)}>
+              DISMISS
+            </Button>
+          </Card>
+        </Modal>
       </Container>
     </TouchableWithoutFeedback>
   );
@@ -61,6 +85,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     // borderWidth: 1,
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 });
 

@@ -253,6 +253,24 @@ export const Validation = ({
         return <></>;
       }
     }
+    case 'patientCondition': {
+      const patientCondition = state;
+      if (patientCondition.length > 150) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return (
+          <ErrorText style={errorTextStyle}>
+            150자 이하로 작성해주세요
+          </ErrorText>
+        );
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
 
     // case '무명': {
 

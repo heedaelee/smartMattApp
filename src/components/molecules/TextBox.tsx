@@ -5,6 +5,7 @@ import {Input} from '@ui-kitten/components';
 import React from 'react';
 import {View} from 'react-native';
 import styled from 'styled-components/native';
+import {Validation} from '~/lib/Validation';
 import {MenuText} from '../atoms/Text';
 
 type TextBoxProps = {
@@ -13,6 +14,9 @@ type TextBoxProps = {
   placeholder?: string;
   value: string;
   setValue: (active: string) => void;
+  validationType?: string;
+  validationState?: boolean;
+  setValidationToggle?: (active: boolean) => void;
 };
 
 const TextBox = ({
@@ -21,6 +25,9 @@ const TextBox = ({
   placeholder,
   value,
   setValue,
+  validationType,
+  validationState,
+  setValidationToggle,
 }: TextBoxProps) => {
   return (
     <TextBoxWrapper>
@@ -35,6 +42,14 @@ const TextBox = ({
         value={value}
         onChangeText={nextValue => setValue(nextValue)}
       />
+      {validationType && value ? (
+        <Validation
+          type={validationType}
+          state={value}
+          validationState={validationState}
+          setValidationToggle={setValidationToggle}
+        />
+      ) : null}
     </TextBoxWrapper>
   );
 };

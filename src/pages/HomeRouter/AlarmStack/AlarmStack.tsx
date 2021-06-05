@@ -7,6 +7,8 @@ import {Button, Text, StyleSheet} from 'react-native';
 import Theme from '~/lib/Theme';
 import TabRouter from '../TabRouter';
 import IconAnt from 'react-native-vector-icons/AntDesign';
+import AlarmList from './AlarmList';
+import AlarmSetting from './AlarmSetting';
 
 const Stack = createStackNavigator();
 
@@ -47,10 +49,16 @@ const AlarmStack = ({}) => {
         })}>
         {() => (
           //TODO: 탭 라우터 완성
-          {/* <TabRouter
-            firstTabName={'알림목록'}
-            secondTabName={'알림설정'}
-          /> */}
+          <TabRouter
+            firstTab={{
+              name: '알림목록',
+              component: AlarmList,
+            }}
+            secondTab={{
+              name: '알림셋팅',
+              component: AlarmSetting,
+            }}
+          />
         )}
       </Stack.Screen>
     </Stack.Navigator>

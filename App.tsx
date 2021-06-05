@@ -33,7 +33,6 @@ const App = () => {
   // );
   /* Temp */
   const isLogin = true;
-
   const {getUserInfo} = useContext(UserContext);
 
   useEffect(() => {

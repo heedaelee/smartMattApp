@@ -10,7 +10,7 @@ import {Button, StyleSheet, Text} from 'react-native';
 import {UserContext} from '~/lib/userProvider/UserProvider';
 import TabRouter from '../TabRouter';
 import {BottomNaviRouterProps} from '../BottomNaviRouter';
-import AddPatient from './AddPatient';
+import PatientEditor from './PatientEditor';
 import Theme from '~/lib/Theme';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import HeatMap from '~/pages/HomeRouter/HomeStack/HeatMap';
@@ -70,16 +70,13 @@ const HomeStack = () => {
         )}
       </Stack.Screen>
       <Stack.Screen
-        name="AddPatient"
-        options={{title: '환자 추가'}}
-        component={AddPatient}
+        name="PatientEditor"
+        options={({route}: any) => ({
+          title: route.params.screen,
+        })}
+        component={PatientEditor}
       />
     </Stack.Navigator>
-
-    /* <TabRouter
-      firstTabName={'환자목록'}
-      secondTabName={'실시간 센서'}
-    /> */
   );
 };
 const styles = StyleSheet.create({

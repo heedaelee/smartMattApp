@@ -19,7 +19,6 @@ export const useSetUser = () => {
 
   const setUserReducer = useCallback(
     (params: registrySubmitParamList) => {
-      console.log('작동');
       dispatch(setUser(params));
     },
     [dispatch],

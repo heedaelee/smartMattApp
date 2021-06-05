@@ -32,7 +32,7 @@ const BottomNaviRouter = ({
     <Tab.Navigator
       // FORTEST: initial : HomeStack -> addPatientList
       initialRouteName="HomeStack"
-      // initialRouteName="AddPatient"
+      // initialRouteName="PatientEditor"
       tabBarOptions={{
         activeTintColor: '#0E76FF',
         tabStyle: {

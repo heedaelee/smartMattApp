@@ -8,6 +8,12 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 
+export type PatientListItemProps = {
+  item: {id: string; title: string; description: string};
+  props: (active?: boolean) => void;
+  // index?: any;
+};
+
 const renderItemIcon = () => (
   <Icon
     name="person"
@@ -17,26 +23,28 @@ const renderItemIcon = () => (
   />
 );
 
-const PatientListItem = ({
-  item,
-  index,
-}: {
-  item: any;
-  index?: any;
-}) => (
-  <ListItem
-    title={evaProps => (
-      <View style={{marginBottom: 5}}>
-        <Text {...evaProps}>{item.title}</Text>
-      </View>
-    )}
-    description={evaProps => (
-      <Text {...evaProps}>{item.description}</Text>
-    )}
-    accessoryLeft={renderItemIcon}
-    style={styles.listItem}
-  />
-);
+const PatientListItem = ({item}: any, props: any) => {
+  const onListItemPress = (item: any) => {
+    props(true);
+    console.log(item);
+  };
+
+  return (
+    <ListItem
+      onPress={() => onListItemPress(item)}
+      title={evaProps => (
+        <View style={{marginBottom: 5}}>
+          <Text {...evaProps}>{item.title}</Text>
+        </View>
+      )}
+      description={evaProps => (
+        <Text {...evaProps}>{item.description}</Text>
+      )}
+      accessoryLeft={renderItemIcon}
+      style={styles.listItem}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
   listItem: {
