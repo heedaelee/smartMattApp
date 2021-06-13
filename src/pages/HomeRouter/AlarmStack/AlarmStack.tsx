@@ -32,7 +32,7 @@ const AlarmStack = ({}) => {
         headerTitleAlign: 'center',
       }}>
       <Stack.Screen
-        name="AlaramTabRouter"
+        name="AlarmTabRouter"
         options={({navigation, route}) => ({
           title: '알림',
           headerRight: () => (
@@ -51,11 +51,11 @@ const AlarmStack = ({}) => {
           //TODO: 탭 라우터 완성
           <TabRouter
             firstTab={{
-              name: '알림목록',
+              name: '알림 목록',
               component: AlarmList,
             }}
             secondTab={{
-              name: '알림셋팅',
+              name: '알림 셋팅',
               component: AlarmSetting,
             }}
           />

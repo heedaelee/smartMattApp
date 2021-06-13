@@ -1,16 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React, {createContext, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSetUser} from '~/hooks/useReduce';
+import {useLoggedUser} from '~/hooks/useReduce';
 import {initialState} from '~/modules/user/user';
 
 const defaultContext: UserContext = {
-  login: (
-    email: string,
-    password: string,
-    loginType: string,
-    isAutoLogin: boolean,
-  ) => {},
+  login: (email: string, password: string, loginType: string, isAutoLogin: boolean) => {},
   getUserInfo: () => {},
   logout: () => {},
 };
@@ -31,7 +26,7 @@ const UserProvider = ({children}: Props) => {
     getUserInfo();
   }, []);
 
-  const [userState, setUserReducer] = useSetUser();
+  const [userState, setUserReducer] = useLoggedUser();
 
   const login = (
     email: string,
@@ -70,10 +65,7 @@ const UserProvider = ({children}: Props) => {
 
   const logout = (): void => {
     AsyncStorage.removeItem('@loginInfo');
-    console.log(
-      '토큰삭제 : ',
-      AsyncStorage.getItem('@loginInfo'),
-    );
+    console.log('토큰삭제 : ', AsyncStorage.getItem('@loginInfo'));
 
     setUserReducer(initialState);
   };

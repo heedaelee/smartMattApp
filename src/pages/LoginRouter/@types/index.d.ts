@@ -28,6 +28,12 @@ type registrySubmitParamList = {
   };
 };
 
+type SelectedPatientState = {
+  id: string;
+  name: string;
+  description?: string;
+};
+
 interface UserContext {
   login: (
     email: string,

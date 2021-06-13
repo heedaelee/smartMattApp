@@ -9,7 +9,7 @@ type MenuTextProps = {
   children?: any;
   color?: string;
   size?: string;
-  textAlign?: string;
+  textAlign?: 'left' | 'right' | 'center' | string;
   style?: StyleProp<TextStyle>;
   onPress?: () => void;
 };

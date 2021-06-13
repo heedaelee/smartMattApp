@@ -12,7 +12,7 @@ export default function useInput(defaultValue: string) {
 
   const onChange = useCallback((text: string) => {
     setInput(text);
-    // console.log(text);
+    console.log(text);
   }, []);
 
   //아직 안씀

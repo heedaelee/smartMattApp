@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import Theme from '~/lib/Theme';
 
 type ButtonProps = {
-  children: any;
+  children: string;
   onPress?: (any?: any) => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;

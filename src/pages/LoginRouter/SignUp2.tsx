@@ -8,7 +8,7 @@ import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useSetUser} from '~/hooks/useReduce';
+import {useLoggedUser} from '~/hooks/useReduce';
 
 export type SignUp2Props = {
   navigation: StackNavigationProp<
@@ -26,7 +26,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   //NOTE: INPUT state
   const [phoneNmbr, setPhoneNmbr] = useInput('');
   const [phoneAuthNmbr, setPhoneAuthNmbr] = useInput('');
-  const [userState, setUserReducer] = useSetUser();
+  const [userState, setUserReducer] = useLoggedUser();
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
   const [isPhone, setIsPhone] = useBoolean(false);

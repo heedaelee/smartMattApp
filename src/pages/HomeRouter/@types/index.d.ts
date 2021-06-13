@@ -9,7 +9,10 @@ type HomeStackNaviParamList = {
   PatientEditor: {
     screen: '환자 추가' | '환자 상세' | '환자 수정';
   };
-  HomeTabRouter: undefined;
+  HomeTabRouter: {
+    screen: '환자목록' | '실시간 센서';
+  };
+  HeatMap: undefined;
 };
 
 type TabRouterParamList = {

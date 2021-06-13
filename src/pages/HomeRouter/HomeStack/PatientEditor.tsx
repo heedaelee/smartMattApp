@@ -4,8 +4,9 @@
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Avatar} from '@ui-kitten/components';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
+import Toast from 'react-native-simple-toast';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
@@ -13,6 +14,7 @@ import InputBox from '~/components/molecules/InputBox';
 import TextBox from '~/components/molecules/TextBox';
 import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
+import {useSelectedPatient} from '~/hooks/useReduce';
 import DownKeyboard from '~/lib/DownKeyboard';
 
 export type patientEditorProps = {
@@ -20,39 +22,44 @@ export type patientEditorProps = {
   route: RouteProp<HomeStackNaviParamList, 'PatientEditor'>;
 };
 
-const PatientEditor = ({
-  navigation,
-  route,
-}: patientEditorProps) => {
+const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
   const {screen} = route.params;
   console.log(`screen : ${screen}`);
 
+  const [selectedPatient, setSelectedPatient] = useSelectedPatient();
+  console.log(`selectedPatient : ${JSON.stringify(selectedPatient)}`);
+
   //NOTE: INPUT state
   const [patientName, setPatientName] = useInput('');
   const [deviceCode, setDeviceCode] = useInput('');
-  const [patientCondition, setPatientCondition] = useInput(
-    '',
-  );
+  const [patientCondition, setPatientCondition] = useInput('');
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
-  const [isPatinetName, setIsPatinetName] = useBoolean(
-    false,
-  );
+  const [isPatinetName, setIsPatinetName] = useBoolean(false);
   const [isDeviceCode, setIsDeviceCode] = useBoolean(false);
-  const [
-    isPatientCondition,
-    setIsPatientCondition,
-  ] = useBoolean(false);
+  const [isPatientCondition, setIsPatientCondition] = useBoolean(false);
 
-  //TODO: 서버 데이터 전송 함수 and List로 이동 : 버튼_추가하기
+  //TODO: 선택된 환자 추가및 수정 서버 데이터 비동기 전송 로직 해야함
   const onAddPatientSubmit = () => {
-    console.log(
-      `addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`,
-    );
-    navigation.navigate('HomeTabRouter');
+    console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+    if (screen === '환자 수정') {
+      Toast.show('수정했습니다');
+    }
+    navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
   };
+
+  useEffect(() => {
+    if (screen === '환자 수정') {
+      const {id, name, description} = selectedPatient;
+      //환자 수정 페이지시 리덕스에 selected 데이터 갖고와 setState 해줌
+      setPatientName(name);
+      //아직 기기코드가 없으니깐. id로 대체
+      //setDeviceCode(id);
+      description && setPatientCondition(description);
+    }
+  }, []);
 
   let buttonText = '';
   switch (screen) {
@@ -71,10 +78,7 @@ const PatientEditor = ({
     <DownKeyboard>
       <Container style={{marginBottom: 20}}>
         <AvatarRow>
-          <Avatar
-            size={'giant'}
-            source={require('~/asset/img/Defaultuser.png')}
-          />
+          <Avatar size={'giant'} source={require('~/asset/img/Defaultuser.png')} />
         </AvatarRow>
         <TwoInputsRow>
           <View style={{marginTop: 20}} />
@@ -109,11 +113,8 @@ const PatientEditor = ({
           />
         </TwoInputsRow>
         <TextBoxAndButtonRow>
-          {isDeviceCode &&
-          isPatinetName ? (
-            <Button onPress={onAddPatientSubmit}>
-              {buttonText}
-            </Button>
+          {isDeviceCode && isPatinetName ? (
+            <Button onPress={onAddPatientSubmit}>{buttonText}</Button>
           ) : (
             <Button disabled={true}>{buttonText}</Button>
           )}

@@ -1,20 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useContext, useState} from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
-import {Button, StyleSheet, Text} from 'react-native';
-import {UserContext} from '~/lib/userProvider/UserProvider';
-import TabRouter from '../TabRouter';
-import {BottomNaviRouterProps} from '../BottomNaviRouter';
-import PatientEditor from './PatientEditor';
-import Theme from '~/lib/Theme';
+import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import IconAnt from 'react-native-vector-icons/AntDesign';
+import Theme from '~/lib/Theme';
 import HeatMap from '~/pages/HomeRouter/HomeStack/HeatMap';
 import PatientList from '~/pages/HomeRouter/HomeStack/PatientList';
+import TabRouter from '../TabRouter';
+import PatientEditor from './PatientEditor';
 
 // export type SignInProps = {
 //   navigation: StackNavigationProp<any, 'SignIn'>;
@@ -29,7 +24,6 @@ const HomeStack = () => {
   // const {logout} = useContext(UserContext);
   return (
     // <Button title={'logout'} onPress={() => logout()} />
-
     <Stack.Navigator
       initialRouteName="HomeTabRouter"
       screenOptions={{
@@ -59,7 +53,7 @@ const HomeStack = () => {
         {() => (
           <TabRouter
             firstTab={{
-              name: '환자목록',
+              name: '환자 목록',
               component: PatientList,
             }}
             secondTab={{

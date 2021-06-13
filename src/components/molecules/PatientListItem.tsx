@@ -4,29 +4,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {ListItem} from '@ui-kitten/components';
-import React from 'react';
+import React, {useReducer} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
+import {useSelectedPatient} from '~/hooks/useReduce';
 
 export type PatientListItemProps = {
-  item: {id: string; title: string; description: string};
-  props: (active?: boolean) => void;
-  // index?: any;
+  item: any;
+  setModalVisible: (active: boolean) => void;
 };
 
 const renderItemIcon = () => (
-  <Icon
-    name="person"
-    size={25}
-    color={'#0E76FF'}
-    style={styles.Icon}
-  />
+  <Icon name="person" size={25} color={'#0E76FF'} style={styles.Icon} />
 );
 
-const PatientListItem = ({item}: any, props: any) => {
+const PatientListItem = ({item, setModalVisible}: PatientListItemProps) => {
+  // console.log(item);
+  const [selectedPatientState, setPatientReducer] = useSelectedPatient();
+
   const onListItemPress = (item: any) => {
-    props(true);
-    console.log(item);
+    setModalVisible(true);
+    setPatientReducer(item);
+    // console.log(item);
   };
 
   return (
@@ -34,12 +33,10 @@ const PatientListItem = ({item}: any, props: any) => {
       onPress={() => onListItemPress(item)}
       title={evaProps => (
         <View style={{marginBottom: 5}}>
-          <Text {...evaProps}>{item.title}</Text>
+          <Text {...evaProps}>{item.name}</Text>
         </View>
       )}
-      description={evaProps => (
-        <Text {...evaProps}>{item.description}</Text>
-      )}
+      description={evaProps => <Text {...evaProps}>{item.description}</Text>}
       accessoryLeft={renderItemIcon}
       style={styles.listItem}
     />

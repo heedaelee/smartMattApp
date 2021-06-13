@@ -12,9 +12,13 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import logger from 'redux-logger';
 import {configureStore} from '@reduxjs/toolkit';
 import userReducer, {UserState} from '~/modules/user/user';
+import selectedPatientReducer from '~/modules/selected/selected';
 
 //기존
-const Reducers = combineReducers({userReducer});
+const Reducers = combineReducers({
+  userReducer,
+  selectedPatientReducer,
+});
 const enhancer =
   process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(logger))
@@ -23,6 +27,7 @@ const enhancer =
 //이 형태 참조: velog-client-master
 export type RootState = {
   user: UserState;
+  selectedPatient: SelectedPatientState;
 
   /* ex)
   header: HeaderState;
@@ -36,6 +41,7 @@ export type RootState = {
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    selectedPatient: selectedPatientReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(logger),

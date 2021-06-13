@@ -19,15 +19,27 @@ const Tab = createBottomTabNavigator();
 
 export type BottomNaviRouterProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
-  router: RouteProp<HomeStackNaviParamList, 'HomeStack'>;
+  route: RouteProp<HomeStackNaviParamList, any>;
 };
 
 const iconSize = Theme._WIDTH / 13;
 
-const BottomNaviRouter = ({
-  navigation,
-  router,
-}: BottomNaviRouterProps) => {
+const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
+  tabPress: () => {
+    console.log(navigation);
+    console.log(route);
+    switch (route.name) {
+      case 'HomeStack':
+        navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
+        break;
+      case 'AlarmStack':
+        navigation.navigate('AlarmTabRouter', {screen: '알림 목록'});
+        break;
+    }
+  },
+});
+
+const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
   return (
     <Tab.Navigator
       // FORTEST: initial : HomeStack -> addPatientList
@@ -49,28 +61,22 @@ const BottomNaviRouter = ({
       <Tab.Screen
         name="HomeStack"
         component={HomeStack}
+        listeners={tabBarListeners}
         options={{
           tabBarLabel: '홈',
           tabBarIcon: ({color, size}) => (
-            <Icon
-              name="home"
-              size={iconSize}
-              color={color}
-            />
+            <Icon name="home" size={iconSize} color={color} />
           ),
         }}
       />
       <Tab.Screen
         name="AlarmStack"
         component={AlarmStack}
+        listeners={tabBarListeners}
         options={{
           tabBarLabel: '알림',
           tabBarIcon: ({color, size}) => (
-            <IconA
-              name="alarm-light"
-              size={iconSize}
-              color={color}
-            />
+            <IconA name="alarm-light" size={iconSize} color={color} />
           ),
         }}
       />
@@ -80,11 +86,7 @@ const BottomNaviRouter = ({
         options={{
           tabBarLabel: '마이페이지',
           tabBarIcon: ({color, size}) => (
-            <IconU
-              name="user"
-              size={iconSize}
-              color={color}
-            />
+            <IconU name="user" size={iconSize} color={color} />
           ),
         }}
       />
