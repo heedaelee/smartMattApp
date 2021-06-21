@@ -10,38 +10,38 @@ import ModalOneMenuRow from '~/components/molecules/ModalOneMenuRow';
 import {useSelectedPatient} from '~/hooks/useReduce';
 
 type MenuModalProps = {
-  modalVisible: boolean;
-  setModalVisible: (active: boolean) => void;
+  menuModalVisible: boolean;
+  setMenuModalVisible: (active: boolean) => void;
   goToSensorPage: () => void;
   goToEditPatientPage: () => void;
-  deletePatient: () => void;
+  onPressRemoveButton: () => void;
 };
 
 const MenuModal = ({
-  modalVisible,
-  setModalVisible,
+  menuModalVisible,
+  setMenuModalVisible,
   goToSensorPage,
   goToEditPatientPage,
-  deletePatient,
+  onPressRemoveButton,
 }: MenuModalProps) => {
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
   return (
     <Modal
-      visible={modalVisible}
+      visible={menuModalVisible}
       backdropStyle={styles.backdrop}
-      onBackdropPress={() => setModalVisible(false)}>
+      onBackdropPress={() => setMenuModalVisible(false)}>
       <Card disabled={true} style={styles.cardStyle}>
         <View style={styles.modalNameRow}>
           <MenuText size={'18px'}>{selectedPatientState.name}</MenuText>
         </View>
         <ModalOneMenuRow onPress={goToSensorPage}>접속</ModalOneMenuRow>
         <ModalOneMenuRow onPress={goToEditPatientPage}>편집</ModalOneMenuRow>
-        <ModalOneMenuRow textColor={'red'} onPress={deletePatient}>
+        <ModalOneMenuRow textColor={'red'} onPress={onPressRemoveButton}>
           삭제
         </ModalOneMenuRow>
         <View style={styles.modalButtonRow}>
-          <Button size="small" onPress={() => setModalVisible(false)}>
+          <Button size="small" onPress={() => setMenuModalVisible(false)}>
             닫기
           </Button>
         </View>

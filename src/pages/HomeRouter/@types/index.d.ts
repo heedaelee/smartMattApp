@@ -10,7 +10,10 @@ type HomeStackNaviParamList = {
     screen: '환자 추가' | '환자 상세' | '환자 수정';
   };
   HomeTabRouter: {
-    screen: '환자목록' | '실시간 센서';
+    screen: '환자 목록' | '실시간 센서';
+  };
+  AlarmTabRouter: {
+    screen: '알림 목록' | '알림 셋팅';
   };
   HeatMap: undefined;
 };

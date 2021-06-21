@@ -25,6 +25,7 @@ export type patientEditorProps = {
 const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
+
   const {screen} = route.params;
   console.log(`screen : ${screen}`);
 

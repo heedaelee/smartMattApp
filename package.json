@@ -27,7 +27,7 @@
     "babel-plugin-root-import": "6.6.0",
     "immer": "9.0.2",
     "react": "17.0.1",
-    "react-native": "0.64.0",
+    "react-native": "0.64.2",
     "react-native-base64": "0.2.1",
     "react-native-ble-plx": "2.0.2",
     "react-native-gesture-handler": "1.10.3",

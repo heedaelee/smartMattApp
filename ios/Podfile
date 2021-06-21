@@ -6,14 +6,17 @@ platform :ios, '10.0'
 target 'smartMattApp' do
   config = use_native_modules!
 
+  # Pods for Foot_Care
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral"
+
+
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
   target 'smartMattAppTests' do
     inherit! :complete
     # Pods for testing
