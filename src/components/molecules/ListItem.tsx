@@ -9,34 +9,55 @@ import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import {useSelectedPatient} from '~/hooks/useReduce';
 
-export type PatientListItemProps = {
-  item: any;
-  setModalVisible: (active: boolean) => void;
+export type NormalListItemProps = {
+  item: AlarmItem;
+  setModalVisible?: (active: boolean) => void;
+  setRead?: (item: AlarmItem) => void;
 };
 
 const renderItemIcon = () => (
   <Icon name="person" size={25} color={'#0E76FF'} style={styles.Icon} />
 );
 
-const PatientListItem = ({item, setModalVisible}: PatientListItemProps) => {
+const NormalListItem = ({item, setModalVisible, setRead}: NormalListItemProps) => {
   // console.log(item);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
-  const onListItemPress = (item: any) => {
-    setModalVisible(true);
-    setPatientReducer(item);
-    // console.log(item);
-  };
+  const onListItemPress = setModalVisible
+    ? (item: any) => {
+        setModalVisible(true);
+        setPatientReducer(item);
+        // console.log(item);
+      }
+    : setRead
+    ? (item: any) => {
+        setRead(item);
+      }
+    : () => {};
 
   return (
     <ListItem
       onPress={() => onListItemPress(item)}
       title={evaProps => (
         <View style={{marginBottom: 5}}>
-          <Text {...evaProps}>{item.name}</Text>
+          {item.isRead ? (
+            <Text style={{opacity: 0.5}}>{item.title}</Text>
+          ) : (
+            <Text>{item.title}</Text>
+          )}
         </View>
       )}
-      description={evaProps => <Text {...evaProps}>{item.description}</Text>}
+      description={evaProps =>
+        item.isRead ? (
+          <Text {...evaProps} style={[evaProps?.style, {opacity: 0.8}]}>
+            {item.description}
+          </Text>
+        ) : (
+          <Text {...evaProps} style={[evaProps?.style]}>
+            {item.description}
+          </Text>
+        )
+      }
       accessoryLeft={renderItemIcon}
       style={styles.listItem}
     />
@@ -55,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PatientListItem;
+export default NormalListItem;

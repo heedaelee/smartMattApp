@@ -11,7 +11,7 @@ import Toast from 'react-native-simple-toast';
 import {CircleButton} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
-import PatientListItem from '~/components/molecules/PatientListItem';
+import NormalListItem from '~/components/molecules/ListItem';
 import MenuModal from '~/components/organisms/modal/MenuModal';
 import RemoveModal from '~/components/organisms/modal/RemoveModal';
 import useBoolean from '~/hooks/useBoolean';
@@ -82,7 +82,7 @@ const PatientList = ({navigation}: PatientListProps) => {
             //   PatientListItem(item, setModalVisible)
             // }
             renderItem={({item}: any) => (
-              <PatientListItem item={item} setModalVisible={setMenuModalVisible} />
+              <NormalListItem item={item} setModalVisible={setMenuModalVisible} />
             )}
             scrollEnabled={true}
           />
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     maxHeight: 438,
     width: '100%',
+    backgroundColor: 'white',
   },
   listItem: {
     // borderWidth: 1,

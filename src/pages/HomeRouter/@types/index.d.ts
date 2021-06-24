@@ -22,3 +22,10 @@ type TabRouterParamList = {
   PatientList: undefined;
   HeatMapTemplate: undefined;
 };
+
+type AlarmItem = {
+  id: string;
+  title: string;
+  description: string;
+  isRead: boolean;
+};
