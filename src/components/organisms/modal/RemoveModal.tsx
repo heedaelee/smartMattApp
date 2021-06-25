@@ -21,7 +21,7 @@ const RemoveModal = ({
   setModalVisible,
   deletePatient,
 }: RemoveModalProps) => {
-  console.log(`modalvisible : ${modalVisible}`);
+  // console.log(`modalvisible : ${modalVisible}`);
   return (
     <Modal
       visible={modalVisible}

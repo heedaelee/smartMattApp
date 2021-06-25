@@ -29,3 +29,8 @@ type AlarmItem = {
   description: string;
   isRead: boolean;
 };
+
+type submitAlarmData = {
+  hours?: number;
+  minutes?: number;
+};

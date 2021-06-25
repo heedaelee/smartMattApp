@@ -11,6 +11,7 @@ import {MenuText} from '~/components/atoms/Text';
 import Theme from '~/lib/Theme';
 import useBoolean from '~/hooks/useBoolean';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import AlarmSettingModal from '~/components/organisms/modal/AlarmSettingModal';
 
 type AlarmSettingProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -18,11 +19,22 @@ type AlarmSettingProps = {
 
 const AlarmSetting = ({navigation}: AlarmSettingProps) => {
   const [isFirstAlarm, setIsFirstAlarm] = useBoolean(false);
+  const [alarmModalVisible, setAlarmModalVisible] = useBoolean(false);
 
   console.log(`isFirstAlarm 상태 : ${isFirstAlarm}`);
 
+  //function : open Alarm modal
   const onPressAlarmTime = () => {
     console.log('알람모달 open');
+    setAlarmModalVisible(true);
+  };
+
+  //function : send alarm set-value to API server
+  const submitAlarmData = (
+    hours: submitAlarmData['hours'],
+    minutes: submitAlarmData['minutes'],
+  ) => {
+    console.log(`hour,minutes in submitAlarmData : ${hours} ${minutes}`);
   };
 
   return (
@@ -67,8 +79,12 @@ const AlarmSetting = ({navigation}: AlarmSettingProps) => {
           </View>
           <Divider />
         </View>
+        <AlarmSettingModal
+          modalVisible={alarmModalVisible}
+          setModalVisible={setAlarmModalVisible}
+          submitAlarmData={submitAlarmData}
+        />
       </Container>
-  
     </DownKeyboard>
   );
 };

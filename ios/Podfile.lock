@@ -339,6 +339,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
+  - RNCPicker (1.16.1):
+    - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNPermissions (3.0.4):
@@ -442,6 +444,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -542,6 +545,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/checkbox"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -607,6 +612,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b17c417b356114699a486715adfa5829a5d6d8b9
   RNCCheckbox: 500919ac122273ea8eef93dae01431091968c14a
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
+  RNCPicker: 61c7a0645b9e4ac67960aa7f22a3effcecfdfb8d
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNPermissions: 75128bfb4c4ef92f572a8efdb8adfbfab75e8ed0
   RNReanimated: b8c8004b43446e3c2709fe64b2b41072f87428ad
