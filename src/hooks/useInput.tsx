@@ -10,12 +10,12 @@ import {useState, useCallback} from 'react';
 export default function useInput(defaultValue: any) {
   const [input, setInput] = useState(defaultValue);
 
-  const onChange = useCallback((text: string) => {
+  const onChange = useCallback((text: any) => {
     setInput(text);
     console.log(text);
   }, []);
 
   //아직 안씀
   const onReset = useCallback(() => setInput(''), []);
-  return [input, onChange, onReset] as [string, typeof onChange, typeof onReset];
+  return [input, onChange, onReset] as [any, typeof onChange, typeof onReset];
 }

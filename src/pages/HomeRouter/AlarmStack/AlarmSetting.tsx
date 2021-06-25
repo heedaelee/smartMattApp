@@ -12,6 +12,8 @@ import Theme from '~/lib/Theme';
 import useBoolean from '~/hooks/useBoolean';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import AlarmSettingModal from '~/components/organisms/modal/AlarmSettingModal';
+import Toast from 'react-native-simple-toast';
+import useInput from '~/hooks/useInput';
 
 type AlarmSettingProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -20,6 +22,7 @@ type AlarmSettingProps = {
 const AlarmSetting = ({navigation}: AlarmSettingProps) => {
   const [isFirstAlarm, setIsFirstAlarm] = useBoolean(false);
   const [alarmModalVisible, setAlarmModalVisible] = useBoolean(false);
+  const [alarmTimeValue, setAlarmTimeValue] = useInput({hours: '00', minutes: '00'});
 
   console.log(`isFirstAlarm 상태 : ${isFirstAlarm}`);
 
@@ -34,6 +37,9 @@ const AlarmSetting = ({navigation}: AlarmSettingProps) => {
     hours: submitAlarmData['hours'],
     minutes: submitAlarmData['minutes'],
   ) => {
+    setAlarmModalVisible(false);
+    setAlarmTimeValue({hours: hours, minutes: minutes});
+    Toast.show('알람이 설정되었습니다');
     console.log(`hour,minutes in submitAlarmData : ${hours} ${minutes}`);
   };
 
@@ -60,7 +66,7 @@ const AlarmSetting = ({navigation}: AlarmSettingProps) => {
                 <MenuText
                   style={styles.alarmTimeText}
                   color={isFirstAlarm ? Theme.color.blue : Theme.color.lightGray}>
-                  04:00
+                  {alarmTimeValue.hours} : {alarmTimeValue.minutes}
                 </MenuText>
               </TouchableOpacity>
               <Switch

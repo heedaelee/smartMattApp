@@ -26,7 +26,12 @@ const AlarmSettingModal = ({
 }: AlarmSettingModalProps) => {
   console.log(`modalvisible : ${modalVisible}`);
 
-  //ui-kitten <Modal>컴포넌트의  visible이 아마 값만 들어가면 리랜더링 되는 구조일듯. 그래서 만약 아래 useState를 이 함수 밖에 전역에 셋팅해주고 <TimePicker>같은 내부 컨텐츠 부분에 setState를 해주면, 리랜더링 되면서 계속 visible 부분에 boolean값을 던지므로 무한 리렌더링이 되어 Cannot update during an existing state transition (such as within `render`).에러가 뜬다. 그래서 모달 내부 컨텐츠 부분의 timePicker 값이 변동되더라도 전체 모달 컴포넌트의 proptery인 visible 값이 변경 되지 않도록 컴포넌트를 분기해서 setState도 분기 시키는 구조임.
+  // ui-kitten <Modal>컴포넌트의  visible이 아마 값만 들어가면 리랜더링 되는 구조일듯.
+  //  그래서 만약 아래 useState를 이 함수 밖에 전역에 셋팅해주고 <TimePicker>같은 내부 컨텐츠 부분에 setState를 해주면,
+  //  리랜더링 되면서 계속 visible 부분에 boolean값을 던지므로 무한 리렌더링이 되어 Cannot update during an existing
+  //  state transition (such as within `render`).에러가 뜬다.
+  //  그래서 모달 내부 컨텐츠 부분의 timePicker 값이 변동되더라도 전체 모달 컴포넌트의 proptery인 visible 값이
+  //  변경 되지 않도록 컴포넌트를 분기해서 setState도 분기 시키는 구조임.
   const StatefulModalContent = (props: any) => {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
