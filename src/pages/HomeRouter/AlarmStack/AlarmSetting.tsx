@@ -68,7 +68,7 @@ const AlarmSetting = ({navigation}: AlarmSettingProps) => {
           <Divider />
         </View>
       </Container>
-      
+  
     </DownKeyboard>
   );
 };
