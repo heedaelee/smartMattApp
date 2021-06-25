@@ -71,7 +71,7 @@ const AlarmList = ({navigation}: AlarmListProps) => {
         ) : (
           <View style={styles.emptyTextView}>
             <MenuText style={{alignItems: 'center'}} color={Theme.color.gray}>
-              등록된 환자가 없습니다
+              받은 알림이 없습니다.
             </MenuText>
           </View>
         )}

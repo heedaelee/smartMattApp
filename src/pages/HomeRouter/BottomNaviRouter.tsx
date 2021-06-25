@@ -42,8 +42,8 @@ const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
 const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
   return (
     <Tab.Navigator
-      // FORTEST: initial : HomeStack -> addPatientList
-      initialRouteName="HomeStack"
+      // FORTEST: initial : HomeStack -> AlarmStack
+      initialRouteName="AlarmStack"
       // initialRouteName="PatientEditor"
       tabBarOptions={{
         activeTintColor: '#0E76FF',

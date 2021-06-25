@@ -23,6 +23,7 @@ export default {
     white: '#FFFFFF',
     black: '#000000',
     blue: '#0E76FF',
+    lightGray: '#b4b2b2',
     gray: '#707070',
   },
   fonts: {
