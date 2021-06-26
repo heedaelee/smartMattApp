@@ -26,8 +26,10 @@ const iconSize = Theme._WIDTH / 13;
 
 const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
   tabPress: () => {
-    console.log(navigation);
-    console.log(route);
+    //navugatuib router 체크
+    // console.log(navigation);
+    // console.log(route);
+    
     switch (route.name) {
       case 'HomeStack':
         navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
