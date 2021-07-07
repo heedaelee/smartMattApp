@@ -11,9 +11,11 @@ import {AlarmListDummy} from '~/lib/dummyData/DummyData';
 import {List} from '@ui-kitten/components';
 import NormalListItem from '~/components/molecules/ListItem';
 import {MenuText} from '~/components/atoms/Text';
+import {RouteProp} from '@react-navigation/native';
 
 type AlarmListProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
+  route: RouteProp<HomeStackNaviParamList, any>;
 };
 
 const setRead = (item: any) => {
@@ -32,7 +34,8 @@ const removeReadAlrams = () => {
   console.log(`서버에서 유저가 읽은 알람 삭제`);
 };
 
-const AlarmList = ({navigation}: AlarmListProps) => {
+const AlarmList = ({navigation, route}: AlarmListProps) => {
+
   return (
     <DownKeyboard>
       <Container style={styles.container}>

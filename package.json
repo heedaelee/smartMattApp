@@ -25,6 +25,7 @@
     "@types/redux-logger": "3.0.8",
     "@ui-kitten/components": "5.1.0",
     "@ui-kitten/eva-icons": "5.1.0",
+    "axios": "^0.21.1",
     "babel-plugin-root-import": "6.6.0",
     "immer": "9.0.2",
     "react": "17.0.1",

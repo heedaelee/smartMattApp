@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const AlarmStack = ({}) => {
   const iconSize = Theme._WIDTH / 13;
   const iconColor = 'white';
-  //TEST
+
   return (
     <Stack.Navigator
       initialRouteName="AlarmTabRouter"
@@ -48,7 +48,6 @@ const AlarmStack = ({}) => {
           ),
         })}>
         {() => (
-          //TODO: 탭 라우터 완성
           <TabRouter
             firstTab={{
               name: '알림 목록',

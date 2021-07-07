@@ -16,6 +16,7 @@ import useBoolean from '~/hooks/useBoolean';
 import useInput from '~/hooks/useInput';
 import {useSelectedPatient} from '~/hooks/useReduce';
 import DownKeyboard from '~/lib/DownKeyboard';
+import Axios from 'axios';
 
 export type patientEditorProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -43,8 +44,12 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   const [isPatientCondition, setIsPatientCondition] = useBoolean(false);
 
   //TODO: 선택된 환자 추가및 수정 서버 데이터 비동기 전송 로직 해야함
-  const onAddPatientSubmit = () => {
-    console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+  const onAddPatientSubmit = async () => {
+    await Axios.get('http://10.0.2.2:4000/api')
+      .then(res => console.dir(res))
+      .catch(e => console.log(e));
+    // console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+
     if (screen === '환자 수정') {
       Toast.show('수정했습니다');
     }

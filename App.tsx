@@ -6,22 +6,16 @@ import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Platform, LogBox} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components';
-import {
-  UserContext,
-  UserProvider,
-} from '~/lib/userProvider/UserProvider';
+import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
 import Theme from './src/lib/Theme';
 import HomeRouter from './src/routes/HomeRouter';
 import LoginRouter from './src/routes/LoginRouter';
-import {
-  request,
-  PERMISSIONS,
-  RESULTS,
-} from 'react-native-permissions';
+import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
@@ -42,32 +36,24 @@ const App = () => {
 
   const askPermission = async () => {
     try {
-      const result = await request(
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-      );
+      const result = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
       if (result !== RESULTS.GRANTED) {
-        Toast.show(
-          '권한설정을 해주세요. 기기설정이 제한됩니다.',
-        );
+        Toast.show('권한설정을 해주세요. 기기설정이 제한됩니다.');
       }
     } catch (e) {
       console.log(e);
     }
   };
   const autoLogin = async () => {
-    await AsyncStorage.getItem('@loginInfo').then(
-      (res: any) => {
-        const data = JSON.parse(res);
-        if (data != null) {
-          //TODO: 나중에 서버랑 Token 비교
-        }
-      },
-    );
+    await AsyncStorage.getItem('@loginInfo').then((res: any) => {
+      const data = JSON.parse(res);
+      if (data != null) {
+        //TODO: 나중에 서버랑 Token 비교
+      }
+    });
   };
 
-  console.log(
-    `App랜더링 하고 값 ${JSON.stringify(isLogin)}`,
-  );
+  console.log(`App랜더링 하고 값 ${JSON.stringify(isLogin)}`);
   //TODO: user 정보 가져오기
 
   /* LocalStorage에 getToken하여 choicing router 하는 방법
@@ -104,6 +90,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
+        <IconRegistry icons={EvaIconsPack} />
         <ApplicationProvider {...eva} theme={eva.light}>
           <ThemeProvider theme={Theme}>
             {/* <Provider store={store}> */}

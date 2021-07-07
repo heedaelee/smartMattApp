@@ -24,12 +24,16 @@ export type BottomNaviRouterProps = {
 
 const iconSize = Theme._WIDTH / 13;
 
+//NOTE:리스너 만든 이유:
+//bottom navigation 선택 전환시 이전 stack이 초기화가 안되서 내용이 남아 있음.
+//그래서 탭 같은 경우 두번째 탭을 선택한 후 다른 하단네비 선택후에도 두번째 선택으로 남아 있기에 리스너에서
+//각 하단 네비의 첫 탭 스크린으로 초기화 시켜주는 역할
 const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
   tabPress: () => {
     //navugatuib router 체크
     // console.log(navigation);
     // console.log(route);
-    
+
     switch (route.name) {
       case 'HomeStack':
         navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
@@ -44,8 +48,8 @@ const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
 const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
   return (
     <Tab.Navigator
-      // FORTEST: initial : HomeStack -> AlarmStack
-      initialRouteName="AlarmStack"
+      // FORTEST: initial : HomeStack -> MypageStack
+      initialRouteName="MypageStack"
       // initialRouteName="PatientEditor"
       tabBarOptions={{
         activeTintColor: '#0E76FF',
@@ -83,7 +87,7 @@ const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
         }}
       />
       <Tab.Screen
-        name="MyPage"
+        name="MypageStack"
         component={MyPageStack}
         options={{
           tabBarLabel: '마이페이지',
