@@ -45,9 +45,10 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   //TODO: 선택된 환자 추가및 수정 서버 데이터 비동기 전송 로직 해야함
   const onAddPatientSubmit = async () => {
-    await Axios.get('http://10.0.2.2:4000/api')
-      .then(res => console.dir(res))
-      .catch(e => console.log(e));
+    //NOTE:에뮬 -> node 통신 프로토콜
+    // await Axios.get('http://10.0.2.2:4000/api')
+    //   .then(res => console.dir(res))
+    //   .catch(e => console.log(e));
     // console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
 
     if (screen === '환자 수정') {
@@ -109,7 +110,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           />
           <View style={{marginTop: 25}} />
           <TextBox
-            menutText={'환자 상태'}
+            menuText={'환자 상태'}
             value={patientCondition}
             setValue={setPatientCondition}
             placeholder={'150자 이내 작성해주세요'}

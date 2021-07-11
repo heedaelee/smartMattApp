@@ -1,23 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { StackNavigationProp } from '@react-navigation/stack';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {
-  Keyboard,
-  TouchableWithoutFeedback
-} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import styled from 'styled-components/native';
-import { Button } from '~/components/atoms/Button';
-import { Container } from '~/components/atoms/Container';
+import {Button} from '~/components/atoms/Button';
+import {Container} from '~/components/atoms/Container';
 import InputBox from '~/components/molecules/InputBox';
 import Theme from '~/lib/Theme';
 
 type SignUpTemplateProps = {
-  navigation: StackNavigationProp<
-    LoginStackNaviParamList,
-    'SignUp'
-  >;
+  navigation: StackNavigationProp<LoginStackNaviParamList, 'SignUp'>;
   email: string;
   password: string;
   password2: string;
@@ -26,7 +20,12 @@ type SignUpTemplateProps = {
   setPassword2: (active: string) => void;
   emailCheckSubmit: (active: string) => void;
   validation: {
-    email: any;
+    email: {
+      isEmail: boolean;
+      setIsEmail: (active: boolean) => void;
+      checkedExist: string;
+      setCheckedExist: (active: string) => void;
+    };
     password: {
       isPassword: boolean;
       setIsPassword: (active: boolean) => void;
@@ -61,12 +60,12 @@ const SignUpTemplate = ({
           validationType={'email'}
           setValidationToggle={validation.email.setIsEmail}
           validationState={validation.email.isEmail}
+          checkedExist={validation.email.checkedExist}
+          setCheckedExist={validation.email.setCheckedExist}
         />
         <SmallButtonView>
           {validation.email.isEmail ? (
-            <Button
-              onPress={emailCheckSubmit}
-              size={'small'}>
+            <Button onPress={emailCheckSubmit} size={'small'}>
               이메일 확인
             </Button>
           ) : (
@@ -80,15 +79,11 @@ const SignUpTemplate = ({
         <InputBox
           secureTextEntry={true}
           menuText={'비밀번호를 입력해주세요'}
-          placeholder={
-            '비밀번호는 8~20자 이내 숫자,영어,특수기호를 포함해주세요'
-          }
+          placeholder={'비밀번호는 8~20자 이내 숫자,영어,특수기호를 포함해주세요'}
           setState={setPassword}
           state={password}
           validationType={'password'}
-          setValidationToggle={
-            validation.password.setIsPassword
-          }
+          setValidationToggle={validation.password.setIsPassword}
           validationState={validation.password.isPassword}
         />
         <RowView />
@@ -100,16 +95,14 @@ const SignUpTemplate = ({
           state={password2}
           state2={password}
           validationType={'password2'}
-          setValidationToggle={
-            validation.password.setIsPassword2
-          }
+          setValidationToggle={validation.password.setIsPassword2}
           validationState={validation.password.isPassword2}
         />
         <RowView />
-        {/* TODO: input invalid 상태일떈 disabled:true 주기! */}
         {validation.email.isEmail &&
         validation.password.isPassword &&
-        validation.password.isPassword2 ? (
+        validation.password.isPassword2 &&
+        validation.email.checkedExist === 'success' ? (
           <Button onPress={moveToSignUp2}>계속하기</Button>
         ) : (
           <Button disabled={true}>계속하기</Button>

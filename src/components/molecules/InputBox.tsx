@@ -18,6 +18,8 @@ type InputBoxProps = {
   validationType?: string;
   validationState?: boolean;
   setValidationToggle?: (active: boolean) => void;
+  checkedExist?: string;
+  setCheckedExist?: (active: string) => void;
 };
 
 const InputBox = ({
@@ -31,6 +33,8 @@ const InputBox = ({
   validationType,
   setValidationToggle, //validation boolean value set 하는 함수
   validationState, //validation boolean value
+  setCheckedExist,
+  checkedExist,
 }: InputBoxProps) => {
   return (
     <InputBoxWrapper>
@@ -49,6 +53,8 @@ const InputBox = ({
           state2={state2}
           validationState={validationState}
           setValidationToggle={setValidationToggle}
+          checkedExist={checkedExist}
+          setCheckedExist={setCheckedExist}
         />
       ) : null}
       {children}

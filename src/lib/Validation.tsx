@@ -5,6 +5,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleProp, Text, TextStyle} from 'react-native';
 import {ErrorText} from '~/components/atoms/Text';
+import Theme from './Theme';
 
 interface ValidationProps {
   type: string;
@@ -12,6 +13,8 @@ interface ValidationProps {
   state2?: string;
   validationState?: boolean;
   setValidationToggle?: (active: boolean) => void;
+  checkedExist?: string;
+  setCheckedExist?: (active: string) => void;
   errorTextStyle?: StyleProp<TextStyle>;
 }
 
@@ -21,8 +24,12 @@ export const Validation = ({
   state2,
   validationState,
   setValidationToggle,
+  checkedExist,
+  setCheckedExist,
   errorTextStyle,
 }: ValidationProps): any | undefined => {
+  //changeState 만든 이유 : changeState 값을 변경해줘서 이 페이지를
+  //리랜더링 시킨다. 안해주면 그냥 타이핑으로 조건만 타고 끝남.
   const [chanegState, setChangeState] = useState(false);
   // console.log('vali 호출')
 
@@ -47,26 +54,35 @@ export const Validation = ({
   switch (type) {
     case 'email': {
       //불만족
-      if (
-        state !== '' &&
-        (state.indexOf('@') === -1 || state.length < 7)
-      ) {
+      if (state !== '' && (state.indexOf('@') === -1 || state.length < 7)) {
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText>
-            메일형식에 맞게 작성해주세요
-          </ErrorText>
-        );
+        return <ErrorText>메일형식에 맞게 작성해주세요</ErrorText>;
       }
       //만족
       if (!chanegState) {
         setChangeState(true);
       }
+
+      //불만족 : 이메일 중복체크 후 중복일때
+      switch (checkedExist) {
+        case '': {
+          return <ErrorText>이메일 중복 확인을 해주세요</ErrorText>;
+        }
+        case 'fail': {
+          return <ErrorText>이미 존재하는 이메일입니다.</ErrorText>;
+        }
+        case 'success': {
+          return (
+            <ErrorText color={Theme.color.green}>사용가능한 이메일입니다.</ErrorText>
+          );
+        }
+      }
       // console.log(
       //   `호출됨?  state: ${state} validationState : ${validationState} `,
       // );
+
       return <></>;
     }
     case 'password': {
@@ -74,37 +90,26 @@ export const Validation = ({
 
       const num = password.search(/[0-9]/g);
       const eng = password.search(/[a-z]/gi);
-      const spe = password.search(
-        /[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi,
-      );
+      const spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
       //불만족
       if (password.length < 8 || password.length > 20) {
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText>
-            8자리 ~ 20자리 이내로 입력해주세요:)
-          </ErrorText>
-        );
+        return <ErrorText>8자리 ~ 20자리 이내로 입력해주세요:)</ErrorText>;
       }
       if (password.search(/₩s/) !== -1) {
-        return (
-          <ErrorText>공백없이 입력해주세요:)</ErrorText>
-        );
+        return <ErrorText>공백없이 입력해주세요:)</ErrorText>;
       }
       if (num < 0 || eng < 0 || spe < 0) {
-        return (
-          <ErrorText>
-            영문, 숫자, 특수문자를 혼합해 주세요:)
-          </ErrorText>
-        );
+        return <ErrorText>영문, 숫자, 특수문자를 혼합해 주세요:)</ErrorText>;
       }
       //만족
       if (!chanegState) {
         setChangeState(true);
       }
+
       return <></>;
     }
     case 'password2': {
@@ -117,11 +122,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText>
-            비밀번호가 동일한지 다시한번 확인해 주세요:)
-          </ErrorText>
-        );
+        return <ErrorText>비밀번호가 동일한지 다시한번 확인해 주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -134,27 +135,33 @@ export const Validation = ({
       //1. 모두 숫자인지 체크
       const checkNum = Number.isInteger(Number(num));
       //2. 앞 세자리가 010으로 시작하는지 체크
-      const checkStartNum =
-        num.slice(0, 3) === '010' ? true : false;
+      const checkStartNum = num.slice(0, 3) === '010' ? true : false;
       //3. 010을 제외한 나머지 숫자가 7 혹은 8자리인지 체크
       const checkLength =
-        num.slice(3).length === 7 ||
-        num.slice(3).length === 8
-          ? true
-          : false;
+        num.slice(3).length === 7 || num.slice(3).length === 8 ? true : false;
       if (!checkNum || !checkStartNum || !checkLength) {
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText>
-            휴대폰 번호를 확인해 주세요:)
-          </ErrorText>
-        );
+        return <ErrorText>휴대폰 번호를 확인해 주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
         }
+
+        //불만족 : 이메일 중복체크 후 중복일때
+        switch (checkedExist) {
+          case '': {
+            return <ErrorText>인증번호 전송 버튼을 눌러주세요.</ErrorText>;
+          }
+          case 'fail': {
+            return <ErrorText>이미 존재하는 번호입니다.</ErrorText>;
+          }
+          case 'success': {
+            return <></>;
+          }
+        }
+
         return <></>;
       }
     }
@@ -166,9 +173,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText>인증번호를 확인해 주세요:)</ErrorText>
-        );
+        return <ErrorText>인증번호를 확인해 주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -183,11 +188,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText style={errorTextStyle}>
-            20자 이내로 입력해주세요:)
-          </ErrorText>
-        );
+        return <ErrorText style={errorTextStyle}>20자 이내로 입력해주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -197,19 +198,12 @@ export const Validation = ({
     }
     case 'ssidPassword': {
       const ssidPassword = state;
-      if (
-        ssidPassword.length < 8 ||
-        ssidPassword.length >= 20
-      ) {
+      if (ssidPassword.length < 8 || ssidPassword.length >= 20) {
         console.log(ssidPassword.length);
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText style={errorTextStyle}>
-            8~20자 내로 입력해주세요:)
-          </ErrorText>
-        );
+        return <ErrorText style={errorTextStyle}>8~20자 내로 입력해주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -223,11 +217,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText style={errorTextStyle}>
-            10자 내로 입력해주세요:)
-          </ErrorText>
-        );
+        return <ErrorText style={errorTextStyle}>10자 내로 입력해주세요:)</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -241,11 +231,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText style={errorTextStyle}>
-            기기코드는 6자리입니다
-          </ErrorText>
-        );
+        return <ErrorText style={errorTextStyle}>기기코드는 6자리입니다</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);
@@ -259,11 +245,7 @@ export const Validation = ({
         if (chanegState) {
           setChangeState(false);
         }
-        return (
-          <ErrorText style={errorTextStyle}>
-            150자 이하로 작성해주세요
-          </ErrorText>
-        );
+        return <ErrorText style={errorTextStyle}>150자 이하로 작성해주세요</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);

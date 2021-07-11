@@ -3,10 +3,7 @@
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
@@ -26,6 +23,7 @@ type SignUp2TemplateProps = {
     isphoneAuthNmbr: boolean;
     bioDataAgree: boolean;
     privateDataAgree: boolean;
+    checkedExist: string;
   };
   setState: {
     setPhoneNmbr: (active: string) => void;
@@ -34,6 +32,7 @@ type SignUp2TemplateProps = {
     setIsphoneAuthNmbr: (active: boolean) => void;
     setBioDataAgree: (active: boolean) => void;
     setPrivateDataAgree: (active: boolean) => void;
+    setCheckedExist: (active: string) => void;
   };
   phoneNmbrSender: () => void;
   phoneAuthNmbrSender: () => void;
@@ -63,6 +62,7 @@ const SignUp2Template = ({
     isphoneAuthNmbr,
     bioDataAgree,
     privateDataAgree,
+    checkedExist,
   } = state;
   const {
     setPhoneNmbr,
@@ -71,6 +71,7 @@ const SignUp2Template = ({
     setIsphoneAuthNmbr,
     setBioDataAgree,
     setPrivateDataAgree,
+    setCheckedExist,
   } = setState;
 
   return (
@@ -85,12 +86,11 @@ const SignUp2Template = ({
           validationType={'phone'}
           setValidationToggle={setIsPhone}
           validationState={isPhone}
+          checkedExist={checkedExist}
         />
         <SmallButtonView>
           {isPhone ? (
-            <Button
-              onPress={phoneNmbrSender}
-              size={'small'}>
+            <Button onPress={phoneNmbrSender} size={'small'}>
               인증번호 전송
             </Button>
           ) : (
@@ -113,9 +113,7 @@ const SignUp2Template = ({
         />
         <SmallButtonView2>
           {isphoneAuthNmbr ? (
-            <Button
-              onPress={phoneAuthNmbrSender}
-              size={'small'}>
+            <Button onPress={phoneAuthNmbrSender} size={'small'}>
               인증하기
             </Button>
           ) : (
@@ -125,10 +123,7 @@ const SignUp2Template = ({
           )}
         </SmallButtonView2>
         <RowTextView>
-          <MenuText
-            textAlign={'left'}
-            size={'14px'}
-            color={Theme.color.gray}>
+          <MenuText textAlign={'left'} size={'14px'} color={Theme.color.gray}>
             {'매트 사용을 위한 아래 동의가 필요합니다'}
           </MenuText>
         </RowTextView>
@@ -148,10 +143,7 @@ const SignUp2Template = ({
           {'이용 및 개인정보 취급약관 동의(필수)'}
         </AgreeCheckForm>
         <RowView />
-        {isPhone &&
-        isphoneAuthNmbr &&
-        bioDataAgree &&
-        privateDataAgree ? (
+        {isPhone && isphoneAuthNmbr && bioDataAgree && privateDataAgree ? (
           <Button
             disabled={false}
             onPress={() =>

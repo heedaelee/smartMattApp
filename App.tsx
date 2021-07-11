@@ -16,17 +16,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/modules';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
 
   //FORTEST: 작동하는 기능. For TEST 주석처리
   /* origin */
-  // const isLogin = useSelector(
-  //   (state: RootState) => state.user.isLogin,
-  // );
+  const isLogin = useSelector(
+    (state: RootState) => state.user.isLogin,
+  );
   /* Temp */
-  const isLogin = true;
+  // const isLogin = true;
+
   const {getUserInfo} = useContext(UserContext);
 
   useEffect(() => {

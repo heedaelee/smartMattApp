@@ -9,7 +9,7 @@ import {Validation} from '~/lib/Validation';
 import {MenuText} from '../atoms/Text';
 
 type TextBoxProps = {
-  menutText: string;
+  menuText: string;
   menuTextAlign?: 'left' | 'center' | 'right';
   placeholder?: string;
   value: string;
@@ -20,7 +20,7 @@ type TextBoxProps = {
 };
 
 const TextBox = ({
-  menutText,
+  menuText,
   menuTextAlign,
   placeholder,
   value,
@@ -32,7 +32,7 @@ const TextBox = ({
   return (
     <TextBoxWrapper>
       <MenuText textAlign={menuTextAlign || 'left'}>
-        {menutText}
+        {menuText}
       </MenuText>
       <View style={{marginTop: 10}} />
       <Input
