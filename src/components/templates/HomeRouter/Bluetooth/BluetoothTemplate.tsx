@@ -130,7 +130,7 @@ const BluetoothTemplate = ({
           {!isBleConn && (
             <ErrorText
               size={'16px'}
-              style={{marginTop: 50, color: '#ff8080'}}>
+              style={{marginTop: 100, color: '#ff8080'}}>
               휴대폰의 블루투스 기능을 켜주세요
             </ErrorText>
           )}
