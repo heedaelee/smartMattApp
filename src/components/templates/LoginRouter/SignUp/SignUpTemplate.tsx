@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
 import InputBox from '~/components/molecules/InputBox';
+import DownKeyboard from '~/lib/DownKeyboard';
 import Theme from '~/lib/Theme';
 
 type SignUpTemplateProps = {
@@ -15,9 +15,11 @@ type SignUpTemplateProps = {
   email: string;
   password: string;
   password2: string;
+  name: string;
   setEmail: (active: string) => void;
   setPassword: (active: string) => void;
   setPassword2: (active: string) => void;
+  setName: (active: string) => void;
   emailCheckSubmit: (active: string) => void;
   validation: {
     email: {
@@ -32,6 +34,10 @@ type SignUpTemplateProps = {
       isPassword2: boolean;
       setIsPassword2: (active: boolean) => void;
     };
+    name: {
+      isName: boolean;
+      setIsName: (active: boolean) => void;
+    };
   };
   moveToSignUp2: () => void;
 };
@@ -42,15 +48,17 @@ const SignUpTemplate = ({
   email,
   password,
   password2,
+  name,
   setEmail,
   emailCheckSubmit,
   setPassword,
   setPassword2,
+  setName,
   validation,
   moveToSignUp2,
 }: SignUpTemplateProps) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <DownKeyboard>
       <Container>
         <InputBox
           menuText={'이메일을 입력해주세요'}
@@ -99,16 +107,28 @@ const SignUpTemplate = ({
           validationState={validation.password.isPassword2}
         />
         <RowView />
+        <InputBox
+          maxLength={10}
+          menuText={'사용할 이름을 입력해주세요'}
+          placeholder={'이름은 10자까지 입력 가능합니다'}
+          setState={setName}
+          state={name}
+          validationType={'name'}
+          setValidationToggle={validation.name.setIsName}
+          validationState={validation.name.isName}
+        />
+        <RowView />
         {validation.email.isEmail &&
         validation.password.isPassword &&
         validation.password.isPassword2 &&
+        validation.name.isName &&
         validation.email.checkedExist === 'success' ? (
           <Button onPress={moveToSignUp2}>계속하기</Button>
         ) : (
           <Button disabled={true}>계속하기</Button>
         )}
       </Container>
-    </TouchableWithoutFeedback>
+    </DownKeyboard>
   );
 };
 

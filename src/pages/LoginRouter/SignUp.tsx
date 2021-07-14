@@ -24,11 +24,13 @@ const SignUp = ({navigation}: SignUpProps) => {
   const [email, setEmail] = useInput('');
   const [password, setPassword] = useInput('');
   const [password2, setPassword2] = useInput('');
+  const [name, setName] = useInput('');
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
   const [isEmail, setIsEmail] = useBoolean(false);
   const [isPassword, setIsPassword] = useBoolean(false);
   const [isPassword2, setIsPassword2] = useBoolean(false);
+  const [isName, setIsName] = useBoolean(false);
 
   //코드성 변수 : unchecked = '', duplicated = 'fail', fine = 'success'
   const [checkedExist, setCheckedExist] = useInput('');
@@ -61,6 +63,8 @@ const SignUp = ({navigation}: SignUpProps) => {
     navigation.navigate('SignUp2', {
       email: email,
       password: password,
+      //7/13 추가
+      username: name,
     });
   };
 
@@ -70,9 +74,11 @@ const SignUp = ({navigation}: SignUpProps) => {
       email={email}
       password={password}
       password2={password2}
+      name={name}
       setEmail={setEmail}
       setPassword={setPassword}
       setPassword2={setPassword2}
+      setName={setName}
       validation={{
         email: {isEmail, setIsEmail, checkedExist, setCheckedExist},
         password: {
@@ -80,6 +86,10 @@ const SignUp = ({navigation}: SignUpProps) => {
           setIsPassword,
           isPassword2,
           setIsPassword2,
+        },
+        name: {
+          isName,
+          setIsName,
         },
       }}
       emailCheckSubmit={emailCheckSubmit}

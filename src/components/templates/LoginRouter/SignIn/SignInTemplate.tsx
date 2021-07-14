@@ -86,7 +86,7 @@ const SignInTemplate = ({
   );
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <DownKeyboard>
       <Container>
         <LogoWrapper>
           <Logo source={require('~/asset/img/logo.png')} />
@@ -152,7 +152,7 @@ const SignInTemplate = ({
           </RowView>
         </LoginWrapper>
       </Container>
-    </TouchableWithoutFeedback>
+    </DownKeyboard>
   );
 };
 

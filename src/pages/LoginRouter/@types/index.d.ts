@@ -3,7 +3,7 @@
 type LoginStackNaviParamList = {
   SignIn: undefined;
   SignUp: undefined;
-  SignUp2: {email: string; password: string};
+  SignUp2: {email: string; password: string; username: string};
   SignUpBioDataAgree: undefined;
   SignUpPrivateAgree: undefined;
 };
@@ -15,6 +15,7 @@ type TabFirstStackNaviParamList = {
 };
 
 type registrySubmitParamList = {
+  username: string;
   isLogin: boolean;
   email: string;
   password: string;

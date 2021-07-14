@@ -5,15 +5,14 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {
-  Keyboard,
   Switch,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import styled from 'styled-components/native';
 import {Container} from '~/components/atoms/Container';
 import {ErrorText, MenuText} from '~/components/atoms/Text';
 import {BlePageRoundButtonRow} from '~/components/molecules/ButtonRow';
 import InfoTextRow from '~/components/molecules/InfoTextRow';
+import DownKeyboard from '~/lib/DownKeyboard';
 import Theme from '~/lib/Theme';
 
 const _WIDTH = Theme._WIDTH;
@@ -97,7 +96,7 @@ const BluetoothTemplate = ({
     padding: 0,
   };
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <DownKeyboard>
       <Container style={{backgroundColor: '#0E76FF'}}>
         <HeaderView>
           <MenuText color={'white'} size={'27px'}>
@@ -175,7 +174,7 @@ const BluetoothTemplate = ({
           />
         </OtherContentsView>
       </Container>
-    </TouchableWithoutFeedback>
+    </DownKeyboard>
   );
 };
 

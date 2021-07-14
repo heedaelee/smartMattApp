@@ -46,24 +46,25 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
     await Axios.post(NODE_API + Auth.IS_PHONE_API, postData, jsonHeader).then(res => {
       if (res.data.success) {
         if (res.data.used) {
-          console.log('진행됨s')
+          console.log('진행됨s');
           setCheckedExist('fail');
         } else {
           setCheckedExist('success');
+          Toast.showWithGravity('인증번호를 전송했습니다', Toast.SHORT, Toast.CENTER);
         }
       } else {
         console.log('phoneNmbrSender server api fail');
         console.dir(res.data);
       }
     });
-
-    Toast.showWithGravity('인증번호를 전송했습니다', Toast.SHORT, Toast.CENTER);
   };
 
   //최종 폰인증을 위한 함수
   const phoneAuthNmbrSender = () => {
     //TODO: 폰인증을 위한 함수
     console.log(`PhoneAuthNum to sender : ${phoneAuthNmbr}`);
+
+    //input창 disable을 위함
     Toast.showWithGravity('인증 완료 :)', Toast.SHORT, Toast.CENTER);
   };
 
@@ -73,24 +74,47 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
     console.log(value);
     try {
       const postData = JSON.stringify({
+        username: value.username,
         email: value.email,
         password: value.password,
         loginType: value.loginType,
-        isAutoLogin: true,
+        phoneNmbr: value.phoneNmbr,
       });
 
       await Axios.post(NODE_API + Auth.SIGN_UP_API, postData, jsonHeader)
         .then(async res => {
+          console.log('test');
+          console.dir(res);
           // response : success, token
           if (res.data.success) {
-            //나중에 api 통신후..
-            // token: res.data.token,
-            await AsyncStorage.setItem('@loginInfo', postData);
-            const storageValue = await AsyncStorage.getItem('@loginInfo');
-            console.log(`storageValue : ${storageValue}`);
-            setUserReducer(value);
-            console.log('reduce 셋 완료');
-            //이동
+
+            //로그인 api 호출
+            Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(
+              async res => {
+                // response : success, token
+                if (res.data.success) {
+                  //성공 로직 : 토큰 받기
+                  // token: res.data.token,
+                  //아래 storage에 저장
+                  
+                  await AsyncStorage.setItem('@loginInfo', JSON.stringify(value));
+                  const storageValue = await AsyncStorage.getItem('@loginInfo');
+                  console.log(`storageValue : ${storageValue}`);
+                  setUserReducer(value);
+                  console.log('reduce 셋 완료');
+
+                  //이동
+                } else {
+                  Alert.alert('로그인 정보를 확인해주세요');
+                }
+              },
+            );
+          } else {
+            if (res.data.message === 'email already used') {
+              Alert.alert('이미 가입된 이메일입니다.');
+            } else {
+              Alert.alert('관리자에게 문의하세요.');
+            }
           }
         })
         .catch(err => {

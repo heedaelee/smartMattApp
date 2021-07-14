@@ -28,8 +28,9 @@ export const Validation = ({
   setCheckedExist,
   errorTextStyle,
 }: ValidationProps): any | undefined => {
-  //changeState 만든 이유 : changeState 값을 변경해줘서 이 페이지를
-  //리랜더링 시킨다. 안해주면 그냥 타이핑으로 조건만 타고 끝남.
+  //changeState 만든 이유 : Cannot update a component (`SignUp`) while rendering a different component (`Validation`).
+  //위 에러 땜에. useEffect()를 만들어줘서 setValidationToggle()을 해줘야지 switch 내부문에서 setValidationToggle(true)
+  //을 하면 훅 에러 뜸
   const [chanegState, setChangeState] = useState(false);
   // console.log('vali 호출')
 
@@ -46,6 +47,11 @@ export const Validation = ({
       if (!chanegState && validationState) {
         console.log(`validationState가 ${validationState} 일때
       -> false로 `);
+        //만약 중복 체크시 중복값 존재시, 다시 타이핑 하면 중복체크stat를 검사전 코드로 초기화시켜줘야 함
+        if (checkedExist === 'fail' && setCheckedExist) {
+          console.log('setCheckedExist()호출');
+          setCheckedExist('');
+        }
         setValidationToggle(false);
       }
     }
@@ -79,9 +85,6 @@ export const Validation = ({
           );
         }
       }
-      // console.log(
-      //   `호출됨?  state: ${state} validationState : ${validationState} `,
-      // );
 
       return <></>;
     }
@@ -158,7 +161,9 @@ export const Validation = ({
             return <ErrorText>이미 존재하는 번호입니다.</ErrorText>;
           }
           case 'success': {
-            return <></>;
+            return (
+              <ErrorText color={Theme.color.green}>사용가능한 휴대폰입니다.</ErrorText>
+            );
           }
         }
 
@@ -246,6 +251,21 @@ export const Validation = ({
           setChangeState(false);
         }
         return <ErrorText style={errorTextStyle}>150자 이하로 작성해주세요</ErrorText>;
+      } else {
+        if (!chanegState) {
+          setChangeState(true);
+        }
+        return <></>;
+      }
+    }
+
+    case 'name': {
+      const userName = state;
+      if (userName.length > 10) {
+        if (chanegState) {
+          setChangeState(false);
+        }
+        return <ErrorText style={errorTextStyle}>10자 이하로 작성해주세요</ErrorText>;
       } else {
         if (!chanegState) {
           setChangeState(true);

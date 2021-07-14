@@ -6,6 +6,7 @@ import {Keyboard} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native';
 import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
+import DownKeyboard from '~/lib/DownKeyboard';
 
 type SignUpPrivateAgreeProps = {
   navigation: StackNavigationProp<
@@ -18,11 +19,11 @@ const SignUpPrivateAgree = ({
   navigation,
 }: SignUpPrivateAgreeProps) => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <DownKeyboard>
       <Container>
         <MenuText>개인정보 취급약관</MenuText>
       </Container>
-    </TouchableWithoutFeedback>
+    </DownKeyboard>
   );
 };
 

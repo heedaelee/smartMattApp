@@ -3,7 +3,6 @@
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
@@ -50,9 +49,10 @@ const SignUp2Template = ({
 }: SignUp2TemplateProps) => {
   //TODO: 임시로 테스트 위해 주석, 나중에 품 5/11
   // const {email, password} = route.params;
-  const {email, password} = {
+  const {email, password, username} = {
     email: '111@google.com',
     password: 'qqqqqq@1',
+    username: 'test',
   };
 
   const {
@@ -86,6 +86,7 @@ const SignUp2Template = ({
           validationType={'phone'}
           setValidationToggle={setIsPhone}
           validationState={isPhone}
+          setCheckedExist={setCheckedExist}
           checkedExist={checkedExist}
         />
         <SmallButtonView>
@@ -102,7 +103,7 @@ const SignUp2Template = ({
         <RowView />
         {/* NOTE:인증번호 입력 Done: vali*/}
         <InputBox
-          secureTextEntry={true}
+          secureTextEntry={false}
           menuText={'인증번호를 입력해주세요'}
           placeholder={'숫자 4자리'}
           setState={setPhoneAuthNmbr}
@@ -110,6 +111,10 @@ const SignUp2Template = ({
           validationType={'phoneAuth'}
           validationState={isphoneAuthNmbr}
           setValidationToggle={setIsphoneAuthNmbr}
+          keyboardType={'number-pad'}
+          maxLength={4}
+          //disabled을 위해..
+          // checkedExist={checkedExist}
         />
         <SmallButtonView2>
           {isphoneAuthNmbr ? (
@@ -143,15 +148,22 @@ const SignUp2Template = ({
           {'이용 및 개인정보 취급약관 동의(필수)'}
         </AgreeCheckForm>
         <RowView />
-        {isPhone && isphoneAuthNmbr && bioDataAgree && privateDataAgree ? (
+
+        {/* NOTES:original */}
+        {/* {isPhone &&
+        isphoneAuthNmbr &&
+        bioDataAgree &&
+        privateDataAgree &&
+        checkedExist === 'success' ? (
           <Button
             disabled={false}
             onPress={() =>
               registrySubmit({
+                username,
                 email,
                 password,
                 phoneNmbr,
-                loginType: 'email',
+                loginType: 'e', //email
                 isAutoLogin: true,
                 isLogin: true,
               })
@@ -160,7 +172,24 @@ const SignUp2Template = ({
           </Button>
         ) : (
           <Button disabled={true}>등록하기</Button>
-        )}
+        )} */}
+
+        {/* FORTEST */}
+        <Button
+          disabled={false}
+          onPress={() =>
+            registrySubmit({
+              username: 'david',
+              email: '112@112.com',
+              password: '1234566',
+              loginType: 'e',
+              phoneNmbr: '0100000001',
+              isAutoLogin: true,
+              isLogin: true,
+            })
+          }>
+          등록하기
+        </Button>
       </Container>
     </DownKeyboard>
   );

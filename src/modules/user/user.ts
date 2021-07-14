@@ -8,6 +8,7 @@ import produce from 'immer'; */
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export type UserState = {
+  username: string;
   isLogin: boolean;
   email: string;
   password: string;
@@ -34,6 +35,7 @@ const actions = {setUser};
 type UserAction = ActionType<typeof actions>; */
 
 export const initialState: UserState = {
+  username: '',
   isLogin: false,
   email: '',
   password: '',
@@ -51,10 +53,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(
-      state,
-      action: PayloadAction<registrySubmitParamList>,
-    ) {
+    setUser(state, action: PayloadAction<registrySubmitParamList>) {
+      state.username = action.payload.username;
       state.email = action.payload.email;
       state.isLogin = action.payload.isLogin;
       state.loginType = action.payload.loginType;
