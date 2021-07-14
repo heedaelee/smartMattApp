@@ -10,6 +10,7 @@ import HeatMap from '~/pages/HomeRouter/HomeStack/HeatMap';
 import PatientList from '~/pages/HomeRouter/HomeStack/PatientList';
 import TabRouter from '../TabRouter';
 import PatientEditor from './PatientEditor';
+import AddDevice from './AddDevice';
 
 // export type SignInProps = {
 //   navigation: StackNavigationProp<any, 'SignIn'>;
@@ -25,7 +26,7 @@ const HomeStack = () => {
   return (
     // <Button title={'logout'} onPress={() => logout()} />
     <Stack.Navigator
-      initialRouteName="HomeTabRouter"
+      initialRouteName="AddDevice"
       screenOptions={{
         headerStyle: {backgroundColor: Theme.color.blue},
         headerTintColor: 'white',
@@ -69,6 +70,14 @@ const HomeStack = () => {
           title: route.params.screen,
         })}
         component={PatientEditor}
+      />
+      <Stack.Screen
+        name="AddDevice"
+        options={({route}: any) => ({
+          // title: route.params.screen,
+          title: '기기 추가'
+        })}
+        component={AddDevice}
       />
     </Stack.Navigator>
   );

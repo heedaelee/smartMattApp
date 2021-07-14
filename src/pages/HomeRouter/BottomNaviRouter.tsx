@@ -49,7 +49,7 @@ const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
   return (
     <Tab.Navigator
       // FORTEST: initial : HomeStack -> MypageStack
-      initialRouteName="MypageStack"
+      initialRouteName="HomeStack"
       // initialRouteName="PatientEditor"
       tabBarOptions={{
         activeTintColor: '#0E76FF',

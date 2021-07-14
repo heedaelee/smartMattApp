@@ -30,8 +30,8 @@ const PatientList = ({navigation}: PatientListProps) => {
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
   const goToAddPatientPage = () => {
-    navigation.navigate('PatientEditor', {
-      screen: '환자 추가',
+    navigation.navigate('AddDevice', {
+      screen: '기기 추가',
     });
   };
 

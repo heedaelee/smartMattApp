@@ -6,6 +6,7 @@ type LoginStackNaviParamList = {
   SignUp2: {email: string; password: string};
   SignUpBioDataAgree: undefined;
   SignUpPrivateAgree: undefined;
+  AddDevice: undefined;
 };
 
 type TabFirstStackNaviParamList = {

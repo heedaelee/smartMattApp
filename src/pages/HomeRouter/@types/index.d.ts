@@ -6,6 +6,9 @@ type HomeStackNaviParamList = {
   HomeStack: undefined;
   AlarmStack: undefined;
   MyPageStack: undefined;
+  AddDevice: {
+    screen: '기기 추가';
+  };
   PatientEditor: {
     screen: '환자 추가' | '환자 상세' | '환자 수정';
   };
