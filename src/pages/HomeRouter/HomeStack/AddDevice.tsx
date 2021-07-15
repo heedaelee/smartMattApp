@@ -21,11 +21,10 @@ const AddDevice = ({ navigation }: AddDeviceProps) => {
 
   const [deviceSerial, setDeviceSerial] = useInput('');
   const [isDeviceSerial, setIsDeviceSerial] = useBoolean(false);
-  
 
   const onClickDeviceCodeSubmit = () => {
-    navigation.navigate('PatientEditor', { screen: '환자 추가' });
-    console.log(deviceSerial);
+    navigation.navigate('PatientEditor', { screen: '환자 추가', deviceSerial });
+    // console.log(deviceSerial);
   }
 
   return (
