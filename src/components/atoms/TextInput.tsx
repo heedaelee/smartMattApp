@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import {StyleProp, TextStyle} from 'react-native';
+import {KeyboardTypeOptions, StyleProp, TextStyle} from 'react-native';
 import styled from 'styled-components/native';
 import Theme from '~/lib/Theme';
 
@@ -14,6 +14,9 @@ type InputDataProps = {
   setState: (text: string) => void;
   state: string;
   style?: StyleProp<TextStyle>;
+  isEditable?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  maxLength?: number;
 };
 
 //왼쪽 메뉴 텍스트
@@ -25,15 +28,19 @@ export const InputData = ({
   setState,
   state,
   style,
+  isEditable,
+  keyboardType,
+  maxLength,
 }: InputDataProps) => {
   return (
     <InputDataStyled
+      maxLength={maxLength}
+      keyboardType={keyboardType}
+      editable={isEditable}
       placeholder={placeholder}
       placeholderTextColor={placeholderTextColor}
       secureTextEntry={secureTextEntry}
-      onChangeText={
-        setState ? text => setState(text) : undefined
-      }
+      onChangeText={setState ? text => setState(text) : undefined}
       value={state}
       style={style}>
       {children}
@@ -42,7 +49,7 @@ export const InputData = ({
 };
 
 const InputDataStyled = styled.TextInput`
-  color: black;
+  color: ${(props: any) => (props.isEditable ? 'black' : Theme.color.lightGray)};
   width: 100%;
   height: ${Theme._HEIGHT / 20}px;
   border-bottom-width: 1px;

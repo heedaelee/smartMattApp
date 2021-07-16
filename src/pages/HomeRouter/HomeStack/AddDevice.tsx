@@ -23,8 +23,8 @@ const AddDevice = ({ navigation }: AddDeviceProps) => {
   const [isDeviceSerial, setIsDeviceSerial] = useBoolean(false);
 
   const onClickDeviceCodeSubmit = () => {
-    navigation.navigate('PatientEditor', { screen: '환자 추가', deviceSerial });
-    // console.log(deviceSerial);
+    // console.log('adddevice: serial is #', deviceSerial)
+    navigation.navigate('PatientEditor', { screen: '환자 추가', deviceSerial, setDeviceSerial });
   }
 
   return (
