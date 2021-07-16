@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Alert} from 'react-native';
 import SignUp2Template from '~/components/templates/LoginRouter/SignUp2/SignUp2Template';
 import useBoolean from '~/hooks/useBoolean';
@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLoggedUser} from '~/hooks/useReduce';
 import {NODE_API, Auth, jsonHeader} from '~/lib/apiSite/apiSite';
 import Axios from 'axios';
+import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
 
 export type SignUp2Props = {
   navigation: StackNavigationProp<LoginStackNaviParamList, 'SignUp2'>;
@@ -22,6 +23,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   /* DONE: 21/5/9 ~ 
   3. 등록하기 submit 가능 data 까지
   */
+  const {getUserInfo, login} = useContext(UserContext);
 
   //NOTE: INPUT state
   const [phoneNmbr, setPhoneNmbr] = useInput('');
@@ -82,33 +84,34 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
       });
 
       await Axios.post(NODE_API + Auth.SIGN_UP_API, postData, jsonHeader)
-        .then(async res => {
+        .then(res => {
           console.log('test');
           console.dir(res);
           // response : success, token
           if (res.data.success) {
-
+            console.log('로그인 호출 전: ');
             //로그인 api 호출
-            Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(
-              async res => {
-                // response : success, token
-                if (res.data.success) {
-                  //성공 로직 : 토큰 받기
-                  // token: res.data.token,
-                  //아래 storage에 저장
-                  
-                  await AsyncStorage.setItem('@loginInfo', JSON.stringify(value));
-                  const storageValue = await AsyncStorage.getItem('@loginInfo');
-                  console.log(`storageValue : ${storageValue}`);
-                  setUserReducer(value);
-                  console.log('reduce 셋 완료');
+            Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(res => {
+              console.log(`SIGN_IN_API 호출후 res값 ${res}`);
+              // response : success, token
+              if (res.data.success) {
+                //성공 로직 : 토큰 받기
+                // token: res.data.token,
+                //아래 storage에 저장
+                console.log(`로그인 성공 : `);
+                console.dir(res.data);
+                //수신 : res.data.user
+                //로그인 모듈
 
-                  //이동
-                } else {
-                  Alert.alert('로그인 정보를 확인해주세요');
-                }
-              },
-            );
+                AsyncStorage.setItem('@loginInfo', res.data.user);
+                const storageValue = AsyncStorage.getItem('@loginInfo');
+                console.log(`저장된 @loginInfo : ${storageValue}`);
+                setUserReducer(value);
+                console.log('reduce 셋 완료');
+              } else {
+                Alert.alert('로그인 정보를 확인해주세요');
+              }
+            });
           } else {
             if (res.data.message === 'email already used') {
               Alert.alert('이미 가입된 이메일입니다.');

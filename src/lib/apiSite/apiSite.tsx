@@ -12,10 +12,11 @@ const IS_PHONE_API = '/auth/isPhone';
 
 //Node에서 처리 모듈 단위
 export const Auth = {
-  SIGN_IN_API: '/auth/sign-in',
+  SIGN_IN_API: '/auth/create-token',
   SIGN_UP_API: '/auth/sign-up',
   IS_EMAIL_API: '/auth/check-email',
   IS_PHONE_API: '/auth/check-phone',
+  VERIFY_TOKEN_API: '/auth/verify',
 };
 
 //기타

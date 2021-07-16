@@ -58,7 +58,7 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.isLogin = action.payload.isLogin;
       state.loginType = action.payload.loginType;
-      state.password = action.payload.password;
+      state.password = action.payload.password || '';
       state.phoneNmbr = action.payload.phoneNmbr;
       state.social = action.payload.social || {
         socialType: '',

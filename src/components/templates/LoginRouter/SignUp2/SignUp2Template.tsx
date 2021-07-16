@@ -180,10 +180,10 @@ const SignUp2Template = ({
           onPress={() =>
             registrySubmit({
               username: 'david',
-              email: '112@112.com',
+              email: '2@112.com',
               password: '1234566',
               loginType: 'e',
-              phoneNmbr: '0100000001',
+              phoneNmbr: '1',
               isAutoLogin: true,
               isLogin: true,
             })

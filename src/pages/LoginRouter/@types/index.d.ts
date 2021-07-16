@@ -14,11 +14,12 @@ type TabFirstStackNaviParamList = {
   FullModal: undefined;
 };
 
+//등록, Redux setUser 둘다 사용
 type registrySubmitParamList = {
   username: string;
   isLogin: boolean;
   email: string;
-  password: string;
+  password?: string;
   phoneNmbr: string;
   loginType: string;
   isAutoLogin: boolean;
@@ -36,7 +37,7 @@ type SelectedPatientState = {
 };
 
 interface UserContext {
-  login: (
+  setUserInfo: (
     email: string,
     password: string,
     loginType: string,
