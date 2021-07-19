@@ -1,6 +1,7 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+// /* eslint-disable react-native/no-inline-styles */
+// /* eslint-disable prettier/prettier */
+// /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React from 'react';
 import {useEffect} from 'react';
 import {KeyboardTypeOptions} from 'react-native';

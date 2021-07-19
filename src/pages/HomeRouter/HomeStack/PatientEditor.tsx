@@ -5,7 +5,7 @@ import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Avatar} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
@@ -27,7 +27,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
 
-  const {screen} = route.params;
+  const {screen, deviceSerial, setDeviceSerial} = route.params;
   console.log(`screen : ${screen}`);
 
   const [selectedPatient, setSelectedPatient] = useSelectedPatient();
@@ -35,7 +35,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   //NOTE: INPUT state
   const [patientName, setPatientName] = useInput('');
-  const [deviceCode, setDeviceCode] = useInput('');
+  // const [deviceCode, setDeviceCode] = useInput('');
   const [patientCondition, setPatientCondition] = useInput('');
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
@@ -66,7 +66,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
       //setDeviceCode(id);
       description && setPatientCondition(description);
     }
-  }, []);
+  },);
 
   let buttonText = '';
   switch (screen) {
@@ -93,21 +93,19 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
             menuText={'환자이름'}
             state={patientName}
             setState={setPatientName}
-            placeholder={'환자 이름을 입력해주세요'}
+            placeholder={'환자 이름을 입력해주세요. 예) 홍길동'}
             validationType={'patientName'}
             setValidationToggle={setIsPatinetName}
             validationState={isPatinetName}
           />
           <View style={{marginTop: 25}} />
           <InputBox
-            menuText={'기기코드'}
-            state={deviceCode}
-            setState={setDeviceCode}
-            placeholder={'코드번호를 입력해주세요'}
-            validationType={'deviceCode'}
-            setValidationToggle={setIsDeviceCode}
-            validationState={isDeviceCode}
+            menuText={'기기 번호'}
+            state={deviceSerial}
+            setState={setDeviceSerial}
+            setValidationToggle={undefined}
           />
+          {console.log('serial num is ', deviceSerial)}
           <View style={{marginTop: 25}} />
           <TextBox
             menuText={'환자 상태'}

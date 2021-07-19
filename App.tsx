@@ -1,7 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, StackActions} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Platform, LogBox} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -49,6 +50,7 @@ const App = () => {
     getUserInfo();
   };
 
+  const Stack = createStackNavigator();
   console.log(`App랜더링 하고 값 ${JSON.stringify(isLogin)}`);
   //TODO: user 정보 가져오기
 

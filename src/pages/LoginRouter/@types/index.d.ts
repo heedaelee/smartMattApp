@@ -6,6 +6,8 @@ type LoginStackNaviParamList = {
   SignUp2: {email: string; password: string; username: string};
   SignUpBioDataAgree: undefined;
   SignUpPrivateAgree: undefined;
+  AddDevice: undefined;
+  PatientEditor: {screen:string, deviceSerial:string, setDeviceSerial:(active:any) => void}
 };
 
 type TabFirstStackNaviParamList = {
