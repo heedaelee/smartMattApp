@@ -1,21 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Platform, LogBox} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {ThemeProvider} from 'styled-components';
-import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
+import { NavigationContainer, StackActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import React, { useContext, useEffect } from 'react';
+import { StyleSheet, Platform, LogBox } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider } from 'styled-components';
+import { UserContext, UserProvider } from '~/lib/userProvider/UserProvider';
 import Theme from './src/lib/Theme';
 import HomeRouter from './src/routes/HomeRouter';
 import LoginRouter from './src/routes/LoginRouter';
-import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as eva from '@eva-design/eva';
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
@@ -27,7 +28,7 @@ const App = () => {
   // );
   /* Temp */
   const isLogin = true;
-  const {getUserInfo} = useContext(UserContext);
+  const { getUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
@@ -53,6 +54,7 @@ const App = () => {
     });
   };
 
+  const Stack = createStackNavigator();
   console.log(`App랜더링 하고 값 ${JSON.stringify(isLogin)}`);
   //TODO: user 정보 가져오기
 
