@@ -16,14 +16,14 @@ type TabFirstStackNaviParamList = {
 
 //등록, Redux setUser 둘다 사용
 type registrySubmitParamList = {
-  username: string;
-  isLogin: boolean;
-  email: string;
+  username?: string;
+  isLogin?: boolean;
+  email?: string;
   password?: string;
-  phoneNmbr: string;
-  loginType: string;
-  isAutoLogin: boolean;
-  tokenId?: string;
+  phoneNmbr?: string;
+  loginType?: string;
+  isAutoLogin?: boolean;
+  token?: string;
   social?: {
     socialType?: string;
     socialId?: string;
@@ -36,13 +36,14 @@ type SelectedPatientState = {
   description?: string;
 };
 
-interface UserContext {
+type UserContext = {
+  //localStorage에 기록
   setUserInfo: (
     email: string,
-    password: string,
+    token: string,
     loginType: string,
-    isAutoLogin: boolean,
+    isLogin: boolean
   ) => void;
   getUserInfo: () => void;
   logout: () => void;
-}
+};

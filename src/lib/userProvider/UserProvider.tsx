@@ -30,32 +30,34 @@ const UserProvider = ({children}: Props) => {
 
   const [userState, setUserReducer] = useLoggedUser();
 
-  const setUserInfo: UserContext['setUserInfo'] = (
+  const setUserInfo: UserContext['setUserInfo'] = async (
     email,
-    loginType,
-    isAutoLogin,
     token,
+    loginType,
+    isLogin,
   ) => {
     try {
-      AsyncStorage.setItem(
+      await AsyncStorage.setItem(
         '@loginInfo',
         JSON.stringify({
           email: email,
           loginType: loginType,
-          isAutoLogin: isAutoLogin,
-          //나중에 api 통신후..
+          isLogin: isLogin,
           token: token,
         }),
       );
 
       /* user Data가 있을시 set to Redux */
-      //  setUserReducer(value);
+      const storageValue = await AsyncStorage.getItem('@loginInfo');
+      console.log(`저장된 @loginInfo : ${JSON.stringify(storageValue)}`);
+      setUserReducer({email, loginType, isLogin, token});
+      console.log('reduce 셋 완료');
     } catch (e) {
       console.log(`error ${e}`);
     }
   };
 
-  const getUserInfo = (): void => {
+  const getUserInfo = () => {
     console.log('1.getUserInfo 호출됨');
     AsyncStorage.getItem('@loginInfo')
       .then(value => {
@@ -63,19 +65,30 @@ const UserProvider = ({children}: Props) => {
           console.log(`2.getUserInfo()에서 value 값 : ${value} `);
           const parsedValue = JSON.parse(value);
           if (parsedValue.token) {
-            console.log(`3.token 존재`);
-            Axios.get(NODE_API + Auth.VERIFY_TOKEN_API, jsonHeader)
+            console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
+            Axios.get(NODE_API + Auth.VERIFY_TOKEN_API, {
+              headers: {Authorization: `Bearer ${parsedValue.token}`},
+            })
               .then(res => {
                 console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
                 if (res) {
-                  setUserReducer();
+                  if (res.status === 200) {
+                    console.log('5. 토큰값 확인');
+                    const {email, loginType, isLogin = true} = res.data.user;
+                    setUserInfo(email, parsedValue.token, loginType, isLogin);
+                  } else {
+                    console.log('5.토큰값 다름');
+                    Alert.alert('토큰이 만료되었습니다.');
+                  }
+                  // setUserReducer();
                 } else {
                   console.log(`4.res 데이터없음`);
                 }
               })
               .catch(e => console.log(`verify token api error : ${e}`));
           } else {
-            Alert.alert('토큰이 만료되었습니다.');
+            console.log('3.토큰없음');
+            Alert.alert('로그인이 필요합니다');
           }
         }
       })

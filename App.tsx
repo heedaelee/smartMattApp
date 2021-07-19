@@ -28,7 +28,7 @@ const App = () => {
   /* Temp */
   // const isLogin = true;
 
-  const {getUserInfo} = useContext(UserContext);
+  const {getUserInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
@@ -45,13 +45,8 @@ const App = () => {
       console.log(e);
     }
   };
-  const autoLogin = async () => {
-    await AsyncStorage.getItem('@loginInfo').then((res: any) => {
-      const data = JSON.parse(res);
-      if (data != null) {
-        //TODO: 나중에 서버랑 Token 비교
-      }
-    });
+  const autoLogin = () => {
+    getUserInfo();
   };
 
   console.log(`App랜더링 하고 값 ${JSON.stringify(isLogin)}`);

@@ -18,12 +18,18 @@ export type SignUp2Props = {
   navigation: StackNavigationProp<LoginStackNaviParamList, 'SignUp2'>;
   route: RouteProp<LoginStackNaviParamList, 'SignUp2'>;
 };
+type test = {
+  email: string;
+  token: string;
+  loginType: string;
+  isAutoLogin: boolean;
+};
 
 const SignUp2 = ({navigation, route}: SignUp2Props) => {
   /* DONE: 21/5/9 ~ 
   3. 등록하기 submit 가능 data 까지
   */
-  const {getUserInfo, login} = useContext(UserContext);
+  const {getUserInfo, setUserInfo} = useContext(UserContext);
 
   //NOTE: INPUT state
   const [phoneNmbr, setPhoneNmbr] = useInput('');
@@ -101,13 +107,18 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
                 console.log(`로그인 성공 : `);
                 console.dir(res.data);
                 //수신 : res.data.user
-                //로그인 모듈
 
-                AsyncStorage.setItem('@loginInfo', res.data.user);
-                const storageValue = AsyncStorage.getItem('@loginInfo');
-                console.log(`저장된 @loginInfo : ${storageValue}`);
-                setUserReducer(value);
-                console.log('reduce 셋 완료');
+                const {email, token, loginType, isLogin = true} = res.data.user;
+                //로그인 모듈
+                setUserInfo(email, token, loginType, isLogin);
+
+                //setUserInfo 로 아래 로직 이동
+                // AsyncStorage.setItem('@loginInfo', res.data.user);
+                // const storageValue = AsyncStorage.getItem('@loginInfo');
+                // console.log(`저장된 @loginInfo : ${storageValue}`);
+                // setUserReducer(res.data.user);
+                // console.log('reduce 셋 완료');
+
               } else {
                 Alert.alert('로그인 정보를 확인해주세요');
               }
