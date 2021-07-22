@@ -11,7 +11,7 @@ type HomeStackNaviParamList = {
   };
   PatientEditor: {
     screen: '환자 추가' | '환자 상세' | '환자 수정';
-    deviceSerial: string;
+    upperedSerial: string;
     setDeviceSerial:(active:any) => void;
   };
   HomeTabRouter: {

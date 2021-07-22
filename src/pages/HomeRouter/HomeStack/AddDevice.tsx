@@ -24,8 +24,11 @@ const AddDevice = ({ navigation }: AddDeviceProps) => {
 
   const onClickDeviceCodeSubmit = () => {
     // console.log('adddevice: serial is #', deviceSerial)
-    navigation.navigate('PatientEditor', { screen: '환자 추가', deviceSerial, setDeviceSerial });
-  }
+    const upperedSerial = deviceSerial.toUpperCase();
+    console.log(upperedSerial);
+    navigation.navigate('PatientEditor', { screen: '환자 추가', upperedSerial, setDeviceSerial });
+  };
+
 
   return (
     <Container>

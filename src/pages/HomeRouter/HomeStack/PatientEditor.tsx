@@ -27,7 +27,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
 
-  const {screen, deviceSerial, setDeviceSerial} = route.params;
+  const {screen, upperedSerial, setDeviceSerial} = route.params;
   console.log(`screen : ${screen}`);
 
   const [selectedPatient, setSelectedPatient] = useSelectedPatient();
@@ -100,11 +100,12 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           <View style={{marginTop: 25}} />
           <InputBox
             menuText={'기기 번호'}
-            state={deviceSerial}
+            state={upperedSerial}
             setState={setDeviceSerial}
             setValidationToggle={undefined}
+            checkedExist={'success'}
           />
-          {console.log('serial num is ', deviceSerial)}
+          {console.log('serial num is ', upperedSerial)}
           <View style={{marginTop: 25}} />
           <TextBox
             menutText={'환자 상태'}

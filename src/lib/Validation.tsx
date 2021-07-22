@@ -2,9 +2,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useEffect, useState} from 'react';
-import {StyleProp, Text, TextStyle} from 'react-native';
-import {ErrorText} from '~/components/atoms/Text';
+import React, { useEffect, useState } from 'react';
+import { StyleProp, Text, TextStyle } from 'react-native';
+import { ErrorText } from '~/components/atoms/Text';
 import Theme from './Theme';
 
 interface ValidationProps {

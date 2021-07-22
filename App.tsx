@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as eva from '@eva-design/eva';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import Bluetooth from '~/pages/HomeRouter/Bluetooth';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
