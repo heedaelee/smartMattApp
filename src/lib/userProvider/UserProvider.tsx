@@ -90,9 +90,13 @@ const UserProvider = ({children}: Props) => {
             console.log('3.토큰없음');
             Alert.alert('로그인이 필요합니다');
           }
+        } else {
+          console.log(`2.getUserInfo()에서 value 값 없음, 값 : ${value} `);
         }
       })
-      .catch(() => {});
+      .catch(e => {
+        console.log(`1.getUserInfo 호출에서 에러, 에러msg : ${JSON.stringify(e)} `);
+      });
   };
 
   const logout = (): void => {

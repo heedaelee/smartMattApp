@@ -4,9 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {
-  Switch,
-} from 'react-native';
+import {Switch} from 'react-native';
 import styled from 'styled-components/native';
 import {Container} from '~/components/atoms/Container';
 import {ErrorText, MenuText} from '~/components/atoms/Text';
@@ -19,10 +17,7 @@ const _WIDTH = Theme._WIDTH;
 const _HEIGHT = Theme._HEIGHT;
 
 type BluetoothTemplateProps = {
-  navigation: StackNavigationProp<
-    HomeStackNaviParamList,
-    'Bluetooth'
-  >;
+  navigation: StackNavigationProp<HomeStackNaviParamList, 'Bluetooth'>;
   state: {
     isBleConn: boolean;
     ssid: string;
@@ -58,19 +53,8 @@ const BluetoothTemplate = ({
   submitToMatt,
   validation,
 }: BluetoothTemplateProps) => {
-  const {
-    isBleConn,
-    ssidPassword,
-    NewEncryptedPassword,
-    ssid,
-    isEdit,
-  } = state;
-  const {
-    setIsBleConn,
-    setSsidPassword,
-    setSsid,
-    setIsEdit,
-  } = setState;
+  const {isBleConn, ssidPassword, NewEncryptedPassword, ssid, isEdit} = state;
+  const {setIsBleConn, setSsidPassword, setSsid, setIsEdit} = setState;
 
   let menuTextColor = '';
   let menuTextValue = '';
@@ -112,9 +96,11 @@ const BluetoothTemplate = ({
             thumbColor={isBleConn ? '#0E76FF' : '#f4f3f4'}
             ios_backgroundColor="#3e3e3e"
             value={isBleConn}
-            onValueChange={() => {
-              setIsBleConn(!isBleConn);
-            }}
+            disabled={true}
+            /** 유저 데이터 조작 금지 */
+            // onValueChange={() => {
+            //   setIsBleConn(!isBleConn);
+            // }}
           />
           {/* atoms */}
           <MenuText
@@ -127,15 +113,14 @@ const BluetoothTemplate = ({
             {menuTextValue}
           </MenuText>
           {!isBleConn && (
-            <ErrorText
-              size={'16px'}
-              style={{marginTop: 100, color: '#ff8080'}}>
+            <ErrorText size={'16px'} style={{marginTop: 100, color: '#ff8080'}}>
               휴대폰의 블루투스 기능을 켜주세요
             </ErrorText>
           )}
         </BleButtonView>
         <OtherContentsView>
           {/* molecules */}
+          {console.log(`2.template ssid pw 체킹 : ${ssid} , ${passwordState}`)}
           <InfoTextRow
             TypeText={{value: 'SSID'}}
             ValueText={{value: ssid}}
@@ -152,21 +137,15 @@ const BluetoothTemplate = ({
             validationType={'ssidPassword'}
             isEdit={isEdit}
             setState={setSsidPassword}
-            validationState={
-              validation.ssidPassword.isSsidPassword
-            }
-            setValidationToggle={
-              validation.ssidPassword.setIsSsidPassword
-            }
+            validationState={validation.ssidPassword.isSsidPassword}
+            setValidationToggle={validation.ssidPassword.setIsSsidPassword}
             inputStyle={inputStyle}
           />
           <EmptyRow />
           {/* molecules */}
           <BlePageRoundButtonRow
             isSsid={validation.ssid.isSsid}
-            isSsidPassword={
-              validation.ssidPassword.isSsidPassword
-            }
+            isSsidPassword={validation.ssidPassword.isSsidPassword}
             isEdit={isEdit}
             isBleConn={isBleConn}
             goToEditPage={goToEditPage}

@@ -25,6 +25,7 @@ export const BlePageRoundButtonRow = ({
   return (
     <ButtonContainer>
       {!isEdit ? (
+        // 1. 상세 페이지
         <>
           <DivisionView style={{marginRight: 2.5}}>
             {isBleConn ? (
@@ -47,7 +48,8 @@ export const BlePageRoundButtonRow = ({
             )}
           </DivisionView>
         </>
-      ) : isSsid && isSsidPassword ? (
+      ) : // 2. 수정 페이지
+      isSsid && isSsidPassword ? (
         <Button round={true} onPress={submitToMatt}>
           연결하기
         </Button>

@@ -25,9 +25,9 @@ const App = () => {
 
   //FORTEST: 작동하는 기능. For TEST 주석처리
   /* origin */
-  const isLogin = useSelector((state: RootState) => state.user.isLogin);
+  // const isLogin = useSelector((state: RootState) => state.user.isLogin);
   /* Temp */
-  // const isLogin = true;
+  const isLogin = true;
 
   const {getUserInfo, setUserInfo} = useContext(UserContext);
 
