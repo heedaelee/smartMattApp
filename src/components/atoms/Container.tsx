@@ -34,5 +34,5 @@ const ContainerWrapper = styled.View`
   align-items: center;
   background-color: ${(props: ContainerProps) =>
     props.color || 'white'};
-  padding: 5% 7% 3% 7%;
+  padding: 5% 7% 0% 7%;
 `;

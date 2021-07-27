@@ -17,7 +17,7 @@ const HomeRouter = () => {
   return (
     <Stack.Navigator
       // FORTEST: 개발시 initial 임시 조정 : BottomNaviRouter -> Bluetooth 로
-      initialRouteName="Bluetooth"
+      initialRouteName="BottomNaviRouter"
       screenOptions={{headerShown: false}}>
       <Stack.Screen
         name="Bluetooth"

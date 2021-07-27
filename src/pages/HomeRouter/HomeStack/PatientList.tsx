@@ -93,7 +93,9 @@ const PatientList = ({navigation}: PatientListProps) => {
             </MenuText>
           </View>
         )}
+        {/* <View style={styles.circleButtonRow}> */}
         <CircleButton onPress={goToAddPatientPage}>+</CircleButton>
+        {/* </View> */}
         <MenuModal
           menuModalVisible={menuModalVisible}
           setMenuModalVisible={setMenuModalVisible}
@@ -116,16 +118,18 @@ const PatientList = ({navigation}: PatientListProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    // borderWidth: 1,
     marginBottom: 30,
+    // backgroundColor: 'black',
   },
   list: {
     // borderWidth: 1,
-    maxHeight: 438,
+    maxHeight: 530,
     width: '100%',
     backgroundColor: 'white',
   },
   listItem: {
-    // borderWidth: 1,
+    borderWidth: 1,
   },
   Icon: {
     marginTop: -20,
@@ -137,6 +141,9 @@ const styles = StyleSheet.create({
     height: '100%',
     // borderWidth: 1,
     justifyContent: 'center',
+  },
+  circleButtonRow: {
+    borderWidth: 1,
   },
 });
 

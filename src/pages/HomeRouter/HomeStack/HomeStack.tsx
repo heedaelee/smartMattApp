@@ -25,8 +25,9 @@ const HomeStack = () => {
   // const {logout} = useContext(UserContext);
   return (
     // <Button title={'logout'} onPress={() => logout()} />
+    // FORTEST:
     <Stack.Navigator
-      initialRouteName="AddDevice"
+      initialRouteName="실시간 센서"
       screenOptions={{
         headerStyle: {backgroundColor: Theme.color.blue},
         headerTintColor: 'white',
@@ -46,6 +47,8 @@ const HomeStack = () => {
               color={iconColor}
               style={styles.HedaerIcon}
               onPress={() => {
+                // console.dir(navigation)
+                //console.log(JSON.stringify(navigation));
                 navigation.navigate('Bluetooth');
               }}
             />
@@ -59,6 +62,7 @@ const HomeStack = () => {
             }}
             secondTab={{
               name: '실시간 센서',
+              //component: PatientList,
               component: HeatMap,
             }}
           />
@@ -75,7 +79,7 @@ const HomeStack = () => {
         name="AddDevice"
         options={({route}: any) => ({
           // title: route.params.screen,
-          title: '기기 추가'
+          title: '기기 추가',
         })}
         component={AddDevice}
       />

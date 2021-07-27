@@ -57,10 +57,11 @@ const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
           flex: 1,
           height: 70,
           bottom: 30,
+          
           backgroundColor: 'white',
         },
         labelStyle: {
-          fontSize: Theme._HEIGHT / 50,
+          fontSize: Theme._HEIGHT / 55,
           fontFamily: 'SpoqaHanSansNeo-Medium',
         },
       }}>

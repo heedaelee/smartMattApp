@@ -65,9 +65,7 @@ export const Button = ({
 
 const ButtonStyled = styled.TouchableOpacity`
   width: ${(props: ButtonProps) =>
-    props.size === 'small'
-      ? `${Theme._HEIGHT / 8}px`
-      : '100%'};
+    props.size === 'small' ? `${Theme._HEIGHT / 8}px` : '100%'};
   height: ${(props: ButtonProps) =>
     props.size === 'small'
       ? `${Theme._HEIGHT / 18}px`
@@ -80,18 +78,11 @@ const ButtonStyled = styled.TouchableOpacity`
     props.round || props.disabledRound ? '20px' : '0px'};
   /* border-radius: 20px; */
   border: ${(props: ButtonProps) =>
-    props.disabledRound
-      ? '2px solid #a4a4a4'
-      : props.round
-      ? '2px solid white'
-      : 'none'};
+    props.disabledRound ? '2px solid #a4a4a4' : props.round ? '2px solid white' : 'none'};
   justify-content: center;
 `;
 
-export const CircleButton = ({
-  children,
-  onPress,
-}: ButtonProps) => {
+export const CircleButton = ({children, onPress}: ButtonProps) => {
   //Default value
   let textColor = 'white';
   let fontSize = 30;
@@ -109,9 +100,7 @@ export const CircleButton = ({
   };
 
   return (
-    <CircleButtonStyled
-      onPress={onPress ? () => onPress() : undefined}
-      style={style}>
+    <CircleButtonStyled onPress={onPress ? () => onPress() : undefined} style={style}>
       <Text
         style={{
           fontSize: fontSize,
@@ -134,6 +123,6 @@ const CircleButtonStyled = styled.TouchableOpacity`
   background-color: ${Theme.color.blue};
   border-radius: 40px;
   justify-content: flex-end;
-  top: 450px;
-  left: 280px;
+  bottom: ${Theme._HEIGHT / 40}px;
+  right: ${Theme._WIDTH / 8}px;
 `;

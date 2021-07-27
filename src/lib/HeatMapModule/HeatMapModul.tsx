@@ -54,12 +54,13 @@ function HeatMapModule() {
   useEffect(() => {
     console.log(`HeatMapModule 페이지 랜더링`);
 
+    //FORTEST:  일단 63행과 함께 중지 주석 처리 
     // 마운트 될때 한번만 실행.
-    let client = mqttConnect();
+    //let client = mqttConnect();
 
     return () => {
       //언마운트 될때 mqtt 종료.
-      client.end();
+      //client.end();
       console.log('MQTT 종료');
     };
   }, []);

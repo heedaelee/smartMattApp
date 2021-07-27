@@ -12,7 +12,7 @@ export default function useInput(defaultValue: any) {
 
   const onChange = useCallback((text: any) => {
     setInput(text);
-    console.log(`useInput내에 text 값 : ${text}`);
+    console.log(`useInput내에 text 값 : ${JSON.stringify(text)}`);
   }, []);
 
   //아직 안씀

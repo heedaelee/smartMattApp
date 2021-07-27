@@ -1,31 +1,31 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { View, Text } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {View, Text} from 'react-native';
 import InputBox from '~/components/molecules/InputBox';
 import useInput from '~/hooks/useInput';
-import { Button } from '~/components/atoms/Button';
+import {Button} from '~/components/atoms/Button';
 import PatientEditor from './PatientEditor';
-import { Container } from '~/components/atoms/Container';
+import {Container} from '~/components/atoms/Container';
 import useBoolean from '~/hooks/useBoolean';
 
 export type AddDeviceProps = {
-  navigation: StackNavigationProp<
-    LoginStackNaviParamList,
-    'AddDevice'>;
-
+  navigation: StackNavigationProp<LoginStackNaviParamList, 'AddDevice'>;
 };
 
-const AddDevice = ({ navigation }: AddDeviceProps) => {
-
+const AddDevice = ({navigation}: AddDeviceProps) => {
   const [deviceSerial, setDeviceSerial] = useInput('');
   const [isDeviceSerial, setIsDeviceSerial] = useBoolean(false);
 
   const onClickDeviceCodeSubmit = () => {
     // console.log('adddevice: serial is #', deviceSerial)
-    navigation.navigate('PatientEditor', { screen: '환자 추가', deviceSerial, setDeviceSerial });
-  }
+    navigation.navigate('PatientEditor', {
+      screen: '환자 추가',
+      deviceSerial,
+      setDeviceSerial,
+    });
+  };
 
   return (
     <Container>
@@ -39,12 +39,15 @@ const AddDevice = ({ navigation }: AddDeviceProps) => {
         validationState={isDeviceSerial}
       />
       {isDeviceSerial ? (
-        <Button style={{ marginTop: 20 }} onPress={onClickDeviceCodeSubmit}>{'기기 코드 전송'}</Button>
+        <Button style={{marginTop: 20}} onPress={onClickDeviceCodeSubmit}>
+          {'기기 코드 전송'}
+        </Button>
       ) : (
-        <Button style={{ marginTop: 20 }} disabled={true}>{'기기 코드 전송'}</Button>
+        <Button style={{marginTop: 20}} disabled={true}>
+          {'기기 코드 전송'}
+        </Button>
       )}
     </Container>
-
   );
 };
 

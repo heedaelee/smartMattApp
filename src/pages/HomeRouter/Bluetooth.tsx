@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
@@ -13,6 +14,13 @@ import {BleManager} from 'react-native-ble-plx';
 
 type BluetoothProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList, 'Bluetooth'>;
+};
+
+type bleReceivedDataType = {
+  PASS: string;
+  SSID: string;
+  IP?: string;
+  CODE?: string;
 };
 
 let finalDevice: any,
@@ -150,6 +158,7 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
               .then(async dev => {
                 console.log('success to connect');
                 finalDevice = dev;
+                let bleReceivedData: bleReceivedDataType;
                 let services = await dev.services();
 
                 for (let service of services) {
@@ -159,18 +168,29 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
                       .readCharacteristic('61661f32-bc34-4513-a43d-20c2f3970829')
                       .then((res: any) => {
                         console.log(`res.value : ${res.value}`);
-                        setBledata(JSON.parse(base64.decode(res.value)));
+                        bleReceivedData = JSON.parse(base64.decode(res.value));
+
+                        console.log(
+                          'BLE 최종 성공 setIsBleConn,setSsid,setSsidPassword 호출',
+                        );
+                        console.dir(bleReceivedData);
+                        setIsBleConn(true);
+                        if (bleReceivedData) {
+                          if (bleReceivedData.SSID) {
+                            console.log(`bleData.SSID 탄다 값 : ${bleReceivedData.SSID}`);
+                            setSsid(bleReceivedData.SSID);
+                          }
+                          if (bleReceivedData.PASS) {
+                            console.log(`bleData.PASS 탄다 값 : ${bleReceivedData.PASS}`);
+                            setSsidPassword(bleReceivedData.PASS);
+                          }
+                        }
                       })
                       .catch(error => {
                         console.log(`service.readCharacteristic 에러 : ${error}`);
                       });
                   }
                 }
-                console.log('BLE 최종 성공 setIsBleConn,setSsid,setSsidPassword 호출');
-                console.dir(bleData);
-                setIsBleConn(true);
-                if (bleData.SSID) setSsid(bleData.SSID);
-                if (bleData.PASS) setSsidPassword(bleData.PASS);
               })
               .catch(error => {
                 console.log(`접속 에러 : ${error}`);
