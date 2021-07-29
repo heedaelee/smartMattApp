@@ -18,6 +18,8 @@ type TabRouterProps = {
   };
 };
 
+// secondTab temporarily disabled to debug problem w heatmap
+
 const TabRouter = ({firstTab, secondTab}: TabRouterProps) => {
   return (
     <Tab.Navigator

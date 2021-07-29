@@ -34,7 +34,7 @@ const HomeRouter = () => {
         // FORTEST:
         component={BottomNaviRouter}
       />
-      {/*<Stack.Screen name="Home" component={Home} />
+      {/* <Stack.Screen name="Home" component={Home} />
        <Stack.Screen name="FinderID" component={FinderID} />
       <Stack.Screen name="FinderPW" component={FinderPW} />
       <Stack.Screen name="Bluetooth" component={Bluetooth} />

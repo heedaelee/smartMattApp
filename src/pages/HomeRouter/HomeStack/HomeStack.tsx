@@ -12,6 +12,8 @@ import TabRouter from '../TabRouter';
 import PatientEditor from './PatientEditor';
 import AddDevice from './AddDevice';
 
+import AlarmSetting from '../AlarmStack/AlarmSetting';
+
 // export type SignInProps = {
 //   navigation: StackNavigationProp<any, 'SignIn'>;
 // };
@@ -26,7 +28,7 @@ const HomeStack = () => {
   return (
     // <Button title={'logout'} onPress={() => logout()} />
     <Stack.Navigator
-      initialRouteName="AddDevice"
+      initialRouteName="PatientList"
       screenOptions={{
         headerStyle: {backgroundColor: Theme.color.blue},
         headerTintColor: 'white',
@@ -59,10 +61,15 @@ const HomeStack = () => {
             }}
             secondTab={{
               name: '실시간 센서',
+              //component: PatientList,
               component: HeatMap,
             }}
           />
         )}
+        {/* secondTab={{
+              name: '실시간 센서',
+              component: HeatMap,
+            }} */}
       </Stack.Screen>
       <Stack.Screen
         name="PatientEditor"
@@ -75,7 +82,7 @@ const HomeStack = () => {
         name="AddDevice"
         options={({route}: any) => ({
           // title: route.params.screen,
-          title: '기기 추가'
+          title: '기기 추가',
         })}
         component={AddDevice}
       />

@@ -99,7 +99,9 @@ const App = () => {
             {/* <Provider store={store}> */}
             <UserProvider>
               {/* TODO: UserProvider 달기 : 로그인 storage 모듈 */}
-              {isLogin ? <HomeRouter /> : <LoginRouter />}
+              {/* {isLogin ? <HomeRouter /> : <LoginRouter />} */}
+              {<HomeRouter/>}
+              {/* <LoginRouter/> */}
             </UserProvider>
             {/* </Provider> */}
           </ThemeProvider>

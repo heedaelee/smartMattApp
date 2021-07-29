@@ -13,8 +13,7 @@ import useBoolean from '~/hooks/useBoolean';
 export type AddDeviceProps = {
   navigation: StackNavigationProp<
     LoginStackNaviParamList,
-    'AddDevice'>;
-
+    'PatientEditor'>;
 };
 
 const AddDevice = ({ navigation }: AddDeviceProps) => {
