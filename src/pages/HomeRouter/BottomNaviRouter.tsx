@@ -31,8 +31,8 @@ const iconSize = Theme._WIDTH / 13;
 const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
   tabPress: () => {
     //navugatuib router 체크
-    // console.log(navigation);
-    // console.log(route);
+    console.log(navigation);
+    console.log(route);
 
     switch (route.name) {
       case 'HomeStack':
@@ -46,6 +46,7 @@ const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
 });
 
 const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
+  console.log('bottome')
   return (
     <Tab.Navigator
       // FORTEST: initial : HomeStack -> MypageStack

@@ -5,7 +5,7 @@ import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Avatar} from '@ui-kitten/components';
 import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import styled from 'styled-components/native';
 import {Button} from '~/components/atoms/Button';
@@ -17,6 +17,8 @@ import useInput from '~/hooks/useInput';
 import {useSelectedPatient} from '~/hooks/useReduce';
 import DownKeyboard from '~/lib/DownKeyboard';
 import Axios from 'axios';
+import {Device, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
+import {useLoggedUser} from '~/hooks/useReduce';
 
 export type patientEditorProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -27,11 +29,13 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
 
-  const {screen, deviceSerial, setDeviceSerial} = route.params;
-  console.log(`screen : ${screen}`);
+  const {screen, deviceCode, patient_id} = route.params;
+  console.log(`route.param : ${JSON.stringify(route.params)}`);
 
   const [selectedPatient, setSelectedPatient] = useSelectedPatient();
   console.log(`selectedPatient : ${JSON.stringify(selectedPatient)}`);
+
+  const [userState, setUserReducer] = useLoggedUser();
 
   //NOTE: INPUT state
   const [patientName, setPatientName] = useInput('');
@@ -49,12 +53,53 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
     // await Axios.get('http://10.0.2.2:4000/api')
     //   .then(res => console.dir(res))
     //   .catch(e => console.log(e));
-    // console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+    console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+    console.log('서버탐, id:');
+    console.log(userState.id);
 
-    if (screen === '환자 수정') {
-      Toast.show('수정했습니다');
-    }
-    navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
+    const postData = JSON.stringify({
+      deviceCode: deviceCode,
+      patientName: patientName,
+      patientCondition: patientCondition || '',
+      caregiver_id: userState.id,
+    });
+
+    await Axios.post(NODE_API + Device.CREATE_DEVICE_API, postData, jsonHeader)
+      .then(res => {
+        console.log('res받음', JSON.stringify(res));
+        const {success, message} = res.data;
+        if (success) {
+          console.log('insert 성공')
+          //DeivceCode 존재
+          // navigation.navigate('PatientEditor', {
+          //   screen: '환자 추가',
+          //   deviceCode,
+          //   patient_id: res.data.patient_id,
+          // });
+        } else {
+          console.log('DeviceCodeCheckSubmit server api success:false');
+          switch (message) {
+            case 'empty params':
+              Alert.alert('empty params');
+              break;
+            case 'db error':
+              Alert.alert('db error');
+              break;
+            case '디바이스 없음':
+              Alert.alert('다비아스 코드가 없습니다.');
+              break;
+            case '환자 이미 존재':
+              Alert.alert('이미 추가된 디바이스코드 입니다.');
+              break;
+          }
+        }
+      })
+      .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
+
+    // if (screen === '환자 수정') {
+    //   Toast.show('수정했습니다');
+    // }
+    // navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
   };
 
   useEffect(() => {
@@ -66,7 +111,10 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
       //setDeviceCode(id);
       description && setPatientCondition(description);
     }
-  },);
+    if (deviceCode) {
+      setIsDeviceCode(true);
+    }
+  });
 
   let buttonText = '';
   switch (screen) {
@@ -83,7 +131,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   return (
     <DownKeyboard>
-      <Container style={{marginBottom: 20}}>
+      <Container style={{marginBottom: 29}}>
         <AvatarRow>
           <Avatar size={'giant'} source={require('~/asset/img/Defaultuser.png')} />
         </AvatarRow>
@@ -101,11 +149,11 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           <View style={{marginTop: 25}} />
           <InputBox
             menuText={'기기 번호'}
-            state={deviceSerial}
-            setState={setDeviceSerial}
-            setValidationToggle={undefined}
+            state={deviceCode || ''}
+            checkedExist={'success'}
+            setState={() => undefined}
           />
-          {console.log('serial num is ', deviceSerial)}
+          {console.log('serial num is ', deviceCode)}
           <View style={{marginTop: 25}} />
           <TextBox
             menuText={'환자 상태'}
@@ -151,14 +199,8 @@ const TextBoxAndButtonRow = styled.View`
   align-items: flex-end;
   flex: 3;
   width: 100%;
-  /* border: 1px;
-  border-color: gray; */
+  /* border-width: 1px; */
+  /* border-color: gray; */
 `;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     borderWidth: 1,
-//   },
-// });
 
 export default PatientEditor;

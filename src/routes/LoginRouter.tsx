@@ -25,7 +25,7 @@ const LoginRouter = () => {
         },
         headerTitleAlign: 'center',
       }}
-      initialRouteName="SignUp2">
+      initialRouteName="SignIn">
       <Stack.Screen
         name="SignIn"
         component={SignIn}

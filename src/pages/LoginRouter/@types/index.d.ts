@@ -6,8 +6,6 @@ type LoginStackNaviParamList = {
   SignUp2: {email: string; password: string; username: string};
   SignUpBioDataAgree: undefined;
   SignUpPrivateAgree: undefined;
-  AddDevice: undefined;
-  PatientEditor: {screen:string, deviceSerial:string, setDeviceSerial:(active:any) => void}
 };
 
 type TabFirstStackNaviParamList = {
@@ -18,6 +16,7 @@ type TabFirstStackNaviParamList = {
 
 //등록, Redux setUser 둘다 사용
 type registrySubmitParamList = {
+  id?: string;
   username?: string;
   isLogin?: boolean;
   email?: string;
@@ -41,11 +40,13 @@ type SelectedPatientState = {
 type UserContext = {
   //localStorage에 기록
   setUserInfo: (
+    id: string,
     email: string,
     token: string,
     loginType: string,
-    isLogin: boolean
+    isLogin: boolean,
   ) => void;
-  getUserInfo: () => void;
+  getUserInfo: (active?: any) => void;
   logout: () => void;
 };
+ß

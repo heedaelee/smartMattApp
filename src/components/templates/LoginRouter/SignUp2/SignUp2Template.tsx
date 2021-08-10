@@ -48,12 +48,14 @@ const SignUp2Template = ({
   registrySubmit,
 }: SignUp2TemplateProps) => {
   //TODO: 임시로 테스트 위해 주석, 나중에 품 5/11
-  // const {email, password} = route.params;
-  const {email, password, username} = {
-    email: '111@google.com',
-    password: 'qqqqqq@1',
-    username: 'test',
-  };
+  const {email, password, username} = route.params;
+
+  // FORTEST:
+  // const {email, password, username} = {
+  //   email: '111@google.com',
+  //   password: 'qqqqqq@1',
+  //   username: 'test',
+  // };
 
   const {
     phoneNmbr,
@@ -150,7 +152,7 @@ const SignUp2Template = ({
         <RowView />
 
         {/* NOTES:original */}
-        {/* {isPhone &&
+        {isPhone &&
         isphoneAuthNmbr &&
         bioDataAgree &&
         privateDataAgree &&
@@ -172,10 +174,10 @@ const SignUp2Template = ({
           </Button>
         ) : (
           <Button disabled={true}>등록하기</Button>
-        )} */}
+        )}
 
         {/* FORTEST */}
-        <Button
+        {/* <Button
           disabled={false}
           onPress={() =>
             registrySubmit({
@@ -189,7 +191,7 @@ const SignUp2Template = ({
             })
           }>
           등록하기
-        </Button>
+        </Button> */}
       </Container>
     </DownKeyboard>
   );

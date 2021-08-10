@@ -241,6 +241,14 @@ export const Validation = ({
         if (!chanegState) {
           setChangeState(true);
         }
+
+        //불만족 : deviceCode 비존재일때
+        switch (checkedExist) {
+          case 'fail': {
+            return <ErrorText>기기코드를 다시 확인해주세요</ErrorText>;
+          }
+        }
+
         return <></>;
       }
     }

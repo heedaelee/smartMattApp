@@ -25,9 +25,9 @@ const App = () => {
 
   //FORTEST: 작동하는 기능. For TEST 주석처리
   /* origin */
-  // const isLogin = useSelector((state: RootState) => state.user.isLogin);
+  const isLogin = useSelector((state: RootState) => state.user.isLogin);
   /* Temp */
-  const isLogin = true;
+  // const isLogin = true;
 
   const {getUserInfo, setUserInfo} = useContext(UserContext);
 
@@ -52,7 +52,6 @@ const App = () => {
 
   const Stack = createStackNavigator();
   console.log(`App랜더링 하고 값 ${JSON.stringify(isLogin)}`);
-  //TODO: user 정보 가져오기
 
   /* LocalStorage에 getToken하여 choicing router 하는 방법
     -> 변경: redux state 사용, isLogin을 Toggle로 함

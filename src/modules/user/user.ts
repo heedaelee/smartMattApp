@@ -8,13 +8,14 @@ import produce from 'immer'; */
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export type UserState = {
+  id?: string;
   username: string;
   isLogin: boolean;
   email: string;
   password: string;
   phoneNmbr: string;
   loginType: string;
-  tokenId?: string;
+  token?: string;
   isAutoLogin: boolean;
   social?: {
     socialType?: string;
@@ -35,13 +36,14 @@ const actions = {setUser};
 type UserAction = ActionType<typeof actions>; */
 
 export const initialState: UserState = {
+  id: '',
   username: '',
   isLogin: false,
   email: '',
   password: '',
   phoneNmbr: '',
   loginType: '',
-  tokenId: '',
+  token: '',
   isAutoLogin: true,
   social: {
     socialType: '',
@@ -54,17 +56,20 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<registrySubmitParamList>) {
-      state.username = action.payload.username;
-      state.email = action.payload.email;
-      state.isLogin = action.payload.isLogin;
-      state.loginType = action.payload.loginType;
+      if (action.payload.id) {
+        state.id = action.payload.id;
+      };
+      state.username = action.payload.username || '';
+      state.email = action.payload.email || '';
+      state.isLogin = action.payload.isLogin || false;
+      state.loginType = action.payload.loginType  || '';
       state.password = action.payload.password || '';
-      state.phoneNmbr = action.payload.phoneNmbr;
+      state.phoneNmbr = action.payload.phoneNmbr || '';
       state.social = action.payload.social || {
         socialType: '',
         socialId: '',
       };
-      state.tokenId = action.payload.tokenId || '';
+      state.token = action.payload.token || '';
     },
   },
 });

@@ -3,13 +3,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import {Container} from '~/components/atoms/Container';
 import {MenuText} from '~/components/atoms/Text';
 import DownKeyboard from '~/lib/DownKeyboard';
 import {Icon, Divider} from '@ui-kitten/components';
 import Theme from '~/lib/Theme';
+import {Button} from '~/components/atoms/Button';
+import {UserContext} from '~/lib/userProvider/UserProvider';
 
 type MypageListProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -21,6 +23,12 @@ const onPressItem = () => {
 };
 
 const MypageList = ({navigation, route}: MypageListProps) => {
+  const {logout} = useContext(UserContext);
+  const testLogout = () => {
+    console.log('테스트로그아웃 클릭');
+    logout();
+  };
+
   return (
     <DownKeyboard>
       <Container style={styles.container}>
@@ -29,13 +37,16 @@ const MypageList = ({navigation, route}: MypageListProps) => {
           underlayColor="#f2f1f1dd"
           activeOpacity={0.3}
           onPress={onPressItem}>
-          <View style={styles.oneMenuView}>
-            <MenuText color={Theme.color.gray}>내 프로필</MenuText>
-            <Icon
-              style={styles.icon}
-              fill={Theme.color.gray}
-              name="arrow-ios-forward-outline"
-            />
+          <View>
+            <View style={styles.oneMenuView}>
+              <MenuText color={Theme.color.gray}>내 프로필</MenuText>
+              <Icon
+                style={styles.icon}
+                fill={Theme.color.gray}
+                name="arrow-ios-forward-outline"
+              />
+            </View>
+            <Button onPress={testLogout}>테스트용 로그아웃</Button>
           </View>
         </TouchableHighlight>
         <Divider style={styles.divider} />

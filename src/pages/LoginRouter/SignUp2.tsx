@@ -98,7 +98,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
             console.log('로그인 호출 전: ');
             //로그인 api 호출
             Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(res => {
-              console.log(`SIGN_IN_API 호출후 res값 ${res}`);
+              console.log(`SIGN_IN_API 호출후 res값 ${JSON.stringify(res)}`);
               // response : success, token
               if (res.data.success) {
                 //성공 로직 : 토큰 받기
@@ -108,17 +108,9 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
                 console.dir(res.data);
                 //수신 : res.data.user
 
-                const {email, token, loginType, isLogin = true} = res.data.user;
+                const {id, email, token, loginType, isLogin = true} = res.data.user;
                 //로그인 모듈
-                setUserInfo(email, token, loginType, isLogin);
-
-                //setUserInfo 로 아래 로직 이동
-                // AsyncStorage.setItem('@loginInfo', res.data.user);
-                // const storageValue = AsyncStorage.getItem('@loginInfo');
-                // console.log(`저장된 @loginInfo : ${storageValue}`);
-                // setUserReducer(res.data.user);
-                // console.log('reduce 셋 완료');
-
+                setUserInfo(id, email, token, loginType, isLogin);
               } else {
                 Alert.alert('로그인 정보를 확인해주세요');
               }

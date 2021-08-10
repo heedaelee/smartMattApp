@@ -35,25 +35,25 @@ const HeatMap = ({}) => {
     if (!finArr[finArr.length - 1]) {
       finArr.push(diff);
     } else {
-      console.log(
-        `${finArr[finArr.length - 1]} + ${diff} = ${(
-          finArr[finArr.length - 1] + diff
-        ).toFixed(1)}`,
-      );
+      // console.log(
+      //   `${finArr[finArr.length - 1]} + ${diff} = ${(
+      //     finArr[finArr.length - 1] + diff
+      //   ).toFixed(1)}`,
+      // );
       //두번쨰 값부터 diff를 누적해줌. 그리고 Number화
       let numberShouldBeFixed = 0;
       numberShouldBeFixed = finArr[finArr.length - 1] + diff;
-      console.log(Number(numberShouldBeFixed.toFixed(1)));
+      // console.log(Number(numberShouldBeFixed.toFixed(1)));
       finArr.push(Number(numberShouldBeFixed.toFixed(1)));
     }
   }
   //끝자리는 요소 1를 push
   finArr.push(1);
-  console.log('finArr : ');
-  console.log(finArr);
+  // console.log('finArr : ');
+  // console.log(finArr);
 
   useEffect(() => {
-    console.log(`Rendering 페이지 랜더링`);
+    // console.log(`Rendering 페이지 랜더링`);
     //mqttConnect();
   }, []);
 

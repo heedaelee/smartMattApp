@@ -6,9 +6,12 @@ import {initialState} from '~/modules/user/user';
 import Axios from 'axios';
 import {NODE_API, Auth, jsonHeader} from '~/lib/apiSite/apiSite';
 import {Alert} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ParamListBase} from '@react-navigation/native';
+
 const defaultContext: UserContext = {
   setUserInfo: () => {},
-  getUserInfo: () => {},
+  getUserInfo: (active?: any) => {},
   logout: () => {},
 };
 
@@ -31,6 +34,7 @@ const UserProvider = ({children}: Props) => {
   const [userState, setUserReducer] = useLoggedUser();
 
   const setUserInfo: UserContext['setUserInfo'] = async (
+    id,
     email,
     token,
     loginType,
@@ -40,6 +44,7 @@ const UserProvider = ({children}: Props) => {
       await AsyncStorage.setItem(
         '@loginInfo',
         JSON.stringify({
+          id: id,
           email: email,
           loginType: loginType,
           isLogin: isLogin,
@@ -50,14 +55,15 @@ const UserProvider = ({children}: Props) => {
       /* user Data가 있을시 set to Redux */
       const storageValue = await AsyncStorage.getItem('@loginInfo');
       console.log(`저장된 @loginInfo : ${JSON.stringify(storageValue)}`);
-      setUserReducer({email, loginType, isLogin, token});
+      setUserReducer({id, email, loginType, isLogin, token});
       console.log('reduce 셋 완료');
     } catch (e) {
       console.log(`error ${e}`);
     }
   };
 
-  const getUserInfo = () => {
+  //localStorage에 정보를 읽어 서버에 호출후 로그인 데이터를 받아온다. 그리고 로컬에 기입한다.
+  const getUserInfo = (navigation?: StackNavigationProp<any>) => {
     console.log('1.getUserInfo 호출됨');
     AsyncStorage.getItem('@loginInfo')
       .then(value => {
@@ -66,19 +72,18 @@ const UserProvider = ({children}: Props) => {
           const parsedValue = JSON.parse(value);
           if (parsedValue.token) {
             console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
-            Axios.get(NODE_API + Auth.VERIFY_TOKEN_API, {
-              headers: {Authorization: `Bearer ${parsedValue.token}`},
-            })
+            Axios.get(NODE_API + Auth.VERIFY_TOKEN_API)
               .then(res => {
                 console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
                 if (res) {
                   if (res.status === 200) {
                     console.log('5. 토큰값 확인');
-                    const {email, loginType, isLogin = true} = res.data.user;
-                    setUserInfo(email, parsedValue.token, loginType, isLogin);
+                    const {id, email, loginType, isLogin = true} = res.data.user;
+                    setUserInfo(id, email, parsedValue.token, loginType, isLogin);
                   } else {
                     console.log('5.토큰값 다름');
                     Alert.alert('토큰이 만료되었습니다.');
+                    navigation && navigation.navigate('SignIn');
                   }
                   // setUserReducer();
                 } else {
@@ -86,18 +91,58 @@ const UserProvider = ({children}: Props) => {
                 }
               })
               .catch(e => console.log(`verify token api error : ${e}`));
-          } else {
-            console.log('3.토큰없음');
-            Alert.alert('로그인이 필요합니다');
           }
         } else {
           console.log(`2.getUserInfo()에서 value 값 없음, 값 : ${value} `);
+          Alert.alert('Localstorage user 값 없음');
+          navigation && navigation.navigate('SignIn');
         }
       })
       .catch(e => {
         console.log(`1.getUserInfo 호출에서 에러, 에러msg : ${JSON.stringify(e)} `);
       });
   };
+  // const getUserInfo = (navigation?: StackNavigationProp<any>) => {
+  //   console.log('1.getUserInfo 호출됨');
+  //   AsyncStorage.getItem('@loginInfo')
+  //     .then(value => {
+  //       if (value) {
+  //         console.log(`2.getUserInfo()에서 value 값 : ${value} `);
+  //         const parsedValue = JSON.parse(value);
+  //         if (parsedValue.token) {
+  //           console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
+  //           Axios.get(NODE_API + Auth.VERIFY_TOKEN_API, {
+  //             headers: {Authorization: `Bearer ${parsedValue.token}`},
+  //           })
+  //             .then(res => {
+  //               console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
+  //               if (res) {
+  //                 if (res.status === 200) {
+  //                   console.log('5. 토큰값 확인');
+  //                   const {id, email, loginType, isLogin = true} = res.data.user;
+  //                   setUserInfo(id, email, parsedValue.token, loginType, isLogin);
+  //                 } else {
+  //                   console.log('5.토큰값 다름');
+  //                   Alert.alert('토큰이 만료되었습니다.');
+  //                   navigation && navigation.navigate('SignIn');
+  //                 }
+  //                 // setUserReducer();
+  //               } else {
+  //                 console.log(`4.res 데이터없음`);
+  //               }
+  //             })
+  //             .catch(e => console.log(`verify token api error : ${e}`));
+  //         }
+  //       } else {
+  //         console.log(`2.getUserInfo()에서 value 값 없음, 값 : ${value} `);
+  //         Alert.alert('Localstorage user 값 없음');
+  //         navigation && navigation.navigate('SignIn');
+  //       }
+  //     })
+  //     .catch(e => {
+  //       console.log(`1.getUserInfo 호출에서 에러, 에러msg : ${JSON.stringify(e)} `);
+  //     });
+  // };
 
   const logout = (): void => {
     AsyncStorage.removeItem('@loginInfo');

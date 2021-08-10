@@ -11,8 +11,8 @@ type HomeStackNaviParamList = {
   };
   PatientEditor: {
     screen: '환자 추가' | '환자 상세' | '환자 수정';
-    deviceSerial?: string;
-    setDeviceSerial?:(active:any) => void;
+    deviceCode?: string;
+    patient_id?: string;
   };
   HomeTabRouter: {
     screen: '환자 목록' | '실시간 센서';

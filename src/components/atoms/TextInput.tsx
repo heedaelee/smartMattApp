@@ -49,7 +49,7 @@ export const InputData = ({
 };
 
 const InputDataStyled = styled.TextInput`
-  color: ${(props: any) => (props.isEditable ? 'black' : Theme.color.lightGray)};
+  color: ${(props: any) => (props.editable ? 'black' : Theme.color.lightGray)};
   width: 100%;
   height: ${Theme._HEIGHT / 20}px;
   border-bottom-width: 1px;
