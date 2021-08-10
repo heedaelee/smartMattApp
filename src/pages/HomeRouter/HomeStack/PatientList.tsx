@@ -19,7 +19,6 @@ import useInput from '~/hooks/useInput';
 import {useLoggedUser, useSelectedPatient} from '~/hooks/useReduce';
 import {Device, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
 import DownKeyboard from '~/lib/DownKeyboard';
-import {PatientListDummy} from '~/lib/dummyData/DummyData';
 import Theme from '~/lib/Theme';
 
 type PatientListProps = {
@@ -35,7 +34,10 @@ const PatientList = ({navigation}: PatientListProps) => {
   const [pageNum, setPageNum] = useInput(1);
   const [userState, setUserReducer] = useLoggedUser();
 
+  console.log('랜더링 횟수');
   useEffect(() => {
+    console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
+
     getPatientList();
   }, []);
 
@@ -79,6 +81,7 @@ const PatientList = ({navigation}: PatientListProps) => {
   };
 
   const getPatientList = async () => {
+    console.log('getPatinetList call 횟수');
     const {id} = userState;
     console.log(id);
 
@@ -125,10 +128,10 @@ const PatientList = ({navigation}: PatientListProps) => {
   return (
     <DownKeyboard>
       <Container style={styles.container}>
-        {PatientListDummy.length > 0 ? (
+        {patientList.length > 0 ? (
           <List
             style={styles.list}
-            data={PatientListDummy}
+            data={patientList}
             //랜더 아이템을 함수형으로 쓰면 안됨. Invalid hook call에 걸림
             // Hooks can only be called inside of the body of a function component.
             // This could happen for one of the following reasons:
@@ -139,6 +142,8 @@ const PatientList = ({navigation}: PatientListProps) => {
               <NormalListItem item={item} setModalVisible={setMenuModalVisible} />
             )}
             scrollEnabled={true}
+            onEndReached={getPatientList}
+            onEndReachedThreshold={1}
           />
         ) : (
           <View style={styles.emptyTextView}>

@@ -28,10 +28,10 @@ type TabRouterParamList = {
   HeatMapTemplate: undefined;
 };
 
-type AlarmItem = {
+type nomalListItem = {
   id: string;
-  title: string;
-  description: string;
+  patientName: string;
+  patientCondition: string;
   isRead: boolean;
 };
 

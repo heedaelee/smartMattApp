@@ -10,9 +10,9 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import {useSelectedPatient} from '~/hooks/useReduce';
 
 export type NormalListItemProps = {
-  item: AlarmItem;
+  item: nomalListItem;
   setModalVisible?: (active: boolean) => void;
-  setRead?: (item: AlarmItem) => void;
+  setRead?: (item: nomalListItem) => void;
 };
 
 const renderItemIcon = () => (
@@ -41,20 +41,20 @@ const NormalListItem = ({item, setModalVisible, setRead}: NormalListItemProps) =
       title={evaProps => (
         <View style={{marginBottom: 5}}>
           {item.isRead ? (
-            <Text style={{opacity: 0.5}}>{item.title}</Text>
+            <Text style={{opacity: 0.5}}>{item.patientName}</Text>
           ) : (
-            <Text>{item.title}</Text>
+            <Text>{item.patientName}</Text>
           )}
         </View>
       )}
       description={evaProps =>
         item.isRead ? (
           <Text {...evaProps} style={[evaProps?.style, {opacity: 0.8}]}>
-            {item.description}
+            {item.patientCondition}
           </Text>
         ) : (
           <Text {...evaProps} style={[evaProps?.style]}>
-            {item.description}
+            {item.patientCondition}
           </Text>
         )
       }

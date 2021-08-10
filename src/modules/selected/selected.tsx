@@ -9,8 +9,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export const initialState: SelectedPatientState = {
   id: '',
-  name: '',
-  description: '',
+  patientName: '',
+  patientCondition: '',
 };
 
 export const selectedSlice = createSlice({
@@ -19,8 +19,8 @@ export const selectedSlice = createSlice({
   reducers: {
     setSelectedPatient(state, action) {
       state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.description = action.payload.description;
+      state.patientName = action.payload.patientName;
+      state.patientCondition = action.payload.patientCondition;
     },
   },
 });

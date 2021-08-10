@@ -29,7 +29,7 @@ const UserProvider = ({children}: Props) => {
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  },[]);
 
   const [userState, setUserReducer] = useLoggedUser();
 

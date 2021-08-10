@@ -104,12 +104,12 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   useEffect(() => {
     if (screen === '환자 수정') {
-      const {id, name, description} = selectedPatient;
+      const {id, patientName, patientCondition} = selectedPatient;
       //환자 수정 페이지시 리덕스에 selected 데이터 갖고와 setState 해줌
-      setPatientName(name);
+      setPatientName(patientName);
       //아직 기기코드가 없으니깐. id로 대체
       //setDeviceCode(id);
-      description && setPatientCondition(description);
+      patientCondition && setPatientCondition(patientCondition);
     }
     if (deviceCode) {
       setIsDeviceCode(true);

@@ -33,8 +33,8 @@ type registrySubmitParamList = {
 
 type SelectedPatientState = {
   id: string;
-  name: string;
-  description?: string;
+  patientName: string;
+  patientCondition?: string;
 };
 
 type UserContext = {

@@ -33,7 +33,7 @@ const MenuModal = ({
       onBackdropPress={() => setMenuModalVisible(false)}>
       <Card disabled={true} style={styles.cardStyle}>
         <View style={styles.modalNameRow}>
-          <MenuText size={'18px'}>{selectedPatientState.name}</MenuText>
+          <MenuText size={'18px'}>{selectedPatientState.patientName}</MenuText>
         </View>
         <ModalOneMenuRow onPress={goToSensorPage}>접속</ModalOneMenuRow>
         <ModalOneMenuRow onPress={goToEditPatientPage}>편집</ModalOneMenuRow>
