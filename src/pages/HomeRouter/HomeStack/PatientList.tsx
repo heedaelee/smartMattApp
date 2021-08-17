@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
@@ -6,6 +8,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {List} from '@ui-kitten/components';
 import Axios from 'axios';
 import React, {useEffect} from 'react';
+import {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import {CircleButton} from '~/components/atoms/Button';
@@ -30,16 +33,48 @@ const PatientList = ({navigation}: PatientListProps) => {
   const [removeModalVisible, setRemoveModalVisible] = useBoolean(false);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
-  const [patientList, setPatientList] = useInput([]);
-  const [pageNum, setPageNum] = useInput(1);
+  // const [patientList, setPatientList] = useInput([]);
+  // const [pageNum, setPageNum] = useInput(1);
+  const [state, setState] = useState({data: [], page: 1, refreshing: false});
   const [userState, setUserReducer] = useLoggedUser();
 
-  console.log('랜더링 횟수');
-  useEffect(() => {
-    console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
+  const [timer, setTimer] = useState(0); // 디바운싱 타이머
 
+  console.log('PatientList 랜더링');
+  useEffect(() => {
+    // console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
+    console.log(`useEffect 랜더링, pageNum : ${state.page}`);
     getPatientList();
   }, []);
+
+  console.log(`timer value : ${timer}`);
+
+  useEffect(() => {
+    console.log(`state.refreshing 호출useEffect ${JSON.stringify(state)}`);
+    if (state.refreshing){
+      console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
+      getPatientList();
+    }
+  }, [state.refreshing]);
+
+  //문제 : refresh시 여러번 getPatientList()가 호출되는게 문제.
+  // useEffect(() => {
+  //   console.log(`state refresing 값 변할때만 Call`);
+  //   getPatientList();
+  //   // if (timer) {
+  //   //   console.log('clear timer');
+  //   //   clearTimeout(timer);
+  //   // }
+  //   // const newTimer = setTimeout(async () => {
+  //   //   try {
+  //   //     await getPatientList();
+  //   //   } catch (e) {
+  //   //     console.error('error', e);
+  //   //   }
+  //   // }, 800);
+  //   // setTimer(newTimer);
+
+  // }, [state.refreshing]);
 
   const goToAddPatientPage = () => {
     navigation.navigate('AddDevice', {
@@ -80,16 +115,24 @@ const PatientList = ({navigation}: PatientListProps) => {
     //TODO: 삭제 프로세스 redux 던지기
   };
 
+  const handleRefresh = () => {
+    setState({data: [], page: 1, refreshing: true});
+    console.log(`handleRefresh호출 ${JSON.stringify(state)}`);
+    // getPatientList();
+  };
+
   const getPatientList = async () => {
-    console.log('getPatinetList call 횟수');
+    console.log('getPatinetList call');
     const {id} = userState;
     console.log(id);
 
     //pageNum을 offeset으로 변형
     //0,8,16.. 0 + 8(n-1) 으로 DB의 OFFSET이 들어가야함
     //OFFSET = 0,8,16 ... = 0 + (8 * (pageNum - 1))
-    const offset = 0 + 8 * (pageNum - 1);
+    //const offset = 0 + 8 * (pageNum - 1);
+    const offset = 0 + 8 * (state.page - 1);
     console.log(`offset 값 : ${offset}`);
+    console.log(`state.page 값 : ${state.page}`);
 
     const postData = JSON.stringify({id: id, offset: offset});
 
@@ -99,14 +142,12 @@ const PatientList = ({navigation}: PatientListProps) => {
         const {success, message, list} = res.data;
         if (success) {
           console.log('list select 성공');
-          // this.setState({
-          //   data: this.state.data.concat(data), // 기존 data에 추가.
-          //   page: this.state.page + 1
-          // })
-
-          //자료는 concat으로 배열 뒤 붙이고, ++pageNum 해준다.
-          setPatientList(patientList.concat(list));
-          setPageNum(pageNum + 1);
+          console.log(`getPatientList 내의 state: ${JSON.stringify(state)}`);
+          setState({
+            data: state.refreshing ? list : state.data.concat(list),
+            page: state.page + 1,
+            refreshing: false,
+          });
         } else {
           console.log('getPatientList server api success:false');
           switch (message) {
@@ -128,10 +169,10 @@ const PatientList = ({navigation}: PatientListProps) => {
   return (
     <DownKeyboard>
       <Container style={styles.container}>
-        {patientList.length > 0 ? (
+        {state.data.length > 0 ? (
           <List
             style={styles.list}
-            data={patientList}
+            data={state.data}
             //랜더 아이템을 함수형으로 쓰면 안됨. Invalid hook call에 걸림
             // Hooks can only be called inside of the body of a function component.
             // This could happen for one of the following reasons:
@@ -143,7 +184,9 @@ const PatientList = ({navigation}: PatientListProps) => {
             )}
             scrollEnabled={true}
             onEndReached={getPatientList}
-            onEndReachedThreshold={1}
+            onEndReachedThreshold={0.01}
+            refreshing={state.refreshing}
+            onRefresh={handleRefresh}
           />
         ) : (
           <View style={styles.emptyTextView}>
