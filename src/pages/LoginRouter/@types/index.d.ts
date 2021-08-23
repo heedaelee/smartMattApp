@@ -33,8 +33,10 @@ type registrySubmitParamList = {
 
 type SelectedPatientState = {
   id: string;
+  deviceCode: string;
   patientName: string;
   patientCondition?: string;
+  patientImg?: string;
 };
 
 type UserContext = {
@@ -49,4 +51,3 @@ type UserContext = {
   getUserInfo: (active?: any) => void;
   logout: () => void;
 };
-ß

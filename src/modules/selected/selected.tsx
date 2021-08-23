@@ -11,6 +11,8 @@ export const initialState: SelectedPatientState = {
   id: '',
   patientName: '',
   patientCondition: '',
+  deviceCode: '',
+  patientImg: '',
 };
 
 export const selectedSlice = createSlice({
@@ -21,6 +23,8 @@ export const selectedSlice = createSlice({
       state.id = action.payload.id;
       state.patientName = action.payload.patientName;
       state.patientCondition = action.payload.patientCondition;
+      state.deviceCode = action.payload.deviceCode;
+      state.patientImg = action.payload.patientImg;
     },
   },
 });

@@ -46,7 +46,7 @@ const tabBarListeners = ({navigation, route}: BottomNaviRouterProps) => ({
 });
 
 const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
-  console.log('bottome')
+  console.log('BottomNaviRouter');
   return (
     <Tab.Navigator
       // FORTEST: initial : HomeStack -> MypageStack
@@ -58,7 +58,6 @@ const BottomNaviRouter = ({navigation, route}: BottomNaviRouterProps) => {
           flex: 1,
           height: 70,
           bottom: 30,
-          
           backgroundColor: 'white',
         },
         labelStyle: {

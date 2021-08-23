@@ -14,6 +14,8 @@ const defaultGradient = Theme.heatMap.gradient;
 const defaultMaxValue = Theme.heatMap.max;
 
 const HeatMap = ({}) => {
+  console.log('HeatMap 페이지 랜더링')
+
   /*Context 사용 Gradient 값 가져오기 */
   //key array 추출
   const keyArr = Object.keys(defaultGradient);
@@ -53,8 +55,7 @@ const HeatMap = ({}) => {
   // console.log(finArr);
 
   useEffect(() => {
-    // console.log(`Rendering 페이지 랜더링`);
-    //mqttConnect();
+    console.log(`HeatMap useEffect 콜`);
   }, []);
 
   return (

@@ -23,12 +23,15 @@ import {useLoggedUser, useSelectedPatient} from '~/hooks/useReduce';
 import {Device, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
 import DownKeyboard from '~/lib/DownKeyboard';
 import Theme from '~/lib/Theme';
+//import mqtt from '@taoqf/react-native-mqtt';
+let mqtt = require('@taoqf/react-native-mqtt');
 
 type PatientListProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
+  route: any;
 };
 
-const PatientList = ({navigation}: PatientListProps) => {
+const PatientList = ({navigation, route}: PatientListProps) => {
   const [menuModalVisible, setMenuModalVisible] = useBoolean(false);
   const [removeModalVisible, setRemoveModalVisible] = useBoolean(false);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
@@ -38,20 +41,19 @@ const PatientList = ({navigation}: PatientListProps) => {
   const [state, setState] = useState({data: [], page: 1, refreshing: false});
   const [userState, setUserReducer] = useLoggedUser();
 
-  const [timer, setTimer] = useState(0); // 디바운싱 타이머
-
   console.log('PatientList 랜더링');
+
+  //환자 리스트 갖고옴, mount시
   useEffect(() => {
     // console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
     console.log(`useEffect 랜더링, pageNum : ${state.page}`);
     getPatientList();
   }, []);
 
-  console.log(`timer value : ${timer}`);
-
+  //환자 리스트 갖고옴, refreshing 버튼 작동시(유저 하단 드래그시)
   useEffect(() => {
     console.log(`state.refreshing 호출useEffect ${JSON.stringify(state)}`);
-    if (state.refreshing){
+    if (state.refreshing) {
       console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
       getPatientList();
     }
@@ -88,12 +90,64 @@ const PatientList = ({navigation}: PatientListProps) => {
   const goToSensorPage = () => {
     console.log('goToSensorPage 함수');
     setMenuModalVisible(false);
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{name: 'HomeTabRouter', params: {screen: '실시간 센서'}}],
+    // });
+
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{name: '실시간 센서'}],
+    // });
+
+    // navigation.jumpTo('실시간 센서');
+
+    // console.log('**navigation');
+    // console.dir(route);
+
     navigation.navigate('HomeTabRouter', {
       screen: '실시간 센서',
     });
+
+    // const MQTT_ADDR = 'ws://192.168.138.19';
+    // 포트를 adb -s R3CMB08119P reverse tcp:8080 tcp:8080 로 변화하면 localhost도 통신 가능하다
+    // 유의할 건 같은 네트워크 IP주소여야 함.
+    // const MQTT_ADDR = 'ws://localhost';
+
+    // const mqtt_port = 8080;
+    // function mqttConnect() {
+    //   console.log(`mqtt연결 시도`);
+    //   let option = {
+    //     port: mqtt_port,
+    //     keepalive: 0,
+    //   };
+    //   let client = mqtt.connect(MQTT_ADDR, option);
+
+    //   console.dir(client);
+
+    //   client.on('connect', () => {
+    //     console.log('MQTT connect');
+    //     // let topic = channel + '/status';
+    //     let topic = '123456';
+    //     client.subscribe(topic);
+    //   });
+
+    //   client.on('error', (err: string) => {
+    //     console.log(`소켓 접속 에러 : ${err}`);
+    //   });
+
+    //   client.on('message', function (topic: any, message: any) {
+    //     // message is Buffer
+    //     /* byte방식 */
+    //     console.log(`${message.toString()}`);
+    //   });
+    //   return client;
+    // }
+
+    // mqttConnect();
   };
 
-  /* 편집 */
+  /* 편집 삭제 일단 보류*/
   const goToEditPatientPage = () => {
     console.log('goToEditPatientPage 함수');
     setMenuModalVisible(false);
@@ -102,6 +156,7 @@ const PatientList = ({navigation}: PatientListProps) => {
     });
   };
 
+  /* 편집 삭제 일단 보류*/
   const onPressRemoveButton = () => {
     setMenuModalVisible(false);
     setRemoveModalVisible(true);

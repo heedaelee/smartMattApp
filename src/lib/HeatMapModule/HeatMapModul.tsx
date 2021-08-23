@@ -4,12 +4,18 @@ import React, {useEffect, useState} from 'react';
 import Heatmap from 'react-native-simpleheat';
 import WebView from 'react-native-webview';
 import Theme from '../Theme';
+import {useLoggedUser, useSelectedPatient} from '~/hooks/useReduce';
+import {useFocusEffect} from '@react-navigation/native';
+import {Alert} from 'react-native';
+import {MQTT_ADDR, mqtt_port} from '~/lib/apiSite/apiSite';
 
-let mqtt = require('@taoqf/react-native-mqtt');
+//** change require to import  */
+import mqtt from '@taoqf/react-native-mqtt';
+// var mqtt = require('@taoqf/react-native-mqtt');
 
-const channel = 4; //채널 임시로 4
-const mqtt_addr = 'ws://220.92.18.202';
-const mqtt_port = 8080;
+// const channel = 4; //채널 임시로 4
+let channel = '';
+
 const DefaultWidth = 14;
 const DefaultHeight = 25;
 const interval = 20;
@@ -45,25 +51,40 @@ function makeFrame(width: number, height: number) {
 }
 
 function HeatMapModule() {
-  // console.log(XYArray);
+  console.log(`HeatMapModule 페이지 랜더링`);
+  const [selectedPatientState, setPatientReducer] = useSelectedPatient();
+  console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
+  channel = selectedPatientState.deviceCode;
   const [data, setData] = useState(XYArray);
   // const [conn, setConn] = useState(false);
   const defaultMaxValue = Theme.heatMap.max;
   const defaultGradient = Theme.heatMap.gradient;
+  console.log(`channel : ${channel}`);
+  console.log(`defaultMaxValue : ${defaultMaxValue}`);
 
-  useEffect(() => {
-    console.log(`HeatMapModule 페이지 랜더링`);
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(`HeatMapModule useFocusEffect 작동`);
+      console.log(`channel2 : ${channel}`);
+      console.log(`defaultMaxValue2 : ${defaultMaxValue}`);
+      // Alert.alert('Screen was focused');
+      // Do something when the screen is focused
+      let client: any;
+      if (channel) {
+        client = mqttConnect();
+      }
 
-    //FORTEST:  일단 63행과 함께 중지 주석 처리 
-    // 마운트 될때 한번만 실행.
-    //let client = mqttConnect();
-
-    return () => {
-      //언마운트 될때 mqtt 종료.
-      //client.end();
-      console.log('MQTT 종료');
-    };
-  }, []);
+      return () => {
+        // Alert.alert('Screen was unfocused');
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        if (client) {
+          console.log('MQTT 종료');
+          client.end();
+        }
+      };
+    }, []),
+  );
 
   function mqttConnect() {
     console.log(`mqtt연결 시도`);
@@ -71,31 +92,36 @@ function HeatMapModule() {
       port: mqtt_port,
       keepalive: 0,
     };
-    let client = mqtt.connect(mqtt_addr, option);
+    let client = mqtt.connect(MQTT_ADDR, option);
+
+    console.dir(client);
 
     client.on('connect', () => {
       console.log('MQTT connect');
-      let topic = channel + '/status';
-      //client.publish(topic, 'App_Connected');
-      //client.end();
+      // let topic = channel + '/status';
+      let topic = channel;
       client.subscribe(topic);
     });
 
     client.on('error', (err: string) => {
-      console.log(`에러 : ${err}`);
+      console.log(`소켓 접속 에러 : ${err}`);
     });
 
     client.on('message', function (topic: any, message: any) {
       // message is Buffer
       /* byte방식 */
-      //console.log(`${message.toString()}`);
-      let receivedArray = new Array();
-      for (let i = 0; i < message.length; i += 2) {
-        receivedArray[i / 2] = message.readInt16BE(i);
-        //Big엔디안 방식  16bit <- 8bit + 8bit
-        //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
-        //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
-      }
+      console.log(`${message.toString()}`);
+
+      /**
+      TODO: 잠시만 주석 처리 8/17
+       
+      // let receivedArray = new Array();
+      // for (let i = 0; i < message.length; i += 2) {
+      //   receivedArray[i / 2] = message.readInt16BE(i);
+      //   //Big엔디안 방식  16bit <- 8bit + 8bit
+      //   //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
+      //   //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
+      // }
 
       //수신 데이터 확인용
       // if(receivedArray.length === 2048){
@@ -127,6 +153,7 @@ function HeatMapModule() {
       // console.log(newState);
 
       setData(newState);
+       */
     });
     return client;
   }
@@ -134,9 +161,6 @@ function HeatMapModule() {
   return (
     <>
       {console.log('HeatMap 상단 리랜더링')}
-      {/* <View>
-        <Text>{data}</Text>
-      </View> */}
       <Heatmap
         WebView={WebView} // <-- Implementors must define the <WebView/> component!
         data={data}

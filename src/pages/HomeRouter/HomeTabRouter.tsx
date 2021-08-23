@@ -4,22 +4,14 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from 'react';
 import Theme from '~/lib/Theme';
+import HeatMap from './HomeStack/HeatMap';
+import PatientList from './HomeStack/PatientList';
 
 const Tab = createMaterialTopTabNavigator();
 
-type TabRouterProps = {
-  firstTab: {
-    name: string;
-    component: React.ComponentType<any>;
-  };
-  secondTab: {
-    name: string;
-    component: React.ComponentType<any>;
-  };
-};
 
-const TabRouter = ({firstTab, secondTab}: TabRouterProps) => {
-  console.log('탭라우터 호출')
+const TabRouter = () => {
+  console.log(' Home tab라우터')
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -29,8 +21,8 @@ const TabRouter = ({firstTab, secondTab}: TabRouterProps) => {
           fontFamily: 'SpoqaHanSansNeo-Medium',
         },
       }}>
-      <Tab.Screen name={firstTab.name} component={firstTab.component} />
-      <Tab.Screen name={secondTab.name} component={secondTab.component} />
+      <Tab.Screen name={'환자 목록'} component={PatientList} />
+      <Tab.Screen name={'실시간 센서'} component={HeatMap} />
     </Tab.Navigator>
   );
 };

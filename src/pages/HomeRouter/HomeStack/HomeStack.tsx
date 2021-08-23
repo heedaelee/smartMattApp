@@ -9,6 +9,7 @@ import Theme from '~/lib/Theme';
 import HeatMap from '~/pages/HomeRouter/HomeStack/HeatMap';
 import PatientList from '~/pages/HomeRouter/HomeStack/PatientList';
 import TabRouter from '../TabRouter';
+import HomeTabRouter from '../HomeTabRouter';
 import PatientEditor from './PatientEditor';
 import AddDevice from './AddDevice';
 
@@ -19,6 +20,7 @@ import AddDevice from './AddDevice';
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
+  console.log('홈 stack 호출');
   const iconSize = Theme._WIDTH / 13;
   const iconColor = 'white';
   //TEST LogOut
@@ -53,8 +55,14 @@ const HomeStack = () => {
               }}
             />
           ),
-        })}>
-        {() => (
+        })}
+        component={HomeTabRouter}
+      />
+        {/* 탭을 자식처럼 쓰는 방법에서 component로 변경, 
+        tabRouter도 공통모듈로 만들었다가 걍 HomeTabRouter 따로 만듬. option도 주고, 뭔가
+        Tab 같은건 다른 레퍼런스도 공통모듈로 안만들고 해서 찝찝해서..
+        */}
+        {/* {() => (
           <TabRouter
             firstTab={{
               name: '환자 목록',
@@ -66,8 +74,8 @@ const HomeStack = () => {
               component: HeatMap,
             }}
           />
-        )}
-      </Stack.Screen>
+        )} */}
+      {/* </Stack.Screen> */}
       <Stack.Screen
         name="PatientEditor"
         options={({route}: any) => ({

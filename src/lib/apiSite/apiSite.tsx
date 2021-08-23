@@ -9,14 +9,30 @@
 //2. node포트가 4000번이라면 <기기명:R3C...>
 //   adb -s R3CMB08119P reverse tcp:4000 tcp:4000을 입력한다.
 //3. 터미널에 4000 이라 뜨면 적용된거고, 아래처럼 localhost:4000번이 개발서버로 유효하다.
-export const NODE_API = 'http://localhost:4000/api';
+// export const NODE_API = 'http://localhost:4000/api';
 
-/*
-const SIGN_UP_API = '/auth/signUp';
-const SIGN_IN_API = '/auth/signIn';
-const IS_EMAIL_API = '/auth/isEmail';
-const IS_PHONE_API = '/auth/isPhone';
-*/
+//휴대폰
+// export const NODE_API = 'http://192.168.138.19:4000/api';
+//회사
+export const NODE_API = 'http://192.168.0.32:4000/api';
+
+//실제 기기 4000번 돌렸을떄
+// const MQTT_ADDR = 'ws://220.92.18.202';
+//내 폰 hotSpot으로 통신 ip
+// const MQTT_ADDR = 'ws://192.168.138.19';
+//pc랑 폰 같은 외부망 회선이면, 내부망 마지막 아이피주소가 달라도, 통신가능함.
+//회사
+export const MQTT_ADDR = 'ws://192.168.0.32';
+// 포트를 adb -s R3CMB08119P reverse tcp:8080 tcp:8080 로 변화하면 localhost도 통신 가능하다
+// 유의할 건 같은 네트워크 IP주소여야 함.
+// const MQTT_ADDR = 'ws://localhost';
+
+// 프로토콜이 웹소켓일때는 8080포트를 사용한다. 1883은 tcp나 mqtt일때
+export const mqtt_port = 8080;
+
+// 에뮬레이터 일떄 모르겠음 아래것 안됨
+// const MQTT_ADDR = 'ws://10.0.2.2';
+// const mqtt_port = 8080;
 
 //Node에서 처리 모듈 단위
 export const Auth = {
