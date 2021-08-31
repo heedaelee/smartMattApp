@@ -62,6 +62,9 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
   // }
   //상태 초기화
   function initializer() {
+    if (finalDevice) {
+      finalDevice = null;
+    }
     if (isEdit) {
       setIsEdit(false);
     }
@@ -78,12 +81,16 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
 
   useEffect(() => {
     console.log(`useEffect 탐_ refreshed`);
+    console.dir(finalDevice);
+    console.log(power);
+
     finalDevice ? setIsBleConn(true) : setIsBleConn(false);
 
-    if (!power && !isPower) isPowered();
+    if (!power) isPowered();
 
     //power on && Device 객체 없을시..
     if (power && !finalDevice) {
+      console.log('스캔함수');
       scanAndConnect();
     }
     //컴포넌트 unmount시 초기화 함수 호출
@@ -221,29 +228,19 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
 
     let serviceUUID = '8183d256-b358-4c62-a487-d2e7429bfc39';
     let CharacteristicUUID_write = '61661f33-bc34-4513-a43d-20c2f3970829';
-    let SSID = `SSID:${ssid}`;
-    let PASS = `PASS:${ssidPassword}`;
-
     console.log(`ssid: ${ssid} pass: ${ssidPassword}`);
+    let dataToSend = `SSID:${ssid}PASS:${ssidPassword}`;
 
     // 1. 상세 || 수정 페이지
     if (isSsid && isSsidPassword && isEdit) {
       // 2-1. 수정페이지만
 
       //그러니까 연결된 최종 device 객체를 가지고 다니며 사용하면 되는거였다. 전역으로
-      finalDevice
-        .writeCharacteristicWithResponseForService(
-          serviceUUID,
-          CharacteristicUUID_write,
-          base64.encode(SSID),
-        )
-        .then(() => {
-          return finalDevice.writeCharacteristicWithResponseForService(
-            serviceUUID,
-            CharacteristicUUID_write,
-            base64.encode(PASS),
-          );
-        });
+      finalDevice.writeCharacteristicWithResponseForService(
+        serviceUUID,
+        CharacteristicUUID_write,
+        base64.encode(dataToSend),
+      );
       /** 유저가 시리얼 코드 변경 하면 안되므로 CODE는 일단 전송 취소 */
       // .then(() => {
       //   return finalDevice.writeCharacteristicWithResponseForService(

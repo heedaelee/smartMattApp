@@ -19,8 +19,8 @@ let channel = '';
 const DefaultWidth = 14;
 const DefaultHeight = 25;
 const interval = 20;
-const widthMargin = 20;
-const heightMargin = 50;
+const widthMargin = 55;
+const heightMargin = 60;
 
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
@@ -55,6 +55,7 @@ function HeatMapModule() {
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
   console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
   channel = selectedPatientState.deviceCode;
+
   const [data, setData] = useState(XYArray);
   // const [conn, setConn] = useState(false);
   const defaultMaxValue = Theme.heatMap.max;
@@ -112,19 +113,17 @@ function HeatMapModule() {
       /* byte방식 */
       console.log(`${message.toString()}`);
 
-      /**
-      TODO: 잠시만 주석 처리 8/17
        
-      // let receivedArray = new Array();
-      // for (let i = 0; i < message.length; i += 2) {
-      //   receivedArray[i / 2] = message.readInt16BE(i);
-      //   //Big엔디안 방식  16bit <- 8bit + 8bit
-      //   //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
-      //   //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
-      // }
+      let receivedArray = new Array();
+      for (let i = 0; i < message.length; i += 2) {
+        receivedArray[i / 2] = message.readInt16BE(i);
+        //Big엔디안 방식  16bit <- 8bit + 8bit
+        //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
+        //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
+      }
 
-      //수신 데이터 확인용
-      // if(receivedArray.length === 2048){
+      // 수신 데이터 확인용
+      // if (receivedArray.length === 2048){
       //     for (let i = 0; i < receivedArray.length; i+=32) {
       //       console.log(`${receivedArray[i]} ${receivedArray[i+1]} ${receivedArray[i+2]} ${receivedArray[i+3]} ${receivedArray[i+4]} ${receivedArray[i+5]} ${receivedArray[i+6]} ${receivedArray[i+7]} ${receivedArray[i+8]} ${receivedArray[i+9]} ${receivedArray[i+10]} ${receivedArray[i+11]} ${receivedArray[i+12]} ${receivedArray[i+13]}  ${receivedArray[i+14]} ${receivedArray[i+15]} ${receivedArray[i+16]} ${receivedArray[i+17]} ${receivedArray[i+18]} ${receivedArray[i+19]} ${receivedArray[i+20]} ${receivedArray[i+21]} ${receivedArray[i+22]} ${receivedArray[i+23]} ${receivedArray[i+24]} ${receivedArray[i+25]} ${receivedArray[i+26]} ${receivedArray[i+27]} ${receivedArray[i+28]} ${receivedArray[i+29]} ${receivedArray[i+30]} ${receivedArray[i+31]}`);
       //     }
@@ -140,9 +139,9 @@ function HeatMapModule() {
       let newResult = result.flat();
 
       //조작 데이터 확인용
-      // for (let i = 0; i < newResult.length; i+=14) {
-      //     console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
-      //   }
+      for (let i = 0; i < newResult.length; i+=14) {
+          console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
+        }
 
       //실제코드
       for (let i = 0; i < XYArray.length; i++) {
@@ -151,9 +150,7 @@ function HeatMapModule() {
       //불변성에 대해서 좀더 고민해봐야 겠음. 리랜더링이 안됨. slice() 사용시 됨.
       let newState = XYArray.slice();
       // console.log(newState);
-
       setData(newState);
-       */
     });
     return client;
   }

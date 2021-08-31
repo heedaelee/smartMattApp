@@ -40,6 +40,6 @@ export default {
       0.8: 'yellow',
       1.0: 'red',
     },
-    max: 140,
+    max: 4096,
   },
 };
