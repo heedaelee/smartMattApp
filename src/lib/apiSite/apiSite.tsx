@@ -16,8 +16,8 @@
 //회사
 // export const NODE_API = 'http://192.168.0.32:4000/api';
 //기타
-const ip = '192.168.0.147';
-export const NODE_API = `http://${ip}:4000/api`;
+const ip = '220.92.18.202';
+export const NODE_API = `http://${ip}/api`;
 
 //실제 기기 4000번 돌렸을떄
 // const MQTT_ADDR = 'ws://220.92.18.202';
