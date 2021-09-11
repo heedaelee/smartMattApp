@@ -1,23 +1,22 @@
 /* eslint-disable no-array-constructor */
 /* eslint-disable prettier/prettier */
-import React, {useEffect, useState} from 'react';
-import Heatmap from 'react-native-simpleheat';
-import WebView from 'react-native-webview';
-import Theme from '../Theme';
-import {useLoggedUser, useSelectedPatient} from '~/hooks/useReduce';
-import {useFocusEffect} from '@react-navigation/native';
-import {Alert} from 'react-native';
-import {MQTT_ADDR, mqtt_port} from '~/lib/apiSite/apiSite';
-
+import { useFocusEffect } from '@react-navigation/native';
 //** change require to import  */
 import mqtt from '@taoqf/react-native-mqtt';
+import React, { useState } from 'react';
+import Heatmap from 'react-native-simpleheat';
+import WebView from 'react-native-webview';
+import { useSelectedPatient } from '~/hooks/useReduce';
+import { MQTT_ADDR, mqtt_port } from '~/lib/apiSite/apiSite';
+import Theme from '../Theme';
+
 // var mqtt = require('@taoqf/react-native-mqtt');
 
 // const channel = 4; //채널 임시로 4
 let channel = '';
 
-const DefaultWidth = 14;
-const DefaultHeight = 25;
+const DefaultWidth = 15;
+const DefaultHeight = 30;
 const interval = 20;
 const widthMargin = 55;
 const heightMargin = 60;
@@ -95,7 +94,7 @@ function HeatMapModule() {
     };
     let client = mqtt.connect(MQTT_ADDR, option);
 
-    console.dir(client);
+    // console.dir(client);
 
     client.on('connect', () => {
       console.log('MQTT connect');
@@ -129,18 +128,25 @@ function HeatMapModule() {
       //     }
       //   }
 
+      //2021/09/11 수정 : 데이터 30row X 15 col X 2byte = 900개
+      
+      //과거꺼 백업.(25row x 14col)
       //받은 배열 사용할 값만 분리 25 x 14 size
       //즉 arr에서 row 40번~64번까지, col 1번~ 14번까지 데이터를 추출해야함
-      let result = [];
-      let column = 32;
-      for (let i = 1248; i < receivedArray.length; i += column) {
-        result.push(receivedArray.slice(i, i + DefaultWidth));
-      }
-      let newResult = result.flat();
+      // let result = [];
+      // let column = 32;
+      // for (let i = 1248; i < receivedArray.length; i += column) {
+      //   result.push(receivedArray.slice(i, i + DefaultWidth));
+      // }
+      // let newResult = result.flat();
+      let newResult = receivedArray.flat();
 
       //조작 데이터 확인용
-      for (let i = 0; i < newResult.length; i+=14) {
-          console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
+      // for (let i = 0; i < newResult.length; i+=14) {
+      //     console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
+      //   }
+      for (let i = 0; i < newResult.length; i+=15) {
+          console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]} ${newResult[i+14]}`);
         }
 
       //실제코드
