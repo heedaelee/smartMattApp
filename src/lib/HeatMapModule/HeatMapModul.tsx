@@ -17,9 +17,10 @@ let channel = '';
 
 const DefaultWidth = 15;
 const DefaultHeight = 30;
-const interval = 20;
+const widthInterval = 20;
+const heightInterval = 18;
 const widthMargin = 55;
-const heightMargin = 60;
+const heightMargin = 35;
 
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
@@ -38,8 +39,8 @@ function makeFrame(width: number, height: number) {
       arr[j] = [];
       //x,y 좌표값 insert for문
       for (let k = 0; k < 2; k++) {
-        arr[j][0] = widthMargin + j * interval; //x값 i++씩 가산, 0~31까지.
-        arr[j][1] = heightMargin + i * interval; //y값
+        arr[j][0] = widthMargin + j * widthInterval; //x값 i++씩 가산, 0~31까지.
+        arr[j][1] = heightMargin + i * heightInterval; //y값
         arr[j][2] = 0;
       }
     }
@@ -145,7 +146,7 @@ function HeatMapModule() {
       // for (let i = 0; i < newResult.length; i+=14) {
       //     console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
       //   }
-      for (let i = 0; i < newResult.length; i+=15) {
+      for (let i = 0; i < newResult.length; i += 15) {
           console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]} ${newResult[i+14]}`);
         }
 
