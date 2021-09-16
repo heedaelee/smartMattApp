@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+//추가 21.09.14
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
 
@@ -132,7 +134,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.smarmattapp"
+        applicationId "com.smartmatt"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -185,6 +187,9 @@ android {
 }
 
 dependencies {
+    //추가 21.09.14
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-analytics'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

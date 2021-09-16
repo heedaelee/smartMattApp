@@ -1,4 +1,4 @@
-package com.smarmattapp;
+package com.smartmatt;
 
 import com.facebook.react.ReactActivity;
 

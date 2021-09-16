@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925183242711",
+    "project_id": "mattproject-63fd3",
+    "storage_bucket": "mattproject-63fd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925183242711:android:210d2670c8f7c1a1911b92",
+        "android_client_info": {
+          "package_name": "com.smartmatt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925183242711-h219mo7c6g4p4n2qcnd1kiq4vip80l4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnaMOsxuiC-CYKxBGvlO3OdX6rngggxDM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925183242711-h219mo7c6g4p4n2qcnd1kiq4vip80l4l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

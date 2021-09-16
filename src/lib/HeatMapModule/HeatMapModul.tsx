@@ -1,13 +1,13 @@
 /* eslint-disable no-array-constructor */
 /* eslint-disable prettier/prettier */
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 //** change require to import  */
 import mqtt from '@taoqf/react-native-mqtt';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Heatmap from 'react-native-simpleheat';
 import WebView from 'react-native-webview';
-import { useSelectedPatient } from '~/hooks/useReduce';
-import { MQTT_ADDR, mqtt_port } from '~/lib/apiSite/apiSite';
+import {useSelectedPatient} from '~/hooks/useReduce';
+import {MQTT_ADDR, mqtt_port} from '~/lib/apiSite/apiSite';
 import Theme from '../Theme';
 
 // var mqtt = require('@taoqf/react-native-mqtt');
@@ -108,12 +108,29 @@ function HeatMapModule() {
       console.log(`소켓 접속 에러 : ${err}`);
     });
 
-    client.on('message', function (topic: any, message: any) {
+    client.on('message', function (topic: any, message: Buffer) {
       // message is Buffer
       /* byte방식 */
       console.log(`${message.toString()}`);
+      //buffer.toString(encodingType, startNum, length)
+      let STX = message.toString('utf-8', 0, 1);
+      let ETX = message.toString('utf-8', 901, 1);
 
-       
+      //받는 데이터 유효성 체크
+      //TODO: 유효성 하기 위해서 아두이노에서 DUMMY 쏴야겠다
+      if (message.length !== 902) {
+        console.log(
+          `client message error: message.length 갯수 에러 : ${message.length} 개`,
+        );
+      }
+      if (STX !== 'S') {
+        console.log(`client message error: STX 문자 에러, 받은 STX : ${STX}`);
+      }
+      if (ETX !== 'E') {
+        console.log(`client message error: ETX 문자 에러, 받은 ETX : ${ETX}`);
+      }
+      // TODO: return false 는 나중에
+
       let receivedArray = new Array();
       for (let i = 0; i < message.length; i += 2) {
         receivedArray[i / 2] = message.readInt16BE(i);
@@ -130,7 +147,7 @@ function HeatMapModule() {
       //   }
 
       //2021/09/11 수정 : 데이터 30row X 15 col X 2byte = 900개
-      
+
       //과거꺼 백업.(25row x 14col)
       //받은 배열 사용할 값만 분리 25 x 14 size
       //즉 arr에서 row 40번~64번까지, col 1번~ 14번까지 데이터를 추출해야함
@@ -147,8 +164,16 @@ function HeatMapModule() {
       //     console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
       //   }
       for (let i = 0; i < newResult.length; i += 15) {
-          console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]} ${newResult[i+14]}`);
-        }
+        console.log(
+          `${newResult[i]} ${newResult[i + 1]} ${newResult[i + 2]} ${newResult[i + 3]} ${
+            newResult[i + 4]
+          } ${newResult[i + 5]} ${newResult[i + 6]} ${newResult[i + 7]} ${
+            newResult[i + 8]
+          } ${newResult[i + 9]} ${newResult[i + 10]} ${newResult[i + 11]} ${
+            newResult[i + 12]
+          } ${newResult[i + 13]} ${newResult[i + 14]}`,
+        );
+      }
 
       //실제코드
       for (let i = 0; i < XYArray.length; i++) {
