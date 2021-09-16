@@ -1,9 +1,11 @@
 /* eslint-disable no-array-constructor */
 /* eslint-disable prettier/prettier */
 import {useFocusEffect} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 //** change require to import  */
 import mqtt from '@taoqf/react-native-mqtt';
 import React, {useState} from 'react';
+import {Alert} from 'react-native';
 import Heatmap from 'react-native-simpleheat';
 import WebView from 'react-native-webview';
 import {useSelectedPatient} from '~/hooks/useReduce';
@@ -50,7 +52,11 @@ function makeFrame(width: number, height: number) {
   return twoDimenArray;
 }
 
-function HeatMapModule() {
+type HeatMapModuleProps = {
+  navigation: StackNavigationProp<HomeStackNaviParamList>;
+};
+
+function HeatMapModule({navigation}: HeatMapModuleProps) {
   console.log(`HeatMapModule 페이지 랜더링`);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
   console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
@@ -120,23 +126,35 @@ function HeatMapModule() {
       //TODO: 유효성 하기 위해서 아두이노에서 DUMMY 쏴야겠다
       if (message.length !== 902) {
         console.log(
-          `client message error: message.length 갯수 에러 : ${message.length} 개`,
+          `client message error: message.length 갯수 에러 : ${message.length}개`,
         );
+        Alert.alert('메시지 갯수 오류');
+        navigation && navigation.goBack();
       }
       if (STX !== 'S') {
         console.log(`client message error: STX 문자 에러, 받은 STX : ${STX}`);
+        Alert.alert('STX 문자 없음');
+        navigation && navigation.goBack();
       }
       if (ETX !== 'E') {
         console.log(`client message error: ETX 문자 에러, 받은 ETX : ${ETX}`);
+        Alert.alert('ETX 문자 없음');
+        navigation && navigation.goBack();
       }
       // TODO: return false 는 나중에
 
       let receivedArray = new Array();
-      for (let i = 0; i < message.length; i += 2) {
-        receivedArray[i / 2] = message.readInt16BE(i);
+
+      for (let i = 1; i < message.length - 1; i += 2) {
+        //index 확인 로그
+        // console.log(`i 값 : ${i}, Array Index : ${(i - 1) / 2}`);
+        receivedArray[(i - 1) / 2] = message.readInt16BE(i);
         //Big엔디안 방식  16bit <- 8bit + 8bit
         //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
         //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
+        // -> 변경 21/09/16
+        // for문 초기 시작 i = 0에서  i = 1 부터로, 종료조건 i < message.length 에서 message.length -1 로 변경
+        // 변경 후, i는 449까지 돌아, receivedArray[224] (=225개 배열) 까지 입력하고 종료함
       }
 
       // 수신 데이터 확인용

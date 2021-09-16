@@ -23,10 +23,10 @@ type HomeStackNaviParamList = {
   HeatMap: undefined;
 };
 
-type TabRouterParamList = {
-  PatientList: undefined;
-  HeatMapTemplate: undefined;
-};
+// type TabRouterParamList = {
+//   PatientList: undefined;
+//   HeatMapTemplate: undefined;
+// };
 
 type nomalListItem = {
   id: string;

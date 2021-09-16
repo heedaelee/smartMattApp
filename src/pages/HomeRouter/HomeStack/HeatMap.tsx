@@ -2,6 +2,8 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import {RouteProp} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,8 +15,13 @@ const _HEIGHT = Theme._HEIGHT;
 const defaultGradient = Theme.heatMap.gradient;
 const defaultMaxValue = Theme.heatMap.max;
 
-const HeatMap = ({}) => {
-  console.log('HeatMap 페이지 랜더링')
+type HeatMapProps = {
+  navigation: StackNavigationProp<HomeStackNaviParamList>;
+  route: RouteProp<HomeStackNaviParamList, any>;
+};
+
+const HeatMap = ({navigation, route}: HeatMapProps) => {
+  console.log('HeatMap 페이지 랜더링');
 
   /*Context 사용 Gradient 값 가져오기 */
   //key array 추출
@@ -61,7 +68,7 @@ const HeatMap = ({}) => {
   return (
     <View style={styles.container}>
       <View style={styles.HeatmapView}>
-        <HeatMapModule />
+        <HeatMapModule navigation={navigation} />
       </View>
 
       {/* 그레데이션 5가지 소수점 & 정수 state로 주고 LinearGradient랑 heatmap 같이 사용하면 되겠다! */}
