@@ -117,10 +117,14 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
     client.on('message', function (topic: any, message: Buffer) {
       // message is Buffer
       /* byte방식 */
-      console.log(`${message.toString()}`);
+      console.log(`${message.toString('utf-8')}`);
       //buffer.toString(encodingType, startNum, length)
       let STX = message.toString('utf-8', 0, 1);
-      let ETX = message.toString('utf-8', 901, 1);
+      let ETX = message.toString('utf-8', 901, 902);
+
+      console.log(`STX : ${STX}`);
+      console.log(`갯수 : ${message.length}`);
+      console.log(`ETX : ${ETX}`);
 
       //받는 데이터 유효성 체크
       //TODO: 유효성 하기 위해서 아두이노에서 DUMMY 쏴야겠다
@@ -141,7 +145,6 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
         Alert.alert('ETX 문자 없음');
         navigation && navigation.goBack();
       }
-      // TODO: return false 는 나중에
 
       let receivedArray = new Array();
 
@@ -152,17 +155,10 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
         //Big엔디안 방식  16bit <- 8bit + 8bit
         //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
         //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
-        // -> 변경 21/09/16
+        //NOTE: -> 변경 21/09/16
         // for문 초기 시작 i = 0에서  i = 1 부터로, 종료조건 i < message.length 에서 message.length -1 로 변경
         // 변경 후, i는 449까지 돌아, receivedArray[224] (=225개 배열) 까지 입력하고 종료함
       }
-
-      // 수신 데이터 확인용
-      // if (receivedArray.length === 2048){
-      //     for (let i = 0; i < receivedArray.length; i+=32) {
-      //       console.log(`${receivedArray[i]} ${receivedArray[i+1]} ${receivedArray[i+2]} ${receivedArray[i+3]} ${receivedArray[i+4]} ${receivedArray[i+5]} ${receivedArray[i+6]} ${receivedArray[i+7]} ${receivedArray[i+8]} ${receivedArray[i+9]} ${receivedArray[i+10]} ${receivedArray[i+11]} ${receivedArray[i+12]} ${receivedArray[i+13]}  ${receivedArray[i+14]} ${receivedArray[i+15]} ${receivedArray[i+16]} ${receivedArray[i+17]} ${receivedArray[i+18]} ${receivedArray[i+19]} ${receivedArray[i+20]} ${receivedArray[i+21]} ${receivedArray[i+22]} ${receivedArray[i+23]} ${receivedArray[i+24]} ${receivedArray[i+25]} ${receivedArray[i+26]} ${receivedArray[i+27]} ${receivedArray[i+28]} ${receivedArray[i+29]} ${receivedArray[i+30]} ${receivedArray[i+31]}`);
-      //     }
-      //   }
 
       //2021/09/11 수정 : 데이터 30row X 15 col X 2byte = 900개
 
