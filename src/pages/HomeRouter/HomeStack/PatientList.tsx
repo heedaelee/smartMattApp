@@ -103,7 +103,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     // navigation.jumpTo('실시간 센서');
 
     // console.log('**navigation');
-    // console.dir(route);
+    // console.log(route);
 
     navigation.navigate('HomeTabRouter', {
       screen: '실시간 센서',
@@ -123,7 +123,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     //   };
     //   let client = mqtt.connect(MQTT_ADDR, option);
 
-    //   console.dir(client);
+    //   console.log(client);
 
     //   client.on('connect', () => {
     //     console.log('MQTT connect');

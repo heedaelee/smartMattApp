@@ -24,6 +24,8 @@ const heightInterval = 18;
 const widthMargin = 55;
 const heightMargin = 35;
 
+const socketCloseInterval = 30; //초단위
+
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
 let XYArray: any;
@@ -95,13 +97,15 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
 
   function mqttConnect() {
     console.log(`mqtt연결 시도`);
+    let soketCount = 1;
+    let isReceivng = false;
     let option = {
       port: mqtt_port,
       keepalive: 0,
     };
     let client = mqtt.connect(MQTT_ADDR, option);
 
-    // console.dir(client);
+    // console.log(client);
 
     client.on('connect', () => {
       console.log('MQTT connect');
@@ -115,6 +119,8 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
     });
 
     client.on('message', function (topic: any, message: Buffer) {
+      soketCount = 1;
+      isReceivng = true;
       // message is Buffer
       /* byte방식 */
       console.log(`${message.toString('utf-8')}`);
@@ -198,6 +204,20 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
       // console.log(newState);
       setData(newState);
     });
+
+    //30s 후 자동 소켓 닫음.
+    const socketAutoClose = setInterval(function () {
+      soketCount++;
+      if (soketCount == socketCloseInterval) {
+        soketCount = 1;
+        isReceivng = false;
+        console.log('소켓 정상 자동 종료');
+        Alert.alert('통신이 종료되었습니다');
+        clearInterval(socketAutoClose);
+        navigation && navigation.goBack();
+      }
+    }, 1000);
+
     return client;
   }
 

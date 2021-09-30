@@ -53,7 +53,7 @@ const SignUp = ({navigation}: SignUpProps) => {
         }
       } else {
         console.log('emailCheckSubmit server api fail');
-        console.dir(res.data);
+        console.log(res.data);
       }
     });
   };

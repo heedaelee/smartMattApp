@@ -51,13 +51,15 @@ const SignIn = ({navigation}: SignInProps) => {
           // token: res.data.token,
           //아래 storage에 저장
           console.log(`로그인 성공 : `);
-          console.dir(res.data);
+          // console.log(res.data);
           //수신 : res.data.user
 
+          console.log(res.data.user);
           const {id, email, token, loginType, isLogin = true} = res.data.user;
+          console.log(id, email, token, loginType, isLogin);
           //로그인 모듈
           setUserInfo(id, email, token, loginType, isLogin);
-
+          console.log('setUserInfo 이후');
           const storageValue = AsyncStorage.getItem('@loginInfo');
           console.log(`저장된 @loginInfo : ${JSON.stringify(storageValue)}`);
         } else {
@@ -68,8 +70,9 @@ const SignIn = ({navigation}: SignInProps) => {
         }
       })
       .catch(e => {
+        Alert.alert(`에러 : ${JSON.stringify(e)}`);
         console.log(`에러 : ${JSON.stringify(e)}`);
-        console.dir(e);
+        console.log(e);
       });
   };
 

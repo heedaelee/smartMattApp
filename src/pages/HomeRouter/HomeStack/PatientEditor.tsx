@@ -51,7 +51,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   const onAddPatientSubmit = async () => {
     //NOTE:에뮬 -> node 통신 프로토콜
     // await Axios.get('http://10.0.2.2:4000/api')
-    //   .then(res => console.dir(res))
+    //   .then(res => console.log(res))
     //   .catch(e => console.log(e));
     console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
     console.log('서버탐, id:');

@@ -49,7 +49,7 @@ const HomeStack = () => {
               color={iconColor}
               style={styles.HedaerIcon}
               onPress={() => {
-                // console.dir(navigation)
+                // console.log(navigation)
                 //console.log(JSON.stringify(navigation));
                 navigation.navigate('Bluetooth');
               }}

@@ -62,7 +62,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
         }
       } else {
         console.log('phoneNmbrSender server api fail');
-        console.dir(res.data);
+        console.log(res.data);
       }
     });
   };
@@ -92,7 +92,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
       await Axios.post(NODE_API + Auth.SIGN_UP_API, postData, jsonHeader)
         .then(res => {
           console.log('test');
-          console.dir(res);
+          console.log(res);
           // response : success, token
           if (res.data.success) {
             console.log('로그인 호출 전: ');
@@ -105,7 +105,7 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
                 // token: res.data.token,
                 //아래 storage에 저장
                 console.log(`로그인 성공 : `);
-                console.dir(res.data);
+                console.log(res.data);
                 //수신 : res.data.user
 
                 const {id, email, token, loginType, isLogin = true} = res.data.user;

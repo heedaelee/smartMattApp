@@ -48,7 +48,7 @@ const AddDevice = ({navigation}: AddDeviceProps) => {
         }
       } else {
         console.log('DeviceCodeCheckSubmit server api fail');
-        console.dir(res.data);
+        console.log(res.data);
       }
     });
   };

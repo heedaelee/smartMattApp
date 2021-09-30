@@ -81,7 +81,7 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
 
   useEffect(() => {
     console.log(`useEffect 탐_ refreshed`);
-    console.dir(finalDevice);
+    console.log(finalDevice);
     console.log(power);
 
     finalDevice ? setIsBleConn(true) : setIsBleConn(false);
@@ -180,7 +180,7 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
                         console.log(
                           'BLE 최종 성공 setIsBleConn,setSsid,setSsidPassword 호출',
                         );
-                        console.dir(bleReceivedData);
+                        console.log(bleReceivedData);
                         setIsBleConn(true);
                         if (bleReceivedData) {
                           if (bleReceivedData.SSID) {
