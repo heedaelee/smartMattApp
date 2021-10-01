@@ -22,6 +22,7 @@ type HeatMapProps = {
 
 const HeatMap = ({navigation, route}: HeatMapProps) => {
   console.log('HeatMap 페이지 랜더링');
+  console.log(route);
 
   /*Context 사용 Gradient 값 가져오기 */
   //key array 추출
@@ -68,7 +69,7 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.HeatmapView}>
-        <HeatMapModule navigation={navigation} />
+        <HeatMapModule props={{navigation, route}} />
       </View>
 
       {/* 그레데이션 5가지 소수점 & 정수 state로 주고 LinearGradient랑 heatmap 같이 사용하면 되겠다! */}

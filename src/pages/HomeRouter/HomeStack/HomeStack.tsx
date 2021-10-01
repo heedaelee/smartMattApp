@@ -29,7 +29,7 @@ const HomeStack = () => {
     // <Button title={'logout'} onPress={() => logout()} />
     // FORTEST:
     <Stack.Navigator
-      initialRouteName="실시간 센서"
+      // initialRouteName="실시간 센서"
       screenOptions={{
         headerStyle: {backgroundColor: Theme.color.blue},
         headerTintColor: 'white',
@@ -58,11 +58,11 @@ const HomeStack = () => {
         })}
         component={HomeTabRouter}
       />
-        {/* 탭을 자식처럼 쓰는 방법에서 component로 변경, 
+      {/* 탭을 자식처럼 쓰는 방법에서 component로 변경, 
         tabRouter도 공통모듈로 만들었다가 걍 HomeTabRouter 따로 만듬. option도 주고, 뭔가
         Tab 같은건 다른 레퍼런스도 공통모듈로 안만들고 해서 찝찝해서..
         */}
-        {/* {() => (
+      {/* {() => (
           <TabRouter
             firstTab={{
               name: '환자 목록',

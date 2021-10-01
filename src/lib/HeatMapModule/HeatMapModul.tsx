@@ -1,6 +1,7 @@
 /* eslint-disable no-array-constructor */
 /* eslint-disable prettier/prettier */
 import {useFocusEffect} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 //** change require to import  */
 import mqtt from '@taoqf/react-native-mqtt';
@@ -25,6 +26,7 @@ const widthMargin = 55;
 const heightMargin = 35;
 
 const socketCloseInterval = 30; //초단위
+let socketAutoClose: NodeJS.Timeout;
 
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
@@ -32,7 +34,7 @@ let XYArray: any;
 XYArray = makeFrame(DefaultWidth, DefaultHeight) || [];
 
 function makeFrame(width: number, height: number) {
-  console.log('frame작동');
+  console.log('makeFrame호출');
   let newArr = new Array();
   let twoDimenArray;
   //row 생성 for문
@@ -55,10 +57,14 @@ function makeFrame(width: number, height: number) {
 }
 
 type HeatMapModuleProps = {
-  navigation: StackNavigationProp<HomeStackNaviParamList>;
+  props: {
+    navigation: StackNavigationProp<HomeStackNaviParamList>;
+    route: RouteProp<HomeStackNaviParamList, any>;
+  };
 };
 
-function HeatMapModule({navigation}: HeatMapModuleProps) {
+function HeatMapModule({props}: HeatMapModuleProps) {
+  const {navigation, route} = props;
   console.log(`HeatMapModule 페이지 랜더링`);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
   console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
@@ -91,13 +97,33 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
           console.log('MQTT 종료');
           client.end();
         }
+        console.log('HeatMapModule 페이지 종료');
+        cancelSocketAutoClose();
+        //데이터 초기화
+        console.log('setData 호출 : 데이터 초기화');
+        setData(makeFrame(DefaultWidth, DefaultHeight));
+
+        console.log('setPatientReducer 호출 : 데이터 초기화');
+        //환자 선택 초기화
+        setPatientReducer({
+          deviceCode: '',
+          id: '',
+          patientName: '',
+          patientCondition: '',
+          patientImg: '',
+        });
       };
     }, []),
   );
 
+  function cancelSocketAutoClose() {
+    console.log('소켓 종료 타이머 클리어 호출');
+    clearInterval(socketAutoClose);
+  }
+
   function mqttConnect() {
     console.log(`mqtt연결 시도`);
-    let soketCount = 1;
+    let socketCount = 1;
     let isReceivng = false;
     let option = {
       port: mqtt_port,
@@ -119,7 +145,7 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
     });
 
     client.on('message', function (topic: any, message: Buffer) {
-      soketCount = 1;
+      socketCount = 1;
       isReceivng = true;
       // message is Buffer
       /* byte방식 */
@@ -206,14 +232,16 @@ function HeatMapModule({navigation}: HeatMapModuleProps) {
     });
 
     //30s 후 자동 소켓 닫음.
-    const socketAutoClose = setInterval(function () {
-      soketCount++;
-      if (soketCount == socketCloseInterval) {
-        soketCount = 1;
+    socketAutoClose = setInterval(function () {
+      console.log(`소켓 카운트 : ${socketCount}`);
+      socketCount++;
+      if (socketCount === socketCloseInterval) {
+        socketCount = 1;
         isReceivng = false;
-        console.log('소켓 정상 자동 종료');
         Alert.alert('통신이 종료되었습니다');
-        clearInterval(socketAutoClose);
+        //cancelSocketAutoClose();
+        // console.log('소켓 정상 자동 종료');
+        // clearInterval(socketAutoClose);
         navigation && navigation.goBack();
       }
     }, 1000);
