@@ -19,8 +19,8 @@ type TabRouterProps = {
 
 const TabRouter = ({navigation, route}: TabRouterProps) => {
   console.log(' Home tab라우터');
-  console.log(navigation);
-  console.log(route.params);
+  // console.log(navigation);
+  // console.log(route.params);
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -32,12 +32,12 @@ const TabRouter = ({navigation, route}: TabRouterProps) => {
       }}>
       <Tab.Screen name={'환자 목록'} component={PatientList} />
       <Tab.Screen
-        listeners={{
-          tabPress: e => {
-            Alert.alert('환자부터 선택해주세요');
-            e.preventDefault();
-          },
-        }}
+        // listeners={{
+        //   tabPress: e => {
+        //     Alert.alert('환자부터 선택해주세요');
+        //     e.preventDefault();
+        //   },
+        // }}
         name={'실시간 센서'}
         component={HeatMap}
       />

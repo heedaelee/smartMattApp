@@ -98,6 +98,7 @@ function HeatMapModule({props}: HeatMapModuleProps) {
           client.end();
         }
         console.log('HeatMapModule 페이지 종료');
+        //TODO:  디버그시 setInterval 끄기
         cancelSocketAutoClose();
         //데이터 초기화
         console.log('setData 호출 : 데이터 초기화');
@@ -230,8 +231,9 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       // console.log(newState);
       setData(newState);
     });
-
+    console.log('test')
     //30s 후 자동 소켓 닫음.
+    //TODO:  디버그시 setInterval 끄기
     socketAutoClose = setInterval(function () {
       console.log(`소켓 카운트 : ${socketCount}`);
       socketCount++;
