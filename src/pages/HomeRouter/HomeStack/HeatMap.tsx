@@ -90,25 +90,25 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
         />
         <View style={styles.colorBar4}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={{fontSize: _WIDTH / 45}}>
+          <Text style={styles.colorBarFont}>
             {Math.round((defaultMaxValue * 3) / 4)}
           </Text>
         </View>
         <View style={styles.colorBar3}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={{fontSize: _WIDTH / 45}}>
+          <Text style={styles.colorBarFont}>
             {Math.round((defaultMaxValue * 2) / 4)}
           </Text>
         </View>
         <View style={styles.colorBar2}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={{fontSize: _WIDTH / 45}}>
+          <Text style={styles.colorBarFont}>
             {Math.round((defaultMaxValue * 1) / 4)}
           </Text>
         </View>
         <View style={styles.colorBar1}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={{fontSize: _WIDTH / 45}}>0</Text>
+          <Text style={styles.colorBarFont}>0</Text>
         </View>
       </View>
     </View>
@@ -120,6 +120,9 @@ const styles = StyleSheet.create({
   HeatmapView: {flex: 14},
   GradationContainer: {flex: 1, height: '90%', justifyContent: 'center'},
   linearGradient: {top: '2%', width: '20%', height: '90%'},
+  colorBarFont: {
+    fontSize: _WIDTH / 60,
+  },
   colorBar1: {
     position: 'absolute',
     top: '95%',

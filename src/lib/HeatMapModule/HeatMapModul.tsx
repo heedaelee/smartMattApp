@@ -27,6 +27,7 @@ const heightMargin = 35;
 
 const socketCloseInterval = 30; //초단위
 let socketAutoClose: NodeJS.Timeout;
+const consoleTest = false;
 
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
@@ -34,7 +35,7 @@ let XYArray: any;
 XYArray = makeFrame(DefaultWidth, DefaultHeight) || [];
 
 function makeFrame(width: number, height: number) {
-  console.log('makeFrame호출');
+  // console.log('makeFrame호출');
   let newArr = new Array();
   let twoDimenArray;
   //row 생성 for문
@@ -65,17 +66,17 @@ type HeatMapModuleProps = {
 
 function HeatMapModule({props}: HeatMapModuleProps) {
   const {navigation, route} = props;
-  console.log(`HeatMapModule 페이지 랜더링`);
+  // console.log(`HeatMapModule 페이지 랜더링`);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
-  console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
+  // console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
   channel = selectedPatientState.deviceCode;
 
   const [data, setData] = useState(XYArray);
   // const [conn, setConn] = useState(false);
   const defaultMaxValue = Theme.heatMap.max;
   const defaultGradient = Theme.heatMap.gradient;
-  console.log(`channel : ${channel}`);
-  console.log(`defaultMaxValue : ${defaultMaxValue}`);
+  // console.log(`channel : ${channel}`);
+  // console.log(`defaultMaxValue : ${defaultMaxValue}`);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -150,14 +151,16 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       isReceivng = true;
       // message is Buffer
       /* byte방식 */
-      console.log(`${message.toString('utf-8')}`);
+      // console.log(`${message.toString('utf-8')}`);
       //buffer.toString(encodingType, startNum, length)
       let STX = message.toString('utf-8', 0, 1);
       let ETX = message.toString('utf-8', 901, 902);
 
-      console.log(`STX : ${STX}`);
-      console.log(`갯수 : ${message.length}`);
-      console.log(`ETX : ${ETX}`);
+      if (consoleTest) {
+        console.log(`STX : ${STX}`);
+        console.log(`갯수 : ${message.length}`);
+        console.log(`ETX : ${ETX}`);
+      }
 
       //받는 데이터 유효성 체크
       //TODO: 유효성 하기 위해서 아두이노에서 DUMMY 쏴야겠다
@@ -184,7 +187,7 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       for (let i = 1; i < message.length - 1; i += 2) {
         //index 확인 로그
         // console.log(`i 값 : ${i}, Array Index : ${(i - 1) / 2}`);
-        receivedArray[(i - 1) / 2] = message.readInt16BE(i);
+        receivedArray[(i - 1) / 2] = message.readUInt16BE(i);
         //Big엔디안 방식  16bit <- 8bit + 8bit
         //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
         //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
@@ -206,20 +209,18 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       // let newResult = result.flat();
       let newResult = receivedArray.flat();
 
-      //조작 데이터 확인용
-      // for (let i = 0; i < newResult.length; i+=14) {
-      //     console.log(`${newResult[i]} ${newResult[i+1]} ${newResult[i+2]} ${newResult[i+3]} ${newResult[i+4]} ${newResult[i+5]} ${newResult[i+6]} ${newResult[i+7]} ${newResult[i+8]} ${newResult[i+9]} ${newResult[i+10]} ${newResult[i+11]} ${newResult[i+12]} ${newResult[i+13]}`);
-      //   }
-      for (let i = 0; i < newResult.length; i += 15) {
-        console.log(
-          `${newResult[i]} ${newResult[i + 1]} ${newResult[i + 2]} ${newResult[i + 3]} ${
-            newResult[i + 4]
-          } ${newResult[i + 5]} ${newResult[i + 6]} ${newResult[i + 7]} ${
-            newResult[i + 8]
-          } ${newResult[i + 9]} ${newResult[i + 10]} ${newResult[i + 11]} ${
-            newResult[i + 12]
-          } ${newResult[i + 13]} ${newResult[i + 14]}`,
-        );
+      if (consoleTest) {
+        for (let i = 0; i < newResult.length; i += 15) {
+          console.log(
+            `${newResult[i]} ${newResult[i + 1]} ${newResult[i + 2]} ${
+              newResult[i + 3]
+            } ${newResult[i + 4]} ${newResult[i + 5]} ${newResult[i + 6]} ${
+              newResult[i + 7]
+            } ${newResult[i + 8]} ${newResult[i + 9]} ${newResult[i + 10]} ${
+              newResult[i + 11]
+            } ${newResult[i + 12]} ${newResult[i + 13]} ${newResult[i + 14]}`,
+          );
+        }
       }
 
       //실제코드
@@ -231,7 +232,6 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       // console.log(newState);
       setData(newState);
     });
-    console.log('test')
     //30s 후 자동 소켓 닫음.
     //TODO:  디버그시 setInterval 끄기
     socketAutoClose = setInterval(function () {
@@ -253,7 +253,7 @@ function HeatMapModule({props}: HeatMapModuleProps) {
 
   return (
     <>
-      {console.log('HeatMap 상단 리랜더링')}
+      {/* {console.log('HeatMap 상단 리랜더링')} */}
       <Heatmap
         WebView={WebView} // <-- Implementors must define the <WebView/> component!
         data={data}
