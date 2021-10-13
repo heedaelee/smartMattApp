@@ -27,7 +27,7 @@ const heightMargin = 35;
 
 const socketCloseInterval = 30; //초단위
 let socketAutoClose: NodeJS.Timeout;
-const consoleTest = false;
+const consoleTest = true;
 
 //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
 //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
@@ -187,7 +187,8 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       for (let i = 1; i < message.length - 1; i += 2) {
         //index 확인 로그
         // console.log(`i 값 : ${i}, Array Index : ${(i - 1) / 2}`);
-        receivedArray[(i - 1) / 2] = message.readUInt16BE(i);
+        let value = message.readUInt16BE(i);
+        receivedArray[(i - 1) / 2] = value > 10000 ? (value * 2) / 6 : 0;
         //Big엔디안 방식  16bit <- 8bit + 8bit
         //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
         //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음

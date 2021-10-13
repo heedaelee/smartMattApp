@@ -76,6 +76,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           //   deviceCode,
           //   patient_id: res.data.patient_id,
           // });
+          navigation.navigate('HomeTabRouter',{screen:'환자 목록'});
         } else {
           console.log('DeviceCodeCheckSubmit server api success:false');
           switch (message) {
