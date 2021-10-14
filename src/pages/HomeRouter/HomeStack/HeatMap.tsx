@@ -70,6 +70,7 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
     <View style={styles.container}>
       <View style={styles.HeatmapView}>
         <HeatMapModule props={{navigation, route}} />
+        {/* <View style={styles.HeatMapSecondView}></View> */}
       </View>
 
       {/* 그레데이션 5가지 소수점 & 정수 state로 주고 LinearGradient랑 heatmap 같이 사용하면 되겠다! */}
@@ -90,21 +91,15 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
         />
         <View style={styles.colorBar4}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={styles.colorBarFont}>
-            {Math.round((defaultMaxValue * 3) / 4)}
-          </Text>
+          <Text style={styles.colorBarFont}>{Math.round((defaultMaxValue * 3) / 4)}</Text>
         </View>
         <View style={styles.colorBar3}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={styles.colorBarFont}>
-            {Math.round((defaultMaxValue * 2) / 4)}
-          </Text>
+          <Text style={styles.colorBarFont}>{Math.round((defaultMaxValue * 2) / 4)}</Text>
         </View>
         <View style={styles.colorBar2}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
-          <Text style={styles.colorBarFont}>
-            {Math.round((defaultMaxValue * 1) / 4)}
-          </Text>
+          <Text style={styles.colorBarFont}>{Math.round((defaultMaxValue * 1) / 4)}</Text>
         </View>
         <View style={styles.colorBar1}>
           <View style={{width: 5, height: 1, borderWidth: 0.7}} />
@@ -118,6 +113,8 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
 const styles = StyleSheet.create({
   container: {flex: 1, flexDirection: 'row'},
   HeatmapView: {flex: 14},
+  //작업중
+  HeatMapSecondView: {width:'100%', height:'100%',backgroundColor: 'white', position:'absolute', borderWidth:1},
   GradationContainer: {flex: 1, height: '90%', justifyContent: 'center'},
   linearGradient: {top: '2%', width: '20%', height: '90%'},
   colorBarFont: {

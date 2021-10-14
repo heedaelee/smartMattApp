@@ -36,8 +36,8 @@ export default {
     gradient: {
       0.4: 'blue',
       0.5: 'cyan',
-      0.7: 'lime',
-      0.8: 'yellow',
+      0.6: 'lime',
+      0.7: 'yellow',
       1.0: 'red',
     },
     max: 40000,

@@ -281,7 +281,8 @@ const styles = StyleSheet.create({
   },
   list: {
     // borderWidth: 1,
-    maxHeight: 530,
+    // maxHeight: 530,
+    maxHeight: '100%',
     width: '100%',
     backgroundColor: 'white',
   },

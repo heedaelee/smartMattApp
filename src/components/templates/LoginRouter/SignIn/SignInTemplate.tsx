@@ -23,10 +23,7 @@ import Theme from '~/lib/Theme';
 type SignInTemplateProps = {
   autoLoginCheck: boolean;
   setAutoLoginCheck: (active: boolean) => void;
-  navigation: StackNavigationProp<
-    LoginStackNaviParamList,
-    'SignIn'
-  >;
+  navigation: StackNavigationProp<LoginStackNaviParamList, 'SignIn'>;
   state: {
     email: string;
     password: string;
@@ -59,10 +56,7 @@ const SignInTemplate = ({
   const {email, password} = state;
   const {setEmail, setPassword} = setState;
 
-  const [
-    secureTextEntry,
-    setSecureTextEntry,
-  ] = useState<boolean>(true);
+  const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true);
   const [iconName, setIconName] = useState<string>('eye');
 
   const onIconPress = () => {
@@ -73,9 +67,7 @@ const SignInTemplate = ({
 
   //비밀번호 보여주는 토글(완료)
   const showPassword = (
-    <TouchableOpacity
-      style={css.showPassTouchable}
-      onPress={() => onIconPress()}>
+    <TouchableOpacity style={css.showPassTouchable} onPress={() => onIconPress()}>
       <Icon
         name={iconName}
         size={20}
@@ -118,9 +110,7 @@ const SignInTemplate = ({
               />
             )}
             <View style={{marginLeft: 5}}>
-              <MenuText
-                color={Theme.color.blue}
-                size={'15px'}>
+              <MenuText color={Theme.color.blue} size={'15px'}>
                 자동로그인
               </MenuText>
             </View>
@@ -175,6 +165,7 @@ const Logo = styled.Image`
 `;
 const Banner = styled.Image`
   width: 100%;
+  height: 20%;
 `;
 const LoginWrapper = styled.View`
   flex: 7;
