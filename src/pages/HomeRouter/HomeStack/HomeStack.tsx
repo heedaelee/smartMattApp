@@ -35,6 +35,7 @@ const HomeStack = () => {
         headerTintColor: 'white',
         headerTitleStyle: {
           fontWeight: 'bold',
+          fontSize: Theme._HEIGHT / 40,
         },
         headerTitleAlign: 'center',
       }}>

@@ -12,6 +12,7 @@ import WebView from 'react-native-webview';
 import {useSelectedPatient} from '~/hooks/useReduce';
 import {MQTT_ADDR, mqtt_port} from '~/lib/apiSite/apiSite';
 import Theme from '../Theme';
+import DeviceInfo from 'react-native-device-info';
 
 // var mqtt = require('@taoqf/react-native-mqtt');
 
@@ -25,8 +26,9 @@ const DefaultHeight = 30;
 let widthInterval = 20;
 let heightInterval = 18;
 
-//탭
-if (Theme._WIDTH > 700) {
+//탭 :되는 소스
+let isTablet = DeviceInfo.isTablet();
+if (Theme._WIDTH > 700 && isTablet) {
   widthInterval = 39;
   heightInterval = 27;
 }
@@ -37,71 +39,6 @@ const heightMargin = 35;
 const socketCloseInterval = 30; //초단위
 let socketAutoClose: NodeJS.Timeout;
 const consoleTest = true;
-
-//HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
-//outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
-let XYArray: any;
-XYArray = makeFrame(DefaultWidth, DefaultHeight) || [];
-
-function makeFrame(width: number, height: number) {
-  // console.log('makeFrame호출');
-  let newArr = new Array();
-  let twoDimenArray;
-
-  let testCol0 = 0,
-    testCol14 = 0;
-  //row 생성 for문
-  for (let i = 0; i < height; i++) {
-    //col 생성 for문
-    let arr = new Array();
-
-    for (let j = 0; j < width; j++) {
-      arr[j] = [];
-      //x,y 좌표값 insert for문
-      for (let k = 0; k < 2; k++) {
-        arr[j][0] = widthMargin + j * widthInterval; //x값 i++씩 가산, 0~15까지.
-        arr[j][1] = heightMargin + i * heightInterval; //y값
-        arr[j][2] = 0;
-      }
-
-      //width값 알기 공식
-      if (j === 0) {
-        console.log(`col가 0일때 가로 첫 좌표 : ${arr[j][0]}`);
-        testCol0 = arr[j][0];
-      } else if (j === 14) {
-        console.log(`col가 14일때 가로 첫 좌표 : ${arr[j][0]}`);
-        testCol14 = arr[j][0];
-        console.log(`width 값 : ${testCol14 - testCol0}`);
-        console.log('====================================');
-        console.log(Theme._WIDTH);
-        console.log(Theme._HEIGHT);
-        console.log('====================================');
-      }
-
-      //height값 알기 공식
-      // if (i === 0 && j === 0) {
-      //   console.log(`row 0일때 세로 첫 좌표 : ${arr[j][1]}`);
-      //   testCol0 = arr[j][1];
-      // }
-      // if (i === 29 && j === 0) {
-      //   console.log(`row가 29일때 세로 첫 좌표 : ${arr[j][1]}`);
-      //   testCol14 = arr[j][1];
-      // }
-    }
-    newArr.push(arr);
-    twoDimenArray = newArr.flat();
-
-    //height 값 알기 공식
-    // console.log(testCol14);
-    // console.log(testCol0);
-    // console.log(`height 값 : ${testCol14 - testCol0}`);
-    // console.log('====================================');
-    // console.log(Theme._WIDTH);
-    // console.log(Theme._HEIGHT);
-    // console.log('====================================');
-  }
-  return twoDimenArray;
-}
 
 type HeatMapModuleProps = {
   props: {
@@ -114,15 +51,74 @@ function HeatMapModule({props}: HeatMapModuleProps) {
   const {navigation, route} = props;
   // console.log(`HeatMapModule 페이지 랜더링`);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
-  // console.log(`top deviceCode : ${selectedPatientState.deviceCode}`);
   channel = selectedPatientState.deviceCode;
 
+  //HeatMapModule 안에 정의해도 call은 안하지만, 계속 할당되니 찝찝해서
+  //outside에 전역부분에 함수 끄집어 내 정의해서 useState 초기값으로 활용.
+  let XYArray: any;
+  XYArray = makeFrame(DefaultWidth, DefaultHeight) || [];
+
   const [data, setData] = useState(XYArray);
-  // const [conn, setConn] = useState(false);
   const defaultMaxValue = Theme.heatMap.max;
   const defaultGradient = Theme.heatMap.gradient;
-  // console.log(`channel : ${channel}`);
-  // console.log(`defaultMaxValue : ${defaultMaxValue}`);
+
+  function makeFrame(width: number, height: number) {
+    console.log('makeFrame호출');
+    let newArr = new Array();
+    let twoDimenArray;
+
+    let testCol0 = 0,
+      testCol14 = 0;
+    //row 생성 for문
+    for (let i = 0; i < height; i++) {
+      //col 생성 for문
+      let arr = new Array();
+
+      for (let j = 0; j < width; j++) {
+        arr[j] = [];
+        //x,y 좌표값 insert for문
+        for (let k = 0; k < 2; k++) {
+          arr[j][0] = widthMargin + j * widthInterval; //x값 i++씩 가산, 0~15까지.
+          arr[j][1] = heightMargin + i * heightInterval; //y값
+          arr[j][2] = 0;
+        }
+
+        //width값 알기 공식
+        // if (j === 0) {
+        //   console.log(`col가 0일때 가로 첫 좌표 : ${arr[j][0]}`);
+        //   testCol0 = arr[j][0];
+        // } else if (j === 14) {
+        //   console.log(`col가 14일때 가로 첫 좌표 : ${arr[j][0]}`);
+        //   testCol14 = arr[j][0];
+        //   console.log(`width 값 : ${testCol14 - testCol0}`);
+        //   console.log('====================================');
+        //   console.log(Theme._WIDTH);
+        //   console.log(Theme._HEIGHT);
+        //   console.log('====================================');
+        // }
+        //height값 알기 공식
+        // if (i === 0 && j === 0) {
+        //   console.log(`row 0일때 세로 첫 좌표 : ${arr[j][1]}`);
+        //   testCol0 = arr[j][1];
+        // }
+        // if (i === 29 && j === 0) {
+        //   console.log(`row가 29일때 세로 첫 좌표 : ${arr[j][1]}`);
+        //   testCol14 = arr[j][1];
+        // }
+      }
+      newArr.push(arr);
+      twoDimenArray = newArr.flat();
+      //height 값 알기 공식
+      // console.log(testCol14);
+      // console.log(testCol0);
+      // console.log(`height 값 : ${testCol14 - testCol0}`);
+      // console.log('====================================');
+      // console.log(Theme._WIDTH);
+      // console.log(Theme._HEIGHT);
+      // console.log('====================================');
+    }
+    return twoDimenArray;
+  }
 
   useFocusEffect(
     React.useCallback(() => {

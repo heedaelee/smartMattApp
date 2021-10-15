@@ -8,6 +8,7 @@ import React, {useReducer} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import {useSelectedPatient} from '~/hooks/useReduce';
+import Theme from '~/lib/Theme';
 
 export type NormalListItemProps = {
   item: nomalListItem;
@@ -41,7 +42,7 @@ const NormalListItem = ({item, setModalVisible, setRead}: NormalListItemProps) =
       title={evaProps => (
         <View style={{marginBottom: 5}}>
           {item.isRead ? (
-            <Text style={{opacity: 0.5}}>{item.patientName}</Text>
+            <Text >{item.patientName}</Text>
           ) : (
             <Text>{item.patientName}</Text>
           )}

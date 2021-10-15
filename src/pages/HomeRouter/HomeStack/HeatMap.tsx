@@ -5,10 +5,11 @@
 import {RouteProp} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import HeatMapModule from '~/lib/HeatMapModule/HeatMapModul';
 import Theme from '~/lib/Theme';
+import DeviceInfo from 'react-native-device-info';
 
 const _WIDTH = Theme._WIDTH;
 const _HEIGHT = Theme._HEIGHT;
@@ -65,12 +66,18 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
   useEffect(() => {
     console.log(`HeatMap useEffect 콜`);
   }, []);
+  let isTablet = DeviceInfo.isTablet();
 
   return (
     <View style={styles.container}>
       <View style={styles.HeatmapView}>
         <HeatMapModule props={{navigation, route}} />
-        {/* <View style={styles.HeatMapSecondView}></View> */}
+        {/* <View style={styles.HeatMapSecondView}> */}
+        <Image
+          style={isTablet ? styles.humanImgTablet : styles.humanImg}
+          source={require('~/asset/img/280x522_grayLine.png')}
+        />
+        {/* </View> */}
       </View>
 
       {/* 그레데이션 5가지 소수점 & 정수 state로 주고 LinearGradient랑 heatmap 같이 사용하면 되겠다! */}
@@ -114,7 +121,34 @@ const styles = StyleSheet.create({
   container: {flex: 1, flexDirection: 'row'},
   HeatmapView: {flex: 14},
   //작업중
-  HeatMapSecondView: {width:'100%', height:'100%',backgroundColor: 'white', position:'absolute', borderWidth:1},
+  HeatMapSecondView: {
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'white',
+    position: 'absolute',
+    borderWidth: 1,
+  },
+  humanImg: {
+    // width: '80%',
+    // height: '80%',
+    // backgroundColor: 'white',
+    position: 'absolute',
+    left: '26%',
+    top: '6%',
+    zIndex: -5,
+    // opacity: 1,
+  },
+  humanImgTablet: {
+    width: 300,
+    height: 790,
+    // backgroundColor: 'white',
+    position: 'absolute',
+    left: '29%',
+    top: '3%',
+    zIndex: -5,
+    // opacity: 1,
+    borderWidth: 1,
+  },
   GradationContainer: {flex: 1, height: '90%', justifyContent: 'center'},
   linearGradient: {top: '2%', width: '20%', height: '90%'},
   colorBarFont: {
