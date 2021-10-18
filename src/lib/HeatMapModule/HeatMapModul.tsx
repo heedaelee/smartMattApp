@@ -230,7 +230,10 @@ function HeatMapModule({props}: HeatMapModuleProps) {
         //index 확인 로그
         // console.log(`i 값 : ${i}, Array Index : ${(i - 1) / 2}`);
         let value = message.readUInt16BE(i);
-        receivedArray[(i - 1) / 2] = value > 10000 ? (value * 2) / 6 : 0;
+        //ORIGIN
+        // receivedArray[(i - 1) / 2] = value > 10000 ? (value * 2) / 6 : 0;
+        // TEST
+        receivedArray[(i - 1) / 2] = value > 300 ? (value * 3) / 6 : 0;
         //Big엔디안 방식  16bit <- 8bit + 8bit
         //readInt16BE 는 message (즉 byte array)의 [0]과 [1] 두 바이트를 읽고 합친다.
         //16bit를 Big Endian으로 붙여 읽겠다는 함수임. 따라서 index를 0, 2, 4..2n으로 읽음
@@ -301,8 +304,9 @@ function HeatMapModule({props}: HeatMapModuleProps) {
         WebView={WebView} // <-- Implementors must define the <WebView/> component!
         data={data}
         alpha={1.3} // <-- Control transparency for overlays!
-        radius={18}
-        blur={15}
+        radius={40}
+        // radius={18}
+        blur={30}
         max={defaultMaxValue}
         gradient={defaultGradient}
       />

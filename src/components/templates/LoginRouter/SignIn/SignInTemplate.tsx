@@ -7,6 +7,7 @@ import {
   Dimensions,
   Keyboard,
   StyleSheet,
+  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -67,7 +68,7 @@ const SignInTemplate = ({
 
   //비밀번호 보여주는 토글(완료)
   const showPassword = (
-    <TouchableOpacity style={css.showPassTouchable} onPress={() => onIconPress()}>
+    <TouchableOpacity style={styles.showPassTouchable} onPress={() => onIconPress()}>
       <Icon
         name={iconName}
         size={20}
@@ -126,14 +127,15 @@ const SignInTemplate = ({
             <MenuText color={'gray'}>아이디찾기</MenuText>
             <MenuText color={'gray'}>비밀번호찾기</MenuText>
           </RowView>
-          <RowView style={css.snsLoginView}>
+          <RowView style={styles.snsLoginView}>
             <Banner
               source={require('~/asset/img/KakaoLoginBanner.png')}
-              style={{marginBottom: 5}}
-            />
-            <Banner
-              source={require('~/asset/img/NaverLoginBanner.png')}
-            />
+              style={{marginBottom: 5}}>
+              <Text style={styles.kakaoLoginText}>카카오 로그인</Text>
+            </Banner>
+            <Banner source={require('~/asset/img/NaverLoginBanner.png')} >
+            <Text style={styles.naverLoginText}>네이버 로그인</Text>
+            </Banner>
             <MenuText
               color={'gray'}
               style={{marginTop: 10}}
@@ -163,9 +165,12 @@ const Logo = styled.Image`
   height: ${_WIDTH / 4}px;
   border-radius: ${_HEIGHT / 25}px;
 `;
-const Banner = styled.Image`
+const Banner = styled.ImageBackground`
   width: 100%;
   height: 20%;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SpoqaHanSansNeo-Medium';
 `;
 const LoginWrapper = styled.View`
   flex: 7;
@@ -188,7 +193,7 @@ const LoginBtn = styled.TouchableOpacity`
   border-radius: 35px;
 `;
 
-const css = StyleSheet.create({
+const styles = StyleSheet.create({
   snsLoginView: {
     flexDirection: 'column',
     marginTop: 20,
@@ -199,6 +204,14 @@ const css = StyleSheet.create({
     position: 'absolute',
     right: Theme._WIDTH / 40,
     top: Theme._WIDTH / 20,
+  },
+  kakaoLoginText: {
+    color: '#181600',
+    fontSize: Theme._WIDTH / 22,
+  },
+  naverLoginText: {
+    color: 'white',
+    fontSize: Theme._WIDTH / 22,
   },
 });
 export default SignInTemplate;
