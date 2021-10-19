@@ -36,6 +36,6 @@ type nomalListItem = {
 };
 
 type submitAlarmData = {
-  hours?: number;
-  minutes?: number;
+  hours: number | string;
+  minutes: number | string;
 };

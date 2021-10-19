@@ -75,7 +75,7 @@ const HeatMap = ({navigation, route}: HeatMapProps) => {
         {/* <View style={styles.HeatMapSecondView}> */}
         <Image
           style={isTablet ? styles.humanImgTablet : styles.humanImg}
-          source={require('~/asset/img/280x522_grayLine.png')}
+          source={require('~/asset/img/198x522_grayLine.png')}
         />
         {/* </View> */}
       </View>

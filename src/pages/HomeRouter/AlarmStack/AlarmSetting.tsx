@@ -38,6 +38,26 @@ const AlarmSetting = ({navigation}: AlarmSettingProps) => {
     minutes: submitAlarmData['minutes'],
   ) => {
     setAlarmModalVisible(false);
+
+    hours = hours.toString();
+    minutes = minutes.toString();
+
+    hours === '0' ? (hours = '00') : (hours = '0' + hours);
+
+    console.log('====================================');
+    console.log(`minute : ${typeof minutes}`);
+    console.log('====================================');
+
+    if (typeof minutes === 'string' && minutes.length === 1) {
+      minutes = '0' + minutes;
+    } else {
+      minutes = minutes;
+    }
+
+    // typeof minutes === 'string' && minutes.length === 1
+    //   ? (minutes = '0' + minutes)
+    //   : (minutes = minutes);
+
     setAlarmTimeValue({hours: hours, minutes: minutes});
     Toast.show('알람이 설정되었습니다');
     console.log(`hour,minutes in submitAlarmData : ${hours} ${minutes}`);

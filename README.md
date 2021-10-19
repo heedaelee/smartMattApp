@@ -18,6 +18,12 @@ const styles = StyleSheet
 또한 타입 제공이 안되므로 index.d.ts파일 만들어야 함 
 아래 예시
 
+# node_modules/react-native-simple-time-picker/lib/TimePicker.js 
+47행 MAX_HOURS = 23 -> 5로 변경
+
+
+
+# 백업 코드
 /* '21.6.10 David */
 declare module "react-native-simpleheat" {
   export default class Heatmap extends React.Component<HeatmapProps , any>{}
