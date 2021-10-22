@@ -13,9 +13,10 @@
 
 //휴대폰
 // export const NODE_API = 'http://192.168.138.19:4000/api';
-//회사
-// export const NODE_API = 'http://192.168.0.32:4000/api';
-//기타
+//회사, 보조서버
+// export const NODE_API = 'http://192.168.0.49:8000/api';
+
+//기타, origin
 const ip = '220.92.18.202';
 export const NODE_API = `http://${ip}/api`;
 
@@ -24,9 +25,10 @@ export const NODE_API = `http://${ip}/api`;
 //내 폰 hotSpot으로 통신 ip
 // const MQTT_ADDR = 'ws://192.168.138.19';
 //pc랑 폰 같은 외부망 회선이면, 내부망 마지막 아이피주소가 달라도, 통신가능함.
-//회사
-// export const MQTT_ADDR = 'ws://192.168.0.32';
-//기타
+//회사, 보조서버
+// export const MQTT_ADDR = 'ws://192.168.0.49';
+
+//기타, origin
 export const MQTT_ADDR = `ws://${ip}`;
 
 // 포트를 adb -s R3CMB08119P reverse tcp:8080 tcp:8080 로 변화하면 localhost도 통신 가능하다
