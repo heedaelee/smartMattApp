@@ -279,7 +279,10 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       setData(newState);
     });
     //30s 후 자동 소켓 닫음.
-    //TODO:  디버그시 setInterval 끄기
+
+    //TODO:  디버그시 setInterval 아래 주석처리 (끄기). 
+    // 이유 : RN 디버그 모드시, 안드 스마트폰이랑 MetroServer랑 TimeSync가 안맞아서 1s마다 카운트 되야 할게 0.1s 또는 랜덤으로 작동함
+    // 해결하려면 폰을 루팅해서 time을 강제적으로 맞춰야 하는데 그럴빠엔 디버그할때 끄는게 ...
     socketAutoClose = setInterval(function () {
       console.log(`소켓 카운트 : ${socketCount}`);
       socketCount++;
