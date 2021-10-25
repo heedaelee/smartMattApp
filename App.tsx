@@ -4,7 +4,7 @@
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Platform, LogBox} from 'react-native';
+import {StyleSheet, Platform, LogBox, Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components';
 import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
@@ -13,12 +13,12 @@ import HomeRouter from './src/routes/HomeRouter';
 import LoginRouter from './src/routes/LoginRouter';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {useSelector} from 'react-redux';
 import {RootState} from '~/modules';
+import messaging from '@react-native-firebase/messaging';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
@@ -34,6 +34,29 @@ const App = () => {
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
+    console.log('app.tsx 호출');
+
+    //FORTEST: 21/10/25 Foreground Push Noti 테스트용
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('푸시메시지 호출');
+      // if(remoteMessage?.notification?.title ){
+      // }
+      const title = remoteMessage?.notification?.title
+        ? remoteMessage?.notification?.title
+        : '';
+      const body = remoteMessage?.notification?.body
+        ? remoteMessage?.notification?.body
+        : '';
+
+      console.log(`포그라운드일때 received title : ${title},  body : ${body}`);
+      Alert.alert(title, body);
+    });
+    //Background Push Noti 테스트용
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('백그라운드 메시지가 왔어용', remoteMessage);
+    });
+
+    return unsubscribe;
   }, []);
 
   const askPermission = async () => {

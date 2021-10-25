@@ -1,3 +1,6 @@
+# 라이브러리 히스토리
+21/10/25 @react-native-firebase/app @react-native-firebase/messaging 2개 추가(for Push)
+
 # react-native-simpleheat
 라이브러리 내부에 HeatMap.js 파일에 아래와 같이 opacity 값 안주면 app crash 남
 
