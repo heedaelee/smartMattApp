@@ -1,3 +1,6 @@
+# react-native-simpleheat 라이브러리 링크 내 깃헙에 연결해둠
+apk만들때마다 아래 custom한 lib 부분이 초기화 되서.
+
 # 라이브러리 히스토리
 21/10/25 @react-native-firebase/app @react-native-firebase/messaging 2개 추가(for Push)
 
@@ -25,9 +28,10 @@ const styles = StyleSheet
 47행 MAX_HOURS = 23 -> 5로 변경
 
 
-
 # 백업 코드
-/* '21.6.10 David */
+/* '21.6.10 David 
+Heatmap.js 모듈 타입 파일이 없어서 타입스크립트 만듦. 아래 ts 형식임.
+*/
 declare module "react-native-simpleheat" {
   export default class Heatmap extends React.Component<HeatmapProps , any>{}
 
