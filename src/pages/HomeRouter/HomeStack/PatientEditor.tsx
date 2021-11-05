@@ -29,13 +29,13 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
 
-  const {screen, deviceCode, patient_id} = route.params;
+  let {screen, deviceCode} = route.params;
   console.log(`route.param : ${JSON.stringify(route.params)}`);
 
-  const [selectedPatient, setSelectedPatient] = useSelectedPatient();
+  const [selectedPatient] = useSelectedPatient();
   console.log(`selectedPatient : ${JSON.stringify(selectedPatient)}`);
 
-  const [userState, setUserReducer] = useLoggedUser();
+  const [userState] = useLoggedUser();
 
   //NOTE: INPUT state
   const [patientName, setPatientName] = useInput('');
@@ -44,7 +44,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
   const [isPatinetName, setIsPatinetName] = useBoolean(false);
-  const [isDeviceCode, setIsDeviceCode] = useBoolean(false);
+  // const [isDeviceCode, setIsDeviceCode] = useBoolean(false);
   const [isPatientCondition, setIsPatientCondition] = useBoolean(false);
 
   //TODO: 선택된 환자 추가및 수정 서버 데이터 비동기 전송 로직 해야함
@@ -69,14 +69,14 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
         console.log('res받음', JSON.stringify(res));
         const {success, message} = res.data;
         if (success) {
-          console.log('insert 성공')
+          console.log('insert 성공');
           //DeivceCode 존재
           // navigation.navigate('PatientEditor', {
           //   screen: '환자 추가',
           //   deviceCode,
           //   patient_id: res.data.patient_id,
           // });
-          navigation.navigate('HomeTabRouter',{screen:'환자 목록'});
+          navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
         } else {
           console.log('DeviceCodeCheckSubmit server api success:false');
           switch (message) {
@@ -112,9 +112,12 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
       //setDeviceCode(id);
       patientCondition && setPatientCondition(patientCondition);
     }
-    if (deviceCode) {
-      setIsDeviceCode(true);
-    }
+    // if (deviceCode) {
+    //   console.log("디바이스 코드로 인한 1회 리랜더링")
+    //   setIsDeviceCode(true);
+    // }
+    //컴포넌트 unmount시 초기화 함수 호출
+    // return initializer();
   });
 
   let buttonText = '';
@@ -129,6 +132,14 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
       buttonText = '수정하기';
       break;
   }
+
+  //상태 초기화
+  // function initializer() {
+  //   console.log('init 호출')
+  //   if (deviceCode) {
+  //     deviceCode = '';
+  //   }
+  // }
 
   return (
     <DownKeyboard>
@@ -167,7 +178,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           />
         </TwoInputsRow>
         <TextBoxAndButtonRow>
-          {isDeviceCode && isPatinetName ? (
+          {deviceCode && isPatinetName ? (
             <Button onPress={onAddPatientSubmit}>{buttonText}</Button>
           ) : (
             <Button disabled={true}>{buttonText}</Button>

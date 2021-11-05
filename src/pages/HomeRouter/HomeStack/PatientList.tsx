@@ -18,7 +18,6 @@ import NormalListItem from '~/components/molecules/ListItem';
 import MenuModal from '~/components/organisms/modal/MenuModal';
 import RemoveModal from '~/components/organisms/modal/RemoveModal';
 import useBoolean from '~/hooks/useBoolean';
-import useInput from '~/hooks/useInput';
 import {useLoggedUser, useSelectedPatient} from '~/hooks/useReduce';
 import {Device, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
 import DownKeyboard from '~/lib/DownKeyboard';
@@ -50,7 +49,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     getPatientList();
   }, []);
 
-  //환자 리스트 갖고옴, refreshing 버튼 작동시(유저 하단 드래그시)
+  //환자 리스트 갖고옴, refreshing 버튼 작동시(유저 새로고침을 위해 밑으로 drag시)
   useEffect(() => {
     console.log(`state.refreshing 호출useEffect ${JSON.stringify(state)}`);
     if (state.refreshing) {
@@ -179,7 +178,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
   const getPatientList = async () => {
     console.log('getPatinetList call');
     const {id} = userState;
-    console.log(id);
+    console.log(userState);
 
     //pageNum을 offeset으로 변형
     //0,8,16.. 0 + 8(n-1) 으로 DB의 OFFSET이 들어가야함

@@ -98,14 +98,14 @@ const App = () => {
       });
   }, [isLogin]);
 
-  useEffect(() => {
-    //스플래쉬 달면.. 나중에
-    // setTimeout(() => {
-    //   SplashScreen.hide();
-    //   loadUserData();
-    // }, 1500);
-    loadUserData();
-  }, [loadUserData]); */
+  //스플래쉬 달면.. 나중에
+    useEffect(() => {
+      // setTimeout(() => {
+      //   SplashScreen.hide();
+      //   loadUserData();
+      // }, 1500);
+      loadUserData();
+    }, [loadUserData]); */
 
   return (
     <SafeAreaProvider>
