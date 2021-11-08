@@ -141,7 +141,6 @@ function HeatMapModule({props}: HeatMapModuleProps) {
           client.end();
         }
         console.log('HeatMapModule 페이지 종료');
-        //TODO:  디버그시 setInterval 끄기
         cancelSocketAutoClose();
         //데이터 초기화
         console.log('setData 호출 : 데이터 초기화');
@@ -205,7 +204,6 @@ function HeatMapModule({props}: HeatMapModuleProps) {
       }
 
       //받는 데이터 유효성 체크
-      //TODO: 유효성 하기 위해서 아두이노에서 DUMMY 쏴야겠다
       if (message.length !== 902) {
         console.log(
           `client message error: message.length 갯수 에러 : ${message.length}개`,

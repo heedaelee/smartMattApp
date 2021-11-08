@@ -47,7 +47,6 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   // const [isDeviceCode, setIsDeviceCode] = useBoolean(false);
   const [isPatientCondition, setIsPatientCondition] = useBoolean(false);
 
-  //TODO: 선택된 환자 추가및 수정 서버 데이터 비동기 전송 로직 해야함
   const onAddPatientSubmit = async () => {
     //NOTE:에뮬 -> node 통신 프로토콜
     // await Axios.get('http://10.0.2.2:4000/api')

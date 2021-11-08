@@ -47,7 +47,6 @@ const SignUp2Template = ({
   phoneAuthNmbrSender,
   registrySubmit,
 }: SignUp2TemplateProps) => {
-  //TODO: 임시로 테스트 위해 주석, 나중에 품 5/11
   const {email, password, username} = route.params;
 
   // FORTEST:

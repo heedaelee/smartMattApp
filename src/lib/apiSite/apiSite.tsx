@@ -55,6 +55,7 @@ export const Device = {
   IS_DEVICE_API: '/device/check-device',
   CREATE_DEVICE_API: '/device/create-device',
   GET_PATIENT_LIST_API: '/device/get-patientList',
+  DELETE_PATIENT_API: '/device/delete-patient',
 };
 
 //기타

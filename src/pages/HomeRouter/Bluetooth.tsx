@@ -212,7 +212,6 @@ const Bluetooth = ({navigation}: BluetoothProps) => {
     }
   };
 
-  //TODO: ToMake : 유효성 체크 후 수정 wifi ssid, pw 전송 submit Function
   const submitToMatt = () => {
     if (!isBleConn) {
       Alert.alert('블루투스가 연결되어 있지 않습니다');

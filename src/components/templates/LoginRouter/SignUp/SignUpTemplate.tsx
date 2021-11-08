@@ -42,7 +42,6 @@ type SignUpTemplateProps = {
   moveToSignUp2: () => void;
 };
 
-/*TODO: 폼그리기 after 버튼 수정후 */
 const SignUpTemplate = ({
   navigation,
   email,

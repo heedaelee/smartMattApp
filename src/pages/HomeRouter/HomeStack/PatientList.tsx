@@ -23,7 +23,6 @@ import {Device, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
 import DownKeyboard from '~/lib/DownKeyboard';
 import Theme from '~/lib/Theme';
 //import mqtt from '@taoqf/react-native-mqtt';
-let mqtt = require('@taoqf/react-native-mqtt');
 
 type PatientListProps = {
   navigation: StackNavigationProp<HomeStackNaviParamList>;
@@ -162,11 +161,38 @@ const PatientList = ({navigation, route}: PatientListProps) => {
   };
 
   /* 삭제 */
-  const deletePatient = () => {
+  const deletePatient = async () => {
     console.log(`deletePatient 함수 보낼 data : ${selectedPatientState}`);
-    setRemoveModalVisible(false);
-    Toast.show('삭제되었습니다');
+    console.dir(selectedPatientState);
     //TODO: 삭제 프로세스 redux 던지기
+    const postData = JSON.stringify({
+      caregiver_id: userState.id,
+      patient_id: selectedPatientState.id,
+    });
+
+    await Axios.post(NODE_API + Device.DELETE_PATIENT_API, postData, jsonHeader)
+      .then(res => {
+        console.log('res.data 받음', JSON.stringify(res.data));
+        const {success, message} = res.data;
+        if (success) {
+          console.log('데이터 삭제 성공');
+          setRemoveModalVisible(false);
+          handleRefresh();
+          Toast.show('삭제되었습니다');
+        } else {
+          console.log('deletePatient server api success:false');
+          switch (message) {
+            case 'db error':
+              Alert.alert('db error');
+              break;
+            case 'empty params':
+              Alert.alert('전달값 에러');
+              break;
+          }
+        }
+      })
+      .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
+ 
   };
 
   const handleRefresh = () => {
@@ -174,7 +200,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     console.log(`handleRefresh호출 ${JSON.stringify(state)}`);
     // getPatientList();
   };
-
+  99;
   const getPatientList = async () => {
     console.log('getPatinetList call');
     const {id} = userState;

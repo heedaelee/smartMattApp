@@ -25,7 +25,6 @@ const UserProvider = ({children}: Props) => {
   //NOTE:How to process?
   // userInfo는 redux에 isLogin의 boolean 값에 따라 라우터에서
   // 조건 걸거임. 즉 login 액션시 isLogin: true -> rerendering -> acting routers
-  // TODO:APi 서버 통해 Token 및 user정보 받아오기
 
   useEffect(() => {
     getUserInfo();
