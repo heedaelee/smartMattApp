@@ -7,9 +7,8 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import {List} from '@ui-kitten/components';
 import Axios from 'axios';
-import React, {useEffect} from 'react';
-import {useState} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, StyleSheet, View, ActivityIndicator} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import {CircleButton} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
@@ -34,46 +33,27 @@ const PatientList = ({navigation, route}: PatientListProps) => {
   const [removeModalVisible, setRemoveModalVisible] = useBoolean(false);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
-  // const [patientList, setPatientList] = useInput([]);
-  // const [pageNum, setPageNum] = useInput(1);
   const [state, setState] = useState({data: [], page: 1, refreshing: false});
   const [userState, setUserReducer] = useLoggedUser();
+  const [loading, setLoading] = useState(false);
 
   console.log('PatientList 랜더링');
+  console.log(`loading : ${loading}`);
 
   //환자 리스트 갖고옴, mount시
   useEffect(() => {
     // console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
-    console.log(`useEffect 랜더링, pageNum : ${state.page}`);
+    console.log(`first useEffect 랜더링, pageNum : ${state.page}`);
     getPatientList();
   }, []);
 
   //환자 리스트 갖고옴, refreshing 버튼 작동시(유저 새로고침을 위해 밑으로 drag시)
-  useEffect(() => {
-    console.log(`state.refreshing 호출useEffect ${JSON.stringify(state)}`);
-    if (state.refreshing) {
-      console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
-      getPatientList();
-    }
-  }, [state.refreshing]);
-
-  //문제 : refresh시 여러번 getPatientList()가 호출되는게 문제.
   // useEffect(() => {
-  //   console.log(`state refresing 값 변할때만 Call`);
-  //   getPatientList();
-  //   // if (timer) {
-  //   //   console.log('clear timer');
-  //   //   clearTimeout(timer);
-  //   // }
-  //   // const newTimer = setTimeout(async () => {
-  //   //   try {
-  //   //     await getPatientList();
-  //   //   } catch (e) {
-  //   //     console.error('error', e);
-  //   //   }
-  //   // }, 800);
-  //   // setTimer(newTimer);
-
+  //   console.log(`second useEffect refreshing ${JSON.stringify(state)}`);
+  //   if (state.refreshing) {
+  //     console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
+  //     getPatientList();
+  //   }
   // }, [state.refreshing]);
 
   const goToAddPatientPage = () => {
@@ -81,68 +61,13 @@ const PatientList = ({navigation, route}: PatientListProps) => {
       screen: '기기 추가',
     });
   };
-
-  /* 접속
-  TODO: MQTT 커넥션 부분 셋팅
-  */
   const goToSensorPage = () => {
     console.log('goToSensorPage 함수');
     setMenuModalVisible(false);
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{name: 'HomeTabRouter', params: {screen: '실시간 센서'}}],
-    // });
-
-    // navigation.reset({
-    //   index: 0,
-    //   routes: [{name: '실시간 센서'}],
-    // });
-
-    // navigation.jumpTo('실시간 센서');
-
-    // console.log('**navigation');
-    // console.log(route);
 
     navigation.navigate('HomeTabRouter', {
       screen: '실시간 센서',
     });
-
-    // const MQTT_ADDR = 'ws://192.168.138.19';
-    // 포트를 adb -s R3CMB08119P reverse tcp:8080 tcp:8080 로 변화하면 localhost도 통신 가능하다
-    // 유의할 건 같은 네트워크 IP주소여야 함.
-    // const MQTT_ADDR = 'ws://localhost';
-
-    // const mqtt_port = 8080;
-    // function mqttConnect() {
-    //   console.log(`mqtt연결 시도`);
-    //   let option = {
-    //     port: mqtt_port,
-    //     keepalive: 0,
-    //   };
-    //   let client = mqtt.connect(MQTT_ADDR, option);
-
-    //   console.log(client);
-
-    //   client.on('connect', () => {
-    //     console.log('MQTT connect');
-    //     // let topic = channel + '/status';
-    //     let topic = '123456';
-    //     client.subscribe(topic);
-    //   });
-
-    //   client.on('error', (err: string) => {
-    //     console.log(`소켓 접속 에러 : ${err}`);
-    //   });
-
-    //   client.on('message', function (topic: any, message: any) {
-    //     // message is Buffer
-    //     /* byte방식 */
-    //     console.log(`${message.toString()}`);
-    //   });
-    //   return client;
-    // }
-
-    // mqttConnect();
   };
 
   /* 편집 삭제 일단 보류*/
@@ -164,7 +89,6 @@ const PatientList = ({navigation, route}: PatientListProps) => {
   const deletePatient = async () => {
     console.log(`deletePatient 함수 보낼 data : ${selectedPatientState}`);
     console.dir(selectedPatientState);
-    //TODO: 삭제 프로세스 redux 던지기
     const postData = JSON.stringify({
       caregiver_id: userState.id,
       patient_id: selectedPatientState.id,
@@ -192,7 +116,6 @@ const PatientList = ({navigation, route}: PatientListProps) => {
         }
       })
       .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
- 
   };
 
   const handleRefresh = () => {
@@ -200,36 +123,36 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     console.log(`handleRefresh호출 ${JSON.stringify(state)}`);
     // getPatientList();
   };
-  99;
+
   const getPatientList = async () => {
-    console.log('getPatinetList call');
+    console.log('[getPatinetList] call');
     const {id} = userState;
-    console.log(userState);
+    // console.log(userState);
 
     //pageNum을 offeset으로 변형
     //0,8,16.. 0 + 8(n-1) 으로 DB의 OFFSET이 들어가야함
     //OFFSET = 0,8,16 ... = 0 + (8 * (pageNum - 1))
     //const offset = 0 + 8 * (pageNum - 1);
     const offset = 0 + 8 * (state.page - 1);
-    console.log(`offset 값 : ${offset}`);
-    console.log(`state.page 값 : ${state.page}`);
+    // console.log(`offset 값 : ${offset}`);
+    // console.log(`state.page 값 : ${state.page}`);
 
     const postData = JSON.stringify({id: id, offset: offset});
 
+    setLoading(true);
     await Axios.post(NODE_API + Device.GET_PATIENT_LIST_API, postData, jsonHeader)
       .then(res => {
-        console.log('res.data 받음', JSON.stringify(res.data));
+        console.log('[getPatinetList][Axios.post]res.data 받음', JSON.stringify(res.data));
         const {success, message, list} = res.data;
         if (success) {
-          console.log('list select 성공');
-          console.log(`getPatientList 내의 state: ${JSON.stringify(state)}`);
+          console.log(`[getPatinetList][Axios.post]getPatientList 내의 state: ${JSON.stringify(state)}`);
           setState({
             data: state.refreshing ? list : state.data.concat(list),
             page: state.page + 1,
             refreshing: false,
           });
         } else {
-          console.log('getPatientList server api success:false');
+          console.log('[getPatinetList][Axios.post] getPatientList server api success:false');
           switch (message) {
             case 'db error':
               Alert.alert('db error');
@@ -244,12 +167,23 @@ const PatientList = ({navigation, route}: PatientListProps) => {
         }
       })
       .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
+    setLoading(false);
   };
+
+  const spiner = (
+    <View style={styles.horizontal}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
 
   return (
     <DownKeyboard>
       <Container style={styles.container}>
-        {state.data.length > 0 ? (
+        {loading ? (
+          <View style={styles.horizontal}>
+            <ActivityIndicator color="#0000ff" size={'large'} />
+          </View>
+        ) : state.data.length > 0 ? (
           <List
             style={styles.list}
             data={state.data}
@@ -271,7 +205,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
         ) : (
           <View style={styles.emptyTextView}>
             <MenuText style={{alignItems: 'center'}} color={Theme.color.gray}>
-              등록된 환자가 없습니다
+              등록된 환자가 없습니다 {console.log('==환자 view== ')}
             </MenuText>
           </View>
         )}
@@ -327,6 +261,10 @@ const styles = StyleSheet.create({
   },
   circleButtonRow: {
     borderWidth: 1,
+  },
+  horizontal: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
