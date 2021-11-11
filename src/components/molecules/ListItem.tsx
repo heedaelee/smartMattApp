@@ -42,7 +42,7 @@ const NormalListItem = ({item, setModalVisible, setRead}: NormalListItemProps) =
       title={evaProps => (
         <View style={{marginBottom: 5}}>
           {item.isRead ? (
-            <Text >{item.patientName}</Text>
+            <Text>{item.patientName}</Text>
           ) : (
             <Text>{item.patientName}</Text>
           )}
@@ -67,6 +67,8 @@ const NormalListItem = ({item, setModalVisible, setRead}: NormalListItemProps) =
 
 const styles = StyleSheet.create({
   listItem: {
+    // height: 80,
+    // width: 300,
     // borderWidth: 1,
   },
   Icon: {

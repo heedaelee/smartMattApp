@@ -47,7 +47,16 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   // const [isDeviceCode, setIsDeviceCode] = useBoolean(false);
   const [isPatientCondition, setIsPatientCondition] = useBoolean(false);
 
-  const onAddPatientSubmit = async () => {
+  //환자 추가
+
+  /**NOTE:
+   * 기능 : 환자 데이터 수정
+   * 작업일 : 11/10
+   * in:
+   * out: {}
+   */
+
+  const onAddAndPatientSubmit = async () => {
     //NOTE:에뮬 -> node 통신 프로토콜
     // await Axios.get('http://10.0.2.2:4000/api')
     //   .then(res => console.log(res))
@@ -65,19 +74,28 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
       caregiver_id: userState.id,
     });
 
-    await Axios.post(NODE_API + Device.CREATE_DEVICE_API, postData, jsonHeader)
+    let apiAddr =
+      (screen === '환자 추가' && Device.CREATE_DEVICE_API) ||
+      (screen === '환자 수정' && Device.UPDATE_DEVICE_API);
+
+    console.log('====================================');
+    console.log(`보내는 값 TEST : ${postData}`);
+    console.log(`보내는 주소 Addr : ${apiAddr}`);
+    console.log('====================================');
+
+    await Axios.post(NODE_API + apiAddr, postData, jsonHeader)
       .then(res => {
         console.log('res받음', JSON.stringify(res));
         const {success, message} = res.data;
         if (success) {
-          console.log('insert 성공');
-          //DeivceCode 존재
-          // navigation.navigate('PatientEditor', {
-          //   screen: '환자 추가',
-          //   deviceCode,
-          //   patient_id: res.data.patient_id,
-          // });
-          navigation.navigate('HomeTabRouter', {screen: '환자 목록'});
+          if (screen === '환자 추가') {
+            console.log('create 성공');
+            Toast.show('추가되었습니다');
+          } else if (screen === '환자 수정') {
+            console.log('update 성공');
+            Toast.show('수정되었습니다');
+          }
+          navigation.reset({routes: [{name: 'HomeTabRouter'}]});
         } else {
           console.log('DeviceCodeCheckSubmit server api success:false');
           switch (message) {
@@ -86,6 +104,9 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
               break;
             case 'db error':
               Alert.alert('db error');
+              break;
+            case 'db update error':
+              Alert.alert('db update error');
               break;
             case '디바이스 없음':
               Alert.alert('다비아스 코드가 없습니다.');
@@ -118,13 +139,15 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
     // }
     //컴포넌트 unmount시 초기화 함수 호출
     // return initializer();
-  });
+  }, []);
 
   let buttonText = '';
+  // let submitBtnType;
 
   switch (screen) {
     case '환자 추가':
       buttonText = '등록하기';
+      // submitBtnType = onAddAndPatientSubmit;
       break;
     // 상세 보류
     // case '환자 상세':
@@ -132,6 +155,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
     //   break;
     case '환자 수정':
       buttonText = '수정하기';
+      // submitBtnType = onEditPatientSubmit;
       break;
   }
 
@@ -181,7 +205,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
         </TwoInputsRow>
         <TextBoxAndButtonRow>
           {deviceCodeFromParams && isPatinetName ? (
-            <Button onPress={onAddPatientSubmit}>{buttonText}</Button>
+            <Button onPress={onAddAndPatientSubmit}>{buttonText}</Button>
           ) : (
             <Button disabled={true}>{buttonText}</Button>
           )}

@@ -54,6 +54,7 @@ export const Auth = {
 export const Device = {
   IS_DEVICE_API: '/device/check-device',
   CREATE_DEVICE_API: '/device/create-device',
+  UPDATE_DEVICE_API: '/device/update-device',
   GET_PATIENT_LIST_API: '/device/get-patientList',
   DELETE_PATIENT_API: '/device/delete-patient',
 };

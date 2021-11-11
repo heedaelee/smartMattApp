@@ -7,8 +7,8 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import {List} from '@ui-kitten/components';
 import Axios from 'axios';
-import React, {useEffect, useState} from 'react';
-import {Alert, StyleSheet, View, ActivityIndicator} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, StyleSheet, View, ActivityIndicator, FlatList} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import {CircleButton} from '~/components/atoms/Button';
 import {Container} from '~/components/atoms/Container';
@@ -31,6 +31,7 @@ type PatientListProps = {
 const PatientList = ({navigation, route}: PatientListProps) => {
   const [menuModalVisible, setMenuModalVisible] = useBoolean(false);
   const [removeModalVisible, setRemoveModalVisible] = useBoolean(false);
+  const [finished, setFinished] = useBoolean(false);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
   const [state, setState] = useState({data: [], page: 1, refreshing: false});
@@ -39,12 +40,15 @@ const PatientList = ({navigation, route}: PatientListProps) => {
 
   console.log('PatientList 랜더링');
   console.log(`loading : ${loading}`);
+  console.log(`finished : ${finished}`);
+  console.log(`state.refreshing : ${state.refreshing}`);
 
   //환자 리스트 갖고옴, mount시
   useEffect(() => {
     // console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
     console.log(`first useEffect 랜더링, pageNum : ${state.page}`);
     getPatientList();
+
     return () => {
       console.log('==언마우늩?');
     };
@@ -123,6 +127,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
 
   const handleRefresh = () => {
     setState({data: [], page: 1, refreshing: true});
+    setFinished(false);
     console.log(`handleRefresh호출 ${JSON.stringify(state)}`);
     // getPatientList();
   };
@@ -132,17 +137,18 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     const {id} = userState;
     // console.log(userState);
 
+    const contentsCnt = 10;
     //pageNum을 offeset으로 변형
     //0,8,16.. 0 + 8(n-1) 으로 DB의 OFFSET이 들어가야함
     //OFFSET = 0,8,16 ... = 0 + (8 * (pageNum - 1))
     //const offset = 0 + 8 * (pageNum - 1);
-    const offset = 0 + 8 * (state.page - 1);
+    const offset = 0 + contentsCnt * (state.page - 1);
     // console.log(`offset 값 : ${offset}`);
     // console.log(`state.page 값 : ${state.page}`);
 
     const postData = JSON.stringify({id: id, offset: offset});
 
-    // setLoading(true);
+    setLoading(true);
     await Axios.post(NODE_API + Device.GET_PATIENT_LIST_API, postData, jsonHeader)
       .then(res => {
         console.log(
@@ -161,6 +167,12 @@ const PatientList = ({navigation, route}: PatientListProps) => {
             page: state.page + 1,
             refreshing: false,
           });
+          if (list.length < contentsCnt) {
+            console.log('====================================');
+            console.log(`10개 안됨 : ${list.length}`);
+            console.log('====================================');
+            setFinished(true);
+          }
         } else {
           console.log(
             '[getPatinetList][Axios.post] getPatientList server api success:false',
@@ -169,18 +181,15 @@ const PatientList = ({navigation, route}: PatientListProps) => {
             case 'db error':
               Alert.alert('db error');
               break;
-            case '디바이스 없음':
-              Alert.alert('다비아스 코드가 없습니다.');
-              break;
-            case '환자 이미 존재':
-              Alert.alert('이미 추가된 디바이스코드 입니다.');
+            case 'empty data':
+
               break;
           }
           console.log('test');
         }
       })
       .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
-    // setLoading(false);
+    setLoading(false);
   };
 
   const spiner = (
@@ -197,7 +206,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
             <ActivityIndicator color="#0000ff" size={'large'} />
           </View>
         ) : state.data.length > 0 ? (
-          <List
+          <FlatList
             style={styles.list}
             data={state.data}
             //랜더 아이템을 함수형으로 쓰면 안됨. Invalid hook call에 걸림
@@ -209,8 +218,10 @@ const PatientList = ({navigation, route}: PatientListProps) => {
             renderItem={({item}: any) => (
               <NormalListItem item={item} setModalVisible={setMenuModalVisible} />
             )}
-            // onEndReached={state.data.length < 9 ? null : getPatientList}
-            onEndReached={getPatientList}
+            keyExtractor={(item: any) => item.id.toString()}
+            // onEndReached={state.data.length < 10 ? null : getPatientList}
+            onEndReached={finished === true ? null : getPatientList}
+            // onEndReached={getPatientList}
             onEndReachedThreshold={0.01}
             refreshing={state.refreshing}
             onRefresh={handleRefresh}
