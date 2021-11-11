@@ -45,16 +45,19 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     // console.log(`useEffect 랜더링, pageNum : ${pageNum}`);
     console.log(`first useEffect 랜더링, pageNum : ${state.page}`);
     getPatientList();
+    return () => {
+      console.log('==언마우늩?');
+    };
   }, []);
 
   //환자 리스트 갖고옴, refreshing 버튼 작동시(유저 새로고침을 위해 밑으로 drag시)
-  // useEffect(() => {
-  //   console.log(`second useEffect refreshing ${JSON.stringify(state)}`);
-  //   if (state.refreshing) {
-  //     console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
-  //     getPatientList();
-  //   }
-  // }, [state.refreshing]);
+  useEffect(() => {
+    console.log(`second useEffect refreshing ${JSON.stringify(state)}`);
+    if (state.refreshing) {
+      console.log(`state.refreshing 호출useEffect & state.refreshing === true 일때`);
+      getPatientList();
+    }
+  }, [state.refreshing]);
 
   const goToAddPatientPage = () => {
     navigation.navigate('AddDevice', {
@@ -70,12 +73,12 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     });
   };
 
-  /* 편집 삭제 일단 보류*/
   const goToEditPatientPage = () => {
     console.log('goToEditPatientPage 함수');
     setMenuModalVisible(false);
     navigation.navigate('PatientEditor', {
       screen: '환자 수정',
+      deviceCode: selectedPatientState.deviceCode,
     });
   };
 
@@ -139,20 +142,29 @@ const PatientList = ({navigation, route}: PatientListProps) => {
 
     const postData = JSON.stringify({id: id, offset: offset});
 
-    setLoading(true);
+    // setLoading(true);
     await Axios.post(NODE_API + Device.GET_PATIENT_LIST_API, postData, jsonHeader)
       .then(res => {
-        console.log('[getPatinetList][Axios.post]res.data 받음', JSON.stringify(res.data));
+        console.log(
+          '[getPatinetList][Axios.post]res.data 받음',
+          JSON.stringify(res.data),
+        );
         const {success, message, list} = res.data;
         if (success) {
-          console.log(`[getPatinetList][Axios.post]getPatientList 내의 state: ${JSON.stringify(state)}`);
+          console.log(
+            `[getPatinetList][Axios.post]getPatientList 내의 state: ${JSON.stringify(
+              state,
+            )}`,
+          );
           setState({
             data: state.refreshing ? list : state.data.concat(list),
             page: state.page + 1,
             refreshing: false,
           });
         } else {
-          console.log('[getPatinetList][Axios.post] getPatientList server api success:false');
+          console.log(
+            '[getPatinetList][Axios.post] getPatientList server api success:false',
+          );
           switch (message) {
             case 'db error':
               Alert.alert('db error');
@@ -164,10 +176,11 @@ const PatientList = ({navigation, route}: PatientListProps) => {
               Alert.alert('이미 추가된 디바이스코드 입니다.');
               break;
           }
+          console.log('test');
         }
       })
       .catch(e => console.log(`에러 : ${JSON.stringify(e)}`));
-    setLoading(false);
+    // setLoading(false);
   };
 
   const spiner = (
@@ -196,7 +209,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
             renderItem={({item}: any) => (
               <NormalListItem item={item} setModalVisible={setMenuModalVisible} />
             )}
-            scrollEnabled={true}
+            // onEndReached={state.data.length < 9 ? null : getPatientList}
             onEndReached={getPatientList}
             onEndReachedThreshold={0.01}
             refreshing={state.refreshing}
@@ -246,7 +259,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   listItem: {
-    borderWidth: 1,
+    // borderWidth: 1,
   },
   Icon: {
     marginTop: -20,

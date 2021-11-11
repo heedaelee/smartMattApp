@@ -29,7 +29,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   //screen : 환자 추가 | 환자 상세 | 환자 수정
   //3가지 종류에 따라 다른 컴포넌트 조건 분기
 
-  let {screen, deviceCode} = route.params;
+  let {screen, deviceCode: deviceCodeFromParams} = route.params;
   console.log(`route.param : ${JSON.stringify(route.params)}`);
 
   const [selectedPatient] = useSelectedPatient();
@@ -39,7 +39,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   //NOTE: INPUT state
   const [patientName, setPatientName] = useInput('');
-  // const [deviceCode, setDeviceCode] = useInput('');
+  const [deviceCode, setDeviceCode] = useInput('');
   const [patientCondition, setPatientCondition] = useInput('');
 
   //NOTE: 유효성 체크 토글: 유효성 정상이면 true
@@ -52,12 +52,14 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
     // await Axios.get('http://10.0.2.2:4000/api')
     //   .then(res => console.log(res))
     //   .catch(e => console.log(e));
-    console.log(`addPatientCheck : ${patientName}  ${deviceCode} ${patientCondition}`);
+    console.log(
+      `addPatientCheck : ${patientName}  ${deviceCodeFromParams} ${patientCondition}`,
+    );
     console.log('서버탐, id:');
     console.log(userState.id);
 
     const postData = JSON.stringify({
-      deviceCode: deviceCode,
+      deviceCode: deviceCodeFromParams,
       patientName: patientName,
       patientCondition: patientCondition || '',
       caregiver_id: userState.id,
@@ -104,11 +106,10 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
 
   useEffect(() => {
     if (screen === '환자 수정') {
-      const {id, patientName, patientCondition} = selectedPatient;
+      const {patientName, patientCondition, deviceCode} = selectedPatient;
       //환자 수정 페이지시 리덕스에 selected 데이터 갖고와 setState 해줌
       setPatientName(patientName);
-      //아직 기기코드가 없으니깐. id로 대체
-      //setDeviceCode(id);
+      setDeviceCode(deviceCode);
       patientCondition && setPatientCondition(patientCondition);
     }
     // if (deviceCode) {
@@ -120,13 +121,15 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
   });
 
   let buttonText = '';
+
   switch (screen) {
     case '환자 추가':
       buttonText = '등록하기';
       break;
-    case '환자 상세':
-      buttonText = '확인';
-      break;
+    // 상세 보류
+    // case '환자 상세':
+    //   buttonText = '확인';
+    //   break;
     case '환자 수정':
       buttonText = '수정하기';
       break;
@@ -160,11 +163,11 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           <View style={{marginTop: 25}} />
           <InputBox
             menuText={'기기 번호'}
-            state={deviceCode || ''}
+            state={deviceCodeFromParams || ''}
             checkedExist={'success'}
             setState={() => undefined}
           />
-          {console.log('serial num is ', deviceCode)}
+          {console.log('serial num is ', deviceCodeFromParams)}
           <View style={{marginTop: 25}} />
           <TextBox
             menuText={'환자 상태'}
@@ -177,7 +180,7 @@ const PatientEditor = ({navigation, route}: patientEditorProps) => {
           />
         </TwoInputsRow>
         <TextBoxAndButtonRow>
-          {deviceCode && isPatinetName ? (
+          {deviceCodeFromParams && isPatinetName ? (
             <Button onPress={onAddPatientSubmit}>{buttonText}</Button>
           ) : (
             <Button disabled={true}>{buttonText}</Button>
