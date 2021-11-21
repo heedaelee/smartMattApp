@@ -19,44 +19,44 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {useSelector} from 'react-redux';
 import {RootState} from '~/modules';
 import messaging from '@react-native-firebase/messaging';
+import Notification from '~/lib/Notification';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
 
-  //FORTEST: 작동하는 기능. For TEST 주석처리
   /* origin */
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
-  /* Temp */
-  // const isLogin = true;
-
   const {getUserInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
     console.log('app.tsx 호출');
+    Notification.register();
+    Notification.createDefaultChannels();
+    
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('푸시메시지 호출');
-      // if(remoteMessage?.notification?.title ){
-      // }
-      const title = remoteMessage?.notification?.title
-        ? remoteMessage?.notification?.title
-        : '';
-      const body = remoteMessage?.notification?.body
-        ? remoteMessage?.notification?.body
-        : '';
+    // const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //   console.log('푸시메시지 호출');
+    //   // if(remoteMessage?.notification?.title ){
+    //   // }
+    //   const title = remoteMessage?.notification?.title
+    //     ? remoteMessage?.notification?.title
+    //     : '';
+    //   const body = remoteMessage?.notification?.body
+    //     ? remoteMessage?.notification?.body
+    //     : '';
 
-      console.log(`포그라운드일때 received title : ${title},  body : ${body}`);
-      Alert.alert(title, body);
-    });
-    //Background Push Noti 테스트용
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('백그라운드 메시지가 왔어용', remoteMessage);
-    });
+    //   console.log(`포그라운드일때 received title : ${title},  body : ${body}`);
+    //   Alert.alert(title, body);
+    // });
+    // //Background Push Noti 테스트용
+    // messaging().setBackgroundMessageHandler(async remoteMessage => {
+    //   console.log('백그라운드 메시지가 왔어용', remoteMessage);
+    // });
 
-    return unsubscribe;
+    // return unsubscribe;
   }, []);
 
   const askPermission = async () => {
@@ -114,9 +114,7 @@ const App = () => {
         <ApplicationProvider {...eva} theme={eva.light}>
           <ThemeProvider theme={Theme}>
             {/* <Provider store={store}> */}
-            <UserProvider>
-              {isLogin ? <HomeRouter /> : <LoginRouter />}
-            </UserProvider>
+            <UserProvider>{isLogin ? <HomeRouter /> : <LoginRouter />}</UserProvider>
             {/* </Provider> */}
           </ThemeProvider>
         </ApplicationProvider>

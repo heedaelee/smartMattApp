@@ -53,7 +53,7 @@ const UserProvider = ({children}: Props) => {
 
       /* user Data가 있을시 set to Redux */
       const storageValue = await AsyncStorage.getItem('@loginInfo');
-      console.log(`저장된 @loginInfo : ${JSON.stringify(storageValue)}`);
+      console.log(`6.저장된 @loginInfo : ${JSON.stringify(storageValue)}`);
       setUserReducer({id, email, loginType, isLogin, token});
       console.log('reduce 셋 완료');
     } catch (e) {
@@ -67,16 +67,16 @@ const UserProvider = ({children}: Props) => {
     AsyncStorage.getItem('@loginInfo')
       .then(value => {
         if (value) {
-          console.log(`2.getUserInfo()에서 value 값 : ${value} `);
+          // console.log(`2.getUserInfo()에서 value 값 : ${value} `);
           const parsedValue = JSON.parse(value);
           if (parsedValue.token) {
-            console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
+            // console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
             Axios.get(NODE_API + Auth.VERIFY_TOKEN_API)
               .then(res => {
-                console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
+                // console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
                 if (res) {
                   if (res.status === 200) {
-                    console.log('5. 토큰값 확인');
+                    // console.log('5. 토큰값 확인');
                     const {id, email, loginType, isLogin = true} = res.data.user;
                     setUserInfo(id, email, parsedValue.token, loginType, isLogin);
                   } else {

@@ -23,7 +23,7 @@ type HeatMapProps = {
 
 const HeatMap = ({navigation, route}: HeatMapProps) => {
   console.log('HeatMap 페이지 랜더링');
-  console.log(route);
+  // console.log(route);
 
   /*Context 사용 Gradient 값 가져오기 */
   //key array 추출
