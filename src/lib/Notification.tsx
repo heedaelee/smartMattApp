@@ -9,11 +9,11 @@ const registerLocalNotification = (title?: string, message?: string) => {
   console.log('[Notification]registerLocalNotification() 호출 ');
 
   PushNotification.setApplicationIconBadgeNumber(0);
-    console.log(`setApplicationIconBadgeNumber() 호출`);
+  console.log(`setApplicationIconBadgeNumber() 호출`);
 
-    // Cancels all scheduled notifications AND clears the notifications alerts that are in the notification centre.
-    PushNotification.cancelAllLocalNotifications();
-    console.log(`cancelAllLocalNotifications() 호출`);
+  // Cancels all scheduled notifications AND clears the notifications alerts that are in the notification centre.
+  PushNotification.cancelAllLocalNotifications();
+  console.log(`cancelAllLocalNotifications() 호출`);
 
   PushNotification.localNotification({
     /* Android Only Properties */
@@ -47,6 +47,52 @@ export default {
       onNotification: function (notification: any) {
         console.log('NOTIFICATION:', notification);
         // process the notification
+
+        //DB추가 out data = {title:'string', message:'string', caregiver_id}
+
+        // const postData = JSON.stringify({
+        //   deviceCode: deviceCode,
+        //   caregiver_id: userState.id,
+        // });
+        // console.log('서버탐');
+        // await Axios.post(NODE_API + Device.IS_DEVICE_API, postData, jsonHeader).then(
+        //   res => {
+        //     if (res.data.success) {
+        //       //이 유무체크는 이메일등과 반대로, 있어야 하는거니깐, if(hasCode)=> success
+        //       //DeivceCode 존재한다면,
+        //       if (res.data.hasCode) {
+        //         //Code가 등록되었냐? 아님 미등록이냐?
+        //         console.log('====================================');
+        //         console.log(res.data.usedCode);
+        //         console.log('====================================');
+        //         if (res.data.usedCode) {
+        //           //등록되어 있을떄
+        //           Alert.alert('이미 추가된 환자입니다');
+        //           return;
+        //         } else {
+        //           //등록되어 있지 않을때
+        //           //환자 id가 있으면,
+        //           if (res.data.patient_id) {
+        //             navigation.navigate('PatientEditor', {
+        //               screen: '환자 추가',
+        //               deviceCode,
+        //               patient_id: res.data.patient_id,
+        //             });
+        //           } else {
+        //             console.log('patient_id 받아오기 실패');
+        //           }
+        //         }
+        //       } else {
+        //         //DeivceCode 비존재
+        //         setCheckedExist('fail');
+        //       }
+        //     } else {
+        //       console.log('DeviceCodeCheckSubmit server api fail');
+        //       console.log(res.data);
+        //     }
+        //   },
+        // );
+
         registerLocalNotification(notification.title, notification.message);
 
         // (required) Called when a remote is received or opened, or local notification is opened
