@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {AppState, PushNotificationIOS} from 'react-native';
-import PushNotification, {Importance} from 'react-native-push-notification';
+import PushNotification, {Importance, PushNotificationObject, ReceivedNotification} from 'react-native-push-notification';
+import {useLoggedUser} from '~/hooks/useReduce';
 
 const registerLocalNotification = (title?: string, message?: string) => {
   console.log('[Notification]registerLocalNotification() 호출 ');
@@ -35,7 +36,7 @@ const registerLocalNotification = (title?: string, message?: string) => {
 };
 
 export default {
-  register: async () => {
+  register: async (userId?: string) => {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function (token) {
@@ -47,14 +48,18 @@ export default {
       onNotification: function (notification: any) {
         console.log('NOTIFICATION:', notification);
         // process the notification
+        console.log('====================================');
+        console.log(userId);
+        console.log('====================================');
 
         //DB추가 out data = {title:'string', message:'string', caregiver_id}
-
-        // const postData = JSON.stringify({
-        //   deviceCode: deviceCode,
-        //   caregiver_id: userState.id,
-        // });
-        // console.log('서버탐');
+        const {title, message} = notification;
+        const postData = JSON.stringify({
+          title: title,
+          message: message,
+          caregiver_id: userId,
+        });
+        console.log('서버탐');
         // await Axios.post(NODE_API + Device.IS_DEVICE_API, postData, jsonHeader).then(
         //   res => {
         //     if (res.data.success) {

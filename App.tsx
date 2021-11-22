@@ -26,15 +26,15 @@ const App = () => {
 
   /* origin */
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
+  const userId = useSelector((state: RootState) => state.user.id);
   const {getUserInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
     console.log('app.tsx 호출');
-    Notification.register();
+    Notification.register(userId);
     Notification.createDefaultChannels();
-    
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
     // const unsubscribe = messaging().onMessage(async remoteMessage => {
