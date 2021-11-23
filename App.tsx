@@ -4,7 +4,7 @@
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Platform, LogBox, Alert} from 'react-native';
+import {StyleSheet, Platform, LogBox} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components';
 import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
@@ -35,6 +35,7 @@ const App = () => {
     console.log('app.tsx 호출');
     Notification.register(userId);
     Notification.createDefaultChannels();
+    //TODO: 2. if isLogin true고 isFcbToken true이면 서버에 호출. insert
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
     // const unsubscribe = messaging().onMessage(async remoteMessage => {

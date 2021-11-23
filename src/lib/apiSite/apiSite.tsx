@@ -59,6 +59,11 @@ export const Device = {
   DELETE_PATIENT_API: '/device/delete-patient',
 };
 
+//TODO:이거 만들어야함
+export const Alarm = {
+  CREATE_ALARM_API: '/device/check-device',
+};
+
 //기타
 export const jsonHeader = {
   headers: {

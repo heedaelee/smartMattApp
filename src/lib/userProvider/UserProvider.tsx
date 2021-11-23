@@ -7,7 +7,6 @@ import Axios from 'axios';
 import {NODE_API, Auth, jsonHeader} from '~/lib/apiSite/apiSite';
 import {Alert} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ParamListBase} from '@react-navigation/native';
 
 const defaultContext: UserContext = {
   setUserInfo: () => {},
@@ -101,48 +100,7 @@ const UserProvider = ({children}: Props) => {
         console.log(`1.getUserInfo 호출에서 에러, 에러msg : ${JSON.stringify(e)} `);
       });
   };
-  // const getUserInfo = (navigation?: StackNavigationProp<any>) => {
-  //   console.log('1.getUserInfo 호출됨');
-  //   AsyncStorage.getItem('@loginInfo')
-  //     .then(value => {
-  //       if (value) {
-  //         console.log(`2.getUserInfo()에서 value 값 : ${value} `);
-  //         const parsedValue = JSON.parse(value);
-  //         if (parsedValue.token) {
-  //           console.log(`3.token 존재, 보낼token : ${parsedValue.token}`);
-  //           Axios.get(NODE_API + Auth.VERIFY_TOKEN_API, {
-  //             headers: {Authorization: `Bearer ${parsedValue.token}`},
-  //           })
-  //             .then(res => {
-  //               console.log(`4.VERIFY_TOKEN_API 호출후 res값 ${JSON.stringify(res)}`);
-  //               if (res) {
-  //                 if (res.status === 200) {
-  //                   console.log('5. 토큰값 확인');
-  //                   const {id, email, loginType, isLogin = true} = res.data.user;
-  //                   setUserInfo(id, email, parsedValue.token, loginType, isLogin);
-  //                 } else {
-  //                   console.log('5.토큰값 다름');
-  //                   Alert.alert('토큰이 만료되었습니다.');
-  //                   navigation && navigation.navigate('SignIn');
-  //                 }
-  //                 // setUserReducer();
-  //               } else {
-  //                 console.log(`4.res 데이터없음`);
-  //               }
-  //             })
-  //             .catch(e => console.log(`verify token api error : ${e}`));
-  //         }
-  //       } else {
-  //         console.log(`2.getUserInfo()에서 value 값 없음, 값 : ${value} `);
-  //         Alert.alert('Localstorage user 값 없음');
-  //         navigation && navigation.navigate('SignIn');
-  //       }
-  //     })
-  //     .catch(e => {
-  //       console.log(`1.getUserInfo 호출에서 에러, 에러msg : ${JSON.stringify(e)} `);
-  //     });
-  // };
-
+  
   const logout = (): void => {
     AsyncStorage.removeItem('@loginInfo');
     console.log('토큰삭제 : ', AsyncStorage.getItem('@loginInfo'));
