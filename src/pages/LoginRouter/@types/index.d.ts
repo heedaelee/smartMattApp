@@ -29,6 +29,7 @@ type registrySubmitParamList = {
     socialType?: string;
     socialId?: string;
   };
+  fcm_token?: string;
 };
 
 type SelectedPatientState = {

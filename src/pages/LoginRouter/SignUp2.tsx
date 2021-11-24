@@ -80,56 +80,52 @@ const SignUp2 = ({navigation, route}: SignUp2Props) => {
   const registrySubmit = async (value: registrySubmitParamList) => {
     //TODO: 회원가입 최종 데이터 API 서버 통신하기
     console.log(value);
-    try {
-      const postData = JSON.stringify({
-        username: value.username,
-        email: value.email,
-        password: value.password,
-        loginType: value.loginType,
-        phoneNmbr: value.phoneNmbr,
-      });
+    const postData = JSON.stringify({
+      username: value.username,
+      email: value.email,
+      password: value.password,
+      loginType: value.loginType,
+      phoneNmbr: value.phoneNmbr,
+    });
 
-      await Axios.post(NODE_API + Auth.SIGN_UP_API, postData, jsonHeader)
-        .then(res => {
-          console.log('test');
-          console.log(res);
-          // response : success, token
-          if (res.data.success) {
-            console.log('로그인 호출 전: ');
-            //로그인 api 호출
-            Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(res => {
-              console.log(`SIGN_IN_API 호출후 res값 ${JSON.stringify(res)}`);
-              // response : success, token
-              if (res.data.success) {
-                //성공 로직 : 토큰 받기
-                // token: res.data.token,
-                //아래 storage에 저장
-                console.log(`로그인 성공 : `);
-                console.log(res.data);
-                //수신 : res.data.user
+    await Axios.post(NODE_API + Auth.SIGN_UP_API, postData, jsonHeader)
+      .then(res => {
+        console.log('test');
+        console.log(res);
+        // response : success, token
+        if (res.data.success) {
+          console.log('로그인 호출 전: ');
+          //로그인 api 호출
+          Axios.post(NODE_API + Auth.SIGN_IN_API, postData, jsonHeader).then(res => {
+            console.log(`SIGN_IN_API 호출후 res값 ${JSON.stringify(res)}`);
+            // response : success, token
+            if (res.data.success) {
+              //성공 로직 : 토큰 받기
+              // token: res.data.token,
+              //아래 storage에 저장
+              console.log(`로그인 성공 : `);
+              console.log(res.data);
+              //수신 : res.data.user
 
-                const {id, email, token, loginType, isLogin = true} = res.data.user;
-                //로그인 모듈
-                setUserInfo(id, email, token, loginType, isLogin);
-              } else {
-                Alert.alert('로그인 정보를 확인해주세요');
-              }
-            });
-          } else {
-            if (res.data.message === 'email already used') {
-              Alert.alert('이미 가입된 이메일입니다.');
+              const {id, email, token, loginType, isLogin = true} = res.data.user;
+              //로그인 모듈
+              setUserInfo(id, email, token, loginType, isLogin);
             } else {
-              Alert.alert('관리자에게 문의하세요.');
+              Alert.alert('로그인 정보를 확인해주세요');
             }
+          });
+        } else {
+          if (res.data.message === 'email already used') {
+            Alert.alert('이미 가입된 이메일입니다.');
+          } else {
+            Alert.alert('관리자에게 문의하세요.');
           }
-        })
-        .catch(err => {
-          console.log(`에러 : ${err}`);
-          Alert.alert('에러', JSON.stringify(err));
-        });
-    } catch (e) {
-      console.log(`error ${e}`);
-    }
+        }
+      })
+      .catch(err => {
+        console.log(`에러 : ${err}`);
+        Alert.alert('에러', JSON.stringify(err));
+      });
   };
 
   return (

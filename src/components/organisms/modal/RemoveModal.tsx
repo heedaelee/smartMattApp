@@ -7,8 +7,7 @@ import {Button, Card, Modal} from '@ui-kitten/components';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {MenuText} from '~/components/atoms/Text';
-import ModalOneMenuRow from '~/components/molecules/ModalOneMenuRow';
-import {useSelectedPatient} from '~/hooks/useReduce';
+
 
 type RemoveModalProps = {
   modalVisible: boolean;

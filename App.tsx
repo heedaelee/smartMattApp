@@ -4,7 +4,7 @@
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Platform, LogBox} from 'react-native';
+import {StyleSheet, Platform, LogBox, Alert} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components';
 import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
@@ -20,6 +20,9 @@ import {useSelector} from 'react-redux';
 import {RootState} from '~/modules';
 import messaging from '@react-native-firebase/messaging';
 import Notification from '~/lib/Notification';
+import {useLoggedUser} from '~/hooks/useReduce';
+import Axios from 'axios';
+import {Alarm, Auth, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
@@ -27,13 +30,15 @@ const App = () => {
   /* origin */
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
   const userId = useSelector((state: RootState) => state.user.id);
+  const fcm_token = useSelector((state: RootState) => state.user.fcm_token);
   const {getUserInfo, setUserInfo} = useContext(UserContext);
+  const [userState, setUserReducer] = useLoggedUser();
 
   useEffect(() => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
     console.log('app.tsx 호출');
-    Notification.register(userId);
+    Notification.register(userId, setUserReducer);
     Notification.createDefaultChannels();
     //TODO: 2. if isLogin true고 isFcbToken true이면 서버에 호출. insert
 
@@ -59,6 +64,43 @@ const App = () => {
 
     // return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (userId && fcm_token) {
+      console.log('====================================');
+      console.log(userId, fcm_token);
+      console.log('====================================');
+
+      /**
+       * 기능 : fcb token 등록하기
+       * 작업일 : 11/24
+       * out: {userId:string, fcm_token:string}
+       * in: {success=true, message = success/empty params/db update error}
+       */
+      const postData = JSON.stringify({
+        userId: userId,
+        fcm_token: fcm_token,
+      });
+
+      Axios.post(NODE_API + Alarm.UPDATE_FCBTOKEN_API, postData, jsonHeader)
+        .then(res => {
+          console.log('fcb token insert API res:');
+          console.log(res);
+          const {success, message} = res.data;
+          // response : success
+          if (success) {
+            console.log(`fcb token insert API success `);
+          } else {
+            console.log(`fcb token insert API fail`);
+            (message === 'empty params' || 'db update error') && console.log(message);
+          }
+        })
+        .catch(err => {
+          console.log(`에러 : ${err}`);
+          Alert.alert('에러', JSON.stringify(err));
+        });
+    }
+  }, [userId, fcm_token]);
 
   const askPermission = async () => {
     try {

@@ -10,7 +10,7 @@ import PushNotification, {
   ReceivedNotification,
 } from 'react-native-push-notification';
 import {useLoggedUser} from '~/hooks/useReduce';
-import { Device, jsonHeader, NODE_API } from './apiSite/apiSite';
+import {Alarm, Device, jsonHeader, NODE_API} from './apiSite/apiSite';
 
 const registerLocalNotification = (title?: string, message?: string) => {
   console.log('[Notification]registerLocalNotification() 호출 ');
@@ -43,13 +43,17 @@ const registerLocalNotification = (title?: string, message?: string) => {
 };
 
 export default {
-  register: async (userId?: string) => {
+  register: async (
+    userId?: string,
+    setUserReducer?: (params: registrySubmitParamList) => void,
+  ) => {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function (token) {
         //토큰 출력위해
         console.log('TOKEN:', token);
         //TODO: 1. 토큰 set LocalStorage에 redux로
+        setUserReducer && setUserReducer({fcm_token: token.token});
       },
       // (required) Called when a remote is received or opened, or local notification is opened
 
@@ -57,48 +61,29 @@ export default {
         console.log('NOTIFICATION:', notification);
         // process the notification
 
-        //DB추가 out data = {title:'string', message:'string', caregiver_id}
+        /**
+         * 기능 : fcb alarm data -> db alarm 테이블 입력
+         * 작업일 : 11/24
+         * out: data = {title, message, caregiver_id}
+         * in: {success:boolean, message = success/empty params/db update error}
+         */
         const {title, message} = notification;
         const postData = JSON.stringify({
           title: title,
           message: message,
           caregiver_id: userId,
         });
-        console.log('[onNotification] : ');
+
+        console.log('[onNotification] postData : ');
         console.log(postData);
-        Axios.post(NODE_API + Device.IS_DEVICE_API, postData, jsonHeader).then(res => {
-          if (res.data.success) {
-            //이 유무체크는 이메일등과 반대로, 있어야 하는거니깐, if(hasCode)=> success
-            //DeivceCode 존재한다면,
-            if (res.data.hasCode) {
-              //Code가 등록되었냐? 아님 미등록이냐?
-              console.log('====================================');
-              console.log(res.data.usedCode);
-              console.log('====================================');
-              if (res.data.usedCode) {
-                //등록되어 있을떄
-                Alert.alert('이미 추가된 환자입니다');
-                return;
-              } else {
-                //등록되어 있지 않을때
-                //환자 id가 있으면,
-                if (res.data.patient_id) {
-                  navigation.navigate('PatientEditor', {
-                    screen: '환자 추가',
-                    deviceCode,
-                    patient_id: res.data.patient_id,
-                  });
-                } else {
-                  console.log('patient_id 받아오기 실패');
-                }
-              }
-            } else {
-              //DeivceCode 비존재
-              setCheckedExist('fail');
-            }
+        Axios.post(NODE_API + Alarm.CREATE_ALARM_API, postData, jsonHeader).then(res => {
+          console.log(res);
+          const {success, message} = res.data;
+          if (success) {
+            console.log(`Alarm message insert API success `);
           } else {
-            console.log('DeviceCodeCheckSubmit server api fail');
-            console.log(res.data);
+            console.log(`Alarm message insert API fail`);
+            (message === 'empty params' || 'db insert error') && console.log(message);
           }
         });
 

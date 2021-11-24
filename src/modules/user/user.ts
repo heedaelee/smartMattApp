@@ -21,6 +21,7 @@ export type UserState = {
     socialType?: string;
     socialId?: string;
   };
+  fcm_token?: string;
 };
 
 /* NOTE: 액션 type 정의
@@ -49,6 +50,7 @@ export const initialState: UserState = {
     socialType: '',
     socialId: '',
   },
+  fcm_token: '',
 };
 
 export const userSlice = createSlice({
@@ -58,11 +60,11 @@ export const userSlice = createSlice({
     setUser(state, action: PayloadAction<registrySubmitParamList>) {
       if (action.payload.id) {
         state.id = action.payload.id;
-      };
+      }
       state.username = action.payload.username || '';
       state.email = action.payload.email || '';
       state.isLogin = action.payload.isLogin || false;
-      state.loginType = action.payload.loginType  || '';
+      state.loginType = action.payload.loginType || '';
       state.password = action.payload.password || '';
       state.phoneNmbr = action.payload.phoneNmbr || '';
       state.social = action.payload.social || {
@@ -70,6 +72,7 @@ export const userSlice = createSlice({
         socialId: '',
       };
       state.token = action.payload.token || '';
+      state.fcm_token = action.payload.token || '';
     },
   },
 });

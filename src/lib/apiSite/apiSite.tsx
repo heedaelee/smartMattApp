@@ -61,7 +61,8 @@ export const Device = {
 
 //TODO:이거 만들어야함
 export const Alarm = {
-  CREATE_ALARM_API: '/device/check-device',
+  UPDATE_FCBTOKEN_API: '/alarm/update-fcbToken',
+  CREATE_ALARM_API: '/alarm/update-fcbToken',
 };
 
 //기타
