@@ -34,6 +34,16 @@ type nomalListItem = {
   patientCondition: string;
   isRead: boolean;
 };
+type AlarmListItem = {
+  id: string;
+  type: string | undefined;
+  receiver_id: string;
+  title?: string;
+  message: string;
+  isRead: boolean;
+  isDelete: boolean;
+  reg_dttm: string;
+};
 
 type submitAlarmData = {
   hours: number | string;

@@ -31,6 +31,7 @@ type PatientListProps = {
 const PatientList = ({navigation, route}: PatientListProps) => {
   const [menuModalVisible, setMenuModalVisible] = useBoolean(false);
   const [removeModalVisible, setRemoveModalVisible] = useBoolean(false);
+  //onEndReached duplicate call 문제땜에 call 한번만 부르기 위해 만든 flag
   const [finished, setFinished] = useBoolean(false);
   const [selectedPatientState, setPatientReducer] = useSelectedPatient();
 
@@ -50,7 +51,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
     getPatientList();
 
     return () => {
-      console.log('==언마우늩?');
+      console.log('PatientList 언마운트');
     };
   }, []);
 
@@ -158,7 +159,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
         const {success, message, list} = res.data;
         if (success) {
           console.log(
-            `[getPatinetList][Axios.post]getPatientList 내의 state: ${JSON.stringify(
+            `[getPatinetList][Axios.post]api 호출 성공 후의 state 값: ${JSON.stringify(
               state,
             )}`,
           );
@@ -182,7 +183,6 @@ const PatientList = ({navigation, route}: PatientListProps) => {
               Alert.alert('db error');
               break;
             case 'empty data':
-
               break;
           }
           console.log('test');
