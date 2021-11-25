@@ -4,7 +4,7 @@
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet, Platform, LogBox, Alert} from 'react-native';
+import {StyleSheet, Platform, LogBox, Alert, PushNotificationIOS} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {ThemeProvider} from 'styled-components';
 import {UserContext, UserProvider} from '~/lib/userProvider/UserProvider';
@@ -19,10 +19,13 @@ import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {useSelector} from 'react-redux';
 import {RootState} from '~/modules';
 import messaging from '@react-native-firebase/messaging';
-import Notification from '~/lib/Notification';
+import {createDefaultChannels, registerLocalNotification} from '~/lib/Notification';
 import {useLoggedUser} from '~/hooks/useReduce';
 import Axios from 'axios';
 import {Alarm, Auth, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
+import PushNotification from 'react-native-push-notification';
+
+let global_fcm_token: string;
 
 const App = () => {
   LogBox.ignoreLogs(['Reanimated 2']);
@@ -31,6 +34,7 @@ const App = () => {
   const isLogin = useSelector((state: RootState) => state.user.isLogin);
   const userId = useSelector((state: RootState) => state.user.id);
   const fcm_token = useSelector((state: RootState) => state.user.fcm_token);
+  const state = useSelector((state: RootState) => state);
   const {getUserInfo, setUserInfo} = useContext(UserContext);
   const [userState, setUserReducer] = useLoggedUser();
 
@@ -38,8 +42,8 @@ const App = () => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
     console.log('app.tsx 호출');
-    Notification.register(userId, setUserReducer);
-    Notification.createDefaultChannels();
+    register();
+    createDefaultChannels();
     //TODO: 2. if isLogin true고 isFcbToken true이면 서버에 호출. insert
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
@@ -149,6 +153,97 @@ const App = () => {
       // }, 1500);
       loadUserData();
     }, [loadUserData]); */
+
+  async function register() {
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function (token) {
+        //토큰 출력위해
+        console.log('TOKEN:', token);
+        //TODO: 1. 토큰 set LocalStorage에 redux로
+        global_fcm_token = token.token;
+
+        setUserReducer && setUserReducer({fcm_token: token.token});
+      },
+      // (required) Called when a remote is received or opened, or local notification is opened
+
+      onNotification: function (notification: any) {
+        console.log('NOTIFICATION:', notification);
+        // process the notification
+
+        /**
+         * 기능 : fcb alarm data -> db alarm 테이블 입력
+         * 작업일 : 11/24
+         * out: data = {title, message, caregiver_id}
+         * in: {success:boolean, message = success/empty params/db update error}
+         */
+        const {title, message} = notification;
+        console.log('====================================');
+        console.log(state);
+        global_fcm_token && console.log(global_fcm_token);
+        console.log('====================================');
+        const postData = JSON.stringify({
+          title: title,
+          message: message,
+          caregiver_id: userId,
+        });
+
+        console.log('[onNotification] postData : ');
+        console.log(postData);
+        Axios.post(NODE_API + Alarm.CREATE_ALARM_API, postData, jsonHeader).then(res => {
+          console.log(res);
+          const {success, message} = res.data;
+          if (success) {
+            console.log(`Alarm message insert API success `);
+          } else {
+            console.log(`Alarm message insert API fail`);
+            (message === 'empty params' || 'db insert error') && console.log(message);
+          }
+        });
+
+        registerLocalNotification(notification.title, notification.message);
+        // (required) Called when a remote is received or opened, or local notification is opened
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
+
+      onAction: function (notification) {
+        console.log('ACTION:', notification.action);
+        console.log('NOTIFICATION:', notification);
+
+        // process the action
+      },
+
+      // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+      onRegistrationError: function (err) {
+        console.error(err.message, err);
+      },
+
+      // IOS ONLY (optional): default: all - Permissions to register.
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+      },
+
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+    });
+
+    // NOTE: 일단 앱 켜질때 clear하고 cancel은 보류하는걸로,, 확인해야 지워지는게 맞으니..
+    // Clear badge number at start
+    PushNotification.setApplicationIconBadgeNumber(0);
+    console.log(`setApplicationIconBadgeNumber() 호출`);
+
+    // Cancels all scheduled notifications AND clears the notifications alerts that are in the notification centre.
+    PushNotification.cancelAllLocalNotifications();
+    console.log(`cancelAllLocalNotifications() 호출`);
+
+    PushNotification.getChannels(function (channels) {
+      console.log(`[Notification]getChannels() : ${channels}`);
+    });
+  }
 
   return (
     <SafeAreaProvider>

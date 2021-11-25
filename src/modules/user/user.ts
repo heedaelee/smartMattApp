@@ -58,21 +58,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<registrySubmitParamList>) {
-      if (action.payload.id) {
-        state.id = action.payload.id;
-      }
-      state.username = action.payload.username || '';
-      state.email = action.payload.email || '';
-      state.isLogin = action.payload.isLogin || false;
-      state.loginType = action.payload.loginType || '';
-      state.password = action.payload.password || '';
-      state.phoneNmbr = action.payload.phoneNmbr || '';
-      state.social = action.payload.social || {
-        socialType: '',
-        socialId: '',
-      };
-      state.token = action.payload.token || '';
-      state.fcm_token = action.payload.token || '';
+      action.payload.id && (state.id = action.payload.id);
+      action.payload.username && (state.username = action.payload.username);
+      action.payload.email && (state.email = action.payload.email);
+      action.payload.isLogin && (state.isLogin = action.payload.isLogin);
+      action.payload.loginType && (state.loginType = action.payload.loginType);
+      action.payload.password && (state.password = action.payload.password);
+      action.payload.phoneNmbr && (state.phoneNmbr = action.payload.phoneNmbr);
+      action.payload.social && (state.social = action.payload.social);
+      action.payload.token && (state.token = action.payload.token);
+      action.payload.fcm_token && (state.fcm_token = action.payload.fcm_token);
     },
   },
 });
