@@ -44,7 +44,6 @@ const App = () => {
     console.log('app.tsx 호출');
     register();
     createDefaultChannels();
-    //TODO: 2. if isLogin true고 isFcbToken true이면 서버에 호출. insert
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
     // const unsubscribe = messaging().onMessage(async remoteMessage => {

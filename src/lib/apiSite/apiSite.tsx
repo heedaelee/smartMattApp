@@ -64,8 +64,8 @@ export const Alarm = {
   UPDATE_FCBTOKEN_API: '/alarm/update-fcbToken',
   CREATE_ALARM_API: '/alarm/update-fcbToken',
   GET_ALARM_LIST_API: '/alarm/get-alarmList',
-  여기부터해야
   UPDATE_ALARM_ISREAD_API: '/alarm/update-alarmList',
+  DELETE_ALARM_API: '/alarm/delete-alarm',
 };
 
 //기타

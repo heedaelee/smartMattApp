@@ -32,7 +32,6 @@ export const registerLocalNotification = (title?: string, message?: string) => {
     // importance: 'high',
     importance: 'max',
     onlyAlertOnce: true,
-
     /* iOS and Android properties */
     title: title ? title : 'Local Notification', // (optional)
     message: message ? message : 'My Notification Message', // (required)

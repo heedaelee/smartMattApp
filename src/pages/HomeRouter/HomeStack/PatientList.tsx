@@ -104,7 +104,7 @@ const PatientList = ({navigation, route}: PatientListProps) => {
 
     await Axios.post(NODE_API + Device.DELETE_PATIENT_API, postData, jsonHeader)
       .then(res => {
-        console.log('res.data 받음', JSON.stringify(res.data));
+        console.log('[deletePatient]res.data 받음', JSON.stringify(res.data));
         const {success, message} = res.data;
         if (success) {
           console.log('데이터 삭제 성공');

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   isRead: {
-    opacity: 0.7,
+    opacity: 0.3,
   },
   reg_dttm: {
     // borderWidth: 1,
