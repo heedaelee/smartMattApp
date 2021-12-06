@@ -28,7 +28,7 @@ export default {
     green: '#2DD682',
   },
   fonts: {
-    normal: '16px',
+    normal: '16px', 
   },
   _WIDTH: _WIDTH,
   _HEIGHT: _HEIGHT,
