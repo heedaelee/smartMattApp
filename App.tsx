@@ -197,7 +197,7 @@ const App = () => {
         console.log(postData); 
         Axios.post(NODE_API + Alarm.CREATE_ALARM_API, postData, jsonHeader).then(res => {
           console.log(res);
-          const {success, message} = res.data;
+          const {success, message} = res.data; 
           if (success) {
             console.log(`Alarm message insert API success `);  
           } else { 
