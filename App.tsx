@@ -194,7 +194,7 @@ const App = () => {
         });
 
         console.log('[onNotification] postData : ');
-        console.log(postData);
+        console.log(postData); 
         Axios.post(NODE_API + Alarm.CREATE_ALARM_API, postData, jsonHeader).then(res => {
           console.log(res);
           const {success, message} = res.data;
