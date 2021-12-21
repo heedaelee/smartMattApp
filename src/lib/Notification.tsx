@@ -2,17 +2,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import Axios from 'axios';
-import {AppState, PushNotificationIOS} from 'react-native';
-import PushNotification, {
-  Importance,
-  PushNotificationObject,
-  ReceivedNotification,
-} from 'react-native-push-notification';
-import {useLoggedUser} from '~/hooks/useReduce';
-import {Alarm, Device, jsonHeader, NODE_API} from './apiSite/apiSite';
+import PushNotification, {Importance} from 'react-native-push-notification';
 
-export const registerLocalNotification = (title?: string, message?: string) => {
+export const registerLocalNotification = (
+  title?: string,
+  message?: string,
+  userInteraction?: boolean,
+) => {
   console.log('[Notification]registerLocalNotification() 호출 ');
 
   PushNotification.setApplicationIconBadgeNumber(0);
@@ -21,6 +17,14 @@ export const registerLocalNotification = (title?: string, message?: string) => {
   // Cancels all scheduled notifications AND clears the notifications alerts that are in the notification centre.
   PushNotification.cancelAllLocalNotifications();
   console.log(`cancelAllLocalNotifications() 호출`);
+
+  if (userInteraction) {
+    console.log('====================================');
+    console.log('userInteraction : ', userInteraction);
+    console.log('====================================');
+
+    return;
+  }
 
   PushNotification.localNotification({
     /* Android Only Properties */

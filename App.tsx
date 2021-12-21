@@ -23,7 +23,7 @@ import {createDefaultChannels, registerLocalNotification} from '~/lib/Notificati
 import {useLoggedUser} from '~/hooks/useReduce';
 import Axios from 'axios';
 import {Alarm, Auth, jsonHeader, NODE_API} from '~/lib/apiSite/apiSite';
-import PushNotification from 'react-native-push-notification';
+import PushNotification, { ReceivedNotification } from 'react-native-push-notification';
 
 let global_fcm_token: string;
 
@@ -65,7 +65,13 @@ const App = () => {
     //   console.log('백그라운드 메시지가 왔어용', remoteMessage);
     // });
 
+    // background message listener
+    const messageListener = messaging().onMessage(async remoteMessage => {
+      console.log(remoteMessage);
+    });
+
     // return unsubscribe;
+    return messageListener;
   }, []);
 
   useEffect(() => {
@@ -166,7 +172,7 @@ const App = () => {
       },
       // (required) Called when a remote is received or opened, or local notification is opened
 
-      onNotification: function (notification: any) {
+      onNotification: function (notification: Omit<ReceivedNotification, 'userInfo'>) {
         console.log('NOTIFICATION:', notification);
         // process the notification
 
@@ -200,7 +206,7 @@ const App = () => {
           }
         });
 
-        registerLocalNotification(notification.title, notification.message);
+        registerLocalNotification(notification.title, notification.message, notification.userInteraction);
         // (required) Called when a remote is received or opened, or local notification is opened
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
