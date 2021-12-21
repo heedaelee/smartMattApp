@@ -199,7 +199,7 @@ const App = () => {
           console.log(res);
           const {success, message} = res.data;
           if (success) {
-            console.log(`Alarm message insert API success `);
+            console.log(`Alarm message insert API success `);  
           } else {
             console.log(`Alarm message insert API fail`);
             (message === 'empty params' || 'db insert error') && console.log(message);
