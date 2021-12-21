@@ -200,7 +200,7 @@ const App = () => {
           const {success, message} = res.data;
           if (success) {
             console.log(`Alarm message insert API success `);  
-          } else {
+          } else { 
             console.log(`Alarm message insert API fail`);
             (message === 'empty params' || 'db insert error') && console.log(message);
           }
