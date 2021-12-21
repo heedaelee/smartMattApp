@@ -186,7 +186,7 @@ const App = () => {
         console.log('====================================');
         console.log(state);
         global_fcm_token && console.log(global_fcm_token);
-        console.log('====================================');
+        console.log('===================================='); 
         const postData = JSON.stringify({
           title: title,
           message: message,
