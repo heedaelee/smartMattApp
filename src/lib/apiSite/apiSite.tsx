@@ -17,7 +17,10 @@
 // export const NODE_API = 'http://192.168.0.49:8000/api';
 
 //기타, origin
-const ip = '220.92.18.202';
+//유니텍 서버
+// const ip = '220.92.18.202';
+//체인지된 서버
+const ip = '61.79.53.99:8000';
 export const NODE_API = `http://${ip}/api`;
 
 //실제 기기 4000번 돌렸을떄

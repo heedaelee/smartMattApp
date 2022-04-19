@@ -42,7 +42,7 @@ const App = () => {
     if (Platform.OS === 'android') askPermission();
     autoLogin();
     console.log('app.tsx 호출');
-    register();
+    // register();
     createDefaultChannels();
 
     //FORTEST: 21/10/25 Foreground Push Noti 테스트용
